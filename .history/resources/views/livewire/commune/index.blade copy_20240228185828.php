@@ -1,0 +1,1 @@
+c:\laragon\www\sitesuzang\resources\views\livewire\categories\index.blade.php c:\laragon\www\sitesuzang\resources\views\livewire\categories\list.blade.php

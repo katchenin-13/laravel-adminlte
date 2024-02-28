@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+<<<<<<< HEAD
+=======
+use App\Providers\RouteServiceProvider;
+>>>>>>> mabranch
 use Illuminate\Foundation\Auth\ConfirmsPasswords;
 
 class ConfirmPasswordController extends Controller
@@ -25,7 +29,11 @@ class ConfirmPasswordController extends Controller
      *
      * @var string
      */
+<<<<<<< HEAD
     protected $redirectTo = '/home';
+=======
+    protected $redirectTo = RouteServiceProvider::HOME;
+>>>>>>> mabranch
 
     /**
      * Create a new controller instance.

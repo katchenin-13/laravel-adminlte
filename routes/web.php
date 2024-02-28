@@ -1,6 +1,12 @@
 <?php
 
+use App\Livewire\Counter;
+use App\Livewire\PostComp;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
+use App\Livewire\CommuneComp;
+use App\Models\Commune;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +23,28 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
+<<<<<<< HEAD
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes();
+=======
+Auth::routes();
+
+
+
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get("/posts", PostComp::class)->name("posts");
+
+Route::middleware('auth')->group(function () {
+    Route::view('about', 'about')->name('about');
+    Route::get('/posts', Counter::class)->name('posts');
+    Route::get('/commune', CommuneComp::class)->name('communes.index');
+    Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
+
+    Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
+    Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+});
+
+
+>>>>>>> mabranch

@@ -23,6 +23,10 @@ class HomeController extends Controller
      */
     public function index()
     {
+<<<<<<< HEAD
         return view('home');
+=======
+        return view('/home');
+>>>>>>> mabranch
     }
 }
