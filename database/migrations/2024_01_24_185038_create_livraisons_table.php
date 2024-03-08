@@ -11,11 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('communes', function (Blueprint $table) {
+        Schema::create('livraisons', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
+            $table->string('statut');
+            $table->string('jourlivrison');
             $table->timestamps();
+            $table->unsignedBigInteger('coursiers_id');
+            $table->foreign('coursiers_id')->references('id')->on('coursiers')->onDelete('cascade');
+
         });
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -23,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('communes');
+        Schema::dropIfExists('livraisons');
     }
 };

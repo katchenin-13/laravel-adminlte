@@ -5,12 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class Sinistre extends Model
 {
     use HasFactory;
-
     protected $fillable = [
-        'title',
-        'description'
+        'dateA',
+        'lieu',
+        'statut'
     ];
+
+    // public function coursier()
+    // {
+    //     return $this->hasmany(Coursier::class);
+
+    // }
 }

@@ -20,12 +20,12 @@ class PostComp extends Component
     ];
     public function render()
     {
-      
-          
-        return view('livewire.post-comp', ['posts' => Post::latest()->paginate(10)])
+
+
+        return view('livewire.post-comp', ['posts' => Commune::latest()->paginate(10)])
         ->extends("layouts.app")
         ->section("content");
-        
+
 
     }
 

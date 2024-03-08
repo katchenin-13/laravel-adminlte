@@ -8,7 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Commune extends Model
 {
     use HasFactory;
-    protected $table = "communes";
+    protected $fillable=
+    [
+        'nom',
 
-    protected $fillable = ["nom"];
+    ];
+
+    public function zone()
+    {
+        return $this->hasmany(Zone::class);
+    }
+
 }

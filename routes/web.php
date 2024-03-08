@@ -1,12 +1,13 @@
 <?php
 
+use App\Models\Commune;
 use App\Livewire\Counter;
 use App\Livewire\PostComp;
+use App\Livewire\ZoneComp;
+use App\Livewire\CommuneComp;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
-use App\Livewire\CommuneComp;
-use App\Models\Commune;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,12 +30,13 @@ Auth::routes();
 
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get("/posts", PostComp::class)->name("posts");
+// Route::get("/posts", PostComp::class)->name("posts");
 
 Route::middleware('auth')->group(function () {
     Route::view('about', 'about')->name('about');
-    Route::get('/posts', Counter::class)->name('posts');
-    Route::get('/commune', CommuneComp::class)->name('communes.index');
+    // Route::get('/posts', PostComp::class)->name('posts');
+    Route::get('/commune', CommuneComp::class)->name('communes');
+    Route::get('/zone', ZoneComp::class)->name('zones');
     Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
 
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');

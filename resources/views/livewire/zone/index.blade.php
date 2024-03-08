@@ -69,7 +69,6 @@
 </script>
 
 <script>
-
     window.addEventListener("showModal", event=>{
        $("#modalProp").modal({
            "show": true,
@@ -88,17 +87,6 @@
     })
     window.addEventListener("closeEditModal", event=>{
        $("#editModalProp").modal("hide")
-    })
-
-    window.addEventListener("showDeleteModal", event=>{
-       $("#DelectetModalProp").modal({
-           "show": true,
-           "backdrop": "static"
-       })
-       console.log('soro');
-    })
-    window.addEventListener("closeDeleteModal", event=>{
-       $("#DelectetModalProp").modal("hide")
     })
 
 </script>

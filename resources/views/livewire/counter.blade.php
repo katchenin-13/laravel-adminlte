@@ -15,9 +15,9 @@
                 <h3 class="card-title flex-grow-1"><i class="fa fa-list fa-2x"></i> Liste des domaines</h3>
 
                 <div class="card-tools d-flex align-items-center ">
-                    <a class="btn btn-link text-white mr-4 d-block"><i
+                    <a class="btn btn-link text-white mr-4 d-block" wire:click="dsbncv"><i
                             class="fas fa-user-plus"></i> Nouveau domaine</a>
-                            <button wire:click="dsbncv">+</button>
+                            {{-- <button wire:click="dsbncv">+</button> --}}
                     <div class="input-group input-group-md" style="width: 250px;">
                         <input type="text" name="table_search" wire:model.debounce.250ms="search"
                             class="form-control float-right" placeholder="Search">
