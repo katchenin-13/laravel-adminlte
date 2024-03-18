@@ -2,11 +2,11 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header bg-gradient-primary d-flex align-items-center">
-                <h3 class="card-title flex-grow-1"><i class="fa fa-list fa-2x"></i> Liste des Commune</h3>
+                <h3 class="card-title flex-grow-1"><i class="fa fa-list fa-2x"></i> Liste des Zones</h3>
 
                 <div class="card-tools d-flex align-items-center ">
-                    <a class="btn btn-link text-white mr-4 d-block" wire:click="toggleShowAddCommuneForm"><i
-                            class="fas fa-user-plus"></i> Nouveau type d'article</a>
+                    <a class="btn btn-link text-white mr-4 d-block" data-toggle="modal" data-target="#myModal"><i
+                            class="fas fa-map-marker-alt"></i> Nouvelle Zone</a>
                     <div class="input-group input-group-md" style="width: 250px;">
                         <input type="text" name="table_search" wire:model.debounce.250ms="search"
                             class="form-control float-right" placeholder="Search">
@@ -22,48 +22,30 @@
                 <table class="table table-head-fixed">
                     <thead>
                         <tr>
-                            <th style="width:50%;">Commune</th>
+                            <th style="width:10%;">Zone</th>
                             <th style="width:20%;" class="text-center">Ajouté</th>
                             <th style="width:30%;" class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if ($isAddCommune)
+                        @foreach ($zones as $item)
                         <tr>
-                            <td colspan="2">
-                                <input type="text" wire:keydown.enter="addNewCommune"
-                                    class="form-control @error('newCommuneName') is-invalid @enderror"
-                                    wire:model="newCommuneName" />
-                                @error('newCommuneName')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </td>
-                            <td class="text-center">
-                                <button class="btn btn-link" wire:click="addNewCommune"> <i class="fa fa-check"></i>
-                                    Valider</button>
-                                <button class="btn btn-link" wire:click="toggleShowAddCommuneForm"> <i
-                                        class="far fa-trash-alt"></i> Annuler</button>
-                            </td>
-                        </tr>
-                        @endif
-                        @foreach ($comnunes as $comnune)
-                        <tr>
-                            <td>{{ $comnune->nom }}</td>
-                            <td class="text-center">{{ optional($comnune->created_at)->diffForHumans() }}</td>
-                            <td class="text-center">
-                                <button class="btn btn-link" wire:click="editCommune({{$comnune->id}})"> <i
-                                        class="far fa-edit"></i> </button>
 
-                                <button class="btn btn-link" wire:click="showProp({{$comnune->id}})"> <i
-                                        class="fa fa-eye"></i></button>
-                                <button class="btn btn-link" wire:click="confirmDelete('{{$comnune->nom}}', {{$comnune->id}})"> <i
-                                                class="far fa-trash-alt"></i> </button>
+                            <td>{{ $loop->iteration}}</td>
+                            <td class="text-center">{{ $item->nom}}</td>
+                            <td class="text-center">
+                                <button class="btn btn-primary mr-2" wire:click="showPropE({{$item->id}})">
+                                    <i class="far fa-edit"></i>
+                                </button>
 
-                                {{-- @if(count($comnune->articles) == 0)
-                                <button class="btn btn-link"
-                                    wire:click="confirmDelete('{{$comnune->nom}}', {{$comnune->id}})"> <i
-                                        class="far fa-trash-alt"></i> </button>
-                                @endif --}}
+                                <button class="btn btn-info mr-2" wire:click="showPropC({{ $item->id }})">
+                                    <i class="far fa-eye"></i>
+                                </button>
+
+                                <button class="btn btn-danger" wire:click="showPropD({{$item->id}})">
+                                    <i class="far fa-trash-alt"></i>
+                                </button>
+
                             </td>
                         </tr>
                         @endforeach
@@ -73,7 +55,7 @@
             <!-- /.card-body -->
             <div class="card-footer">
                 <div class="float-right">
-                    {{ $comnunes->links() }}
+                    {{ $zones->links() }}
                 </div>
             </div>
         </div>

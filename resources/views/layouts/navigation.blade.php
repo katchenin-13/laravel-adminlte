@@ -27,26 +27,28 @@
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
+
                     <li class="nav-item">
-                        <a href="{{ route('users.index') }}" class="nav-link">
-                            <i class="nav-icon fas fa-users" style="color: #e21515;"></i>
+                        <a href="{{ route('index')}}" class="nav-link">
+                            <i class="nav-icon fas fa-users"  style="color: #e21515;"></i>
                             <p>{{ __('Users') }}</p>
                         </a>
                     </li>
+
                     <li class="nav-item">
-                        <a href="{{ route('communes') }}" class="nav-link">
-                            <i class="nav-icon far fa-address-card" style="color: #e21515;"></i>
-                            <p>{{ __('About us') }}</p>
+                        <a href="{{ route('espace') }}" class="nav-link">
+                            <i  class="nav-icon far fa-address-card" style="color: #e21515;"></i>
+                            <p>{{ __('Espace User') }}</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('profile.show') }}" class="nav-link">
                             <i class="nav-icon far fa-address-card" style="color: #e21515;"></i>
                             <p>{{ __('Poste') }}</p>
                         </a>
                     </li>
 
-                   <li class="nav-item">
+                    <li class="nav-item">
                         <a href="{{ route('communes') }}" class="nav-link">
                             <i class="fas fa-building" style="color: #e21515;"></i>
                             <p>{{__('Communes')}}</p>
@@ -60,6 +62,13 @@
                     </li>
 
                     <li class="nav-item">
+                        <a href="{{ route ('categories')}}" class="nav-link">
+                            <i class="far fa-calendar-alt" style="color: #e21515;"></i>
+                            <p>{{__('Categories')}}</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="far fa-calendar-alt" style="color: #e21515;"></i>
                             <p>{{__('Mois')}}</p>
@@ -67,7 +76,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('tarifications') }}" class="nav-link">
                             <i class="fas fa-dollar-sign" style="color: #e21515;"></i>
                             <p>{{__('Tarifications')}}</p>
                         </a>

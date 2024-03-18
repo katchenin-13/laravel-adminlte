@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tarrifications', function (Blueprint $table) {
+        Schema::create('tarifications', function (Blueprint $table) {
             $table->id();
             $table->decimal('prix');
+            $table->unsignedBigInteger('categorie_id');
+            $table->foreign('categorie_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();
         });
-
     }
 
     /**
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tarrifications');
+        Schema::dropIfExists('tarifications');
     }
 };

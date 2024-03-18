@@ -5,11 +5,11 @@
                 <h5 class="modal-title">Confirmation de suppression</h5>
             </div>
             <div class="modal-body">
-                Êtes-vous sûr de vouloir supprimer cette commune ?
+                Êtes-vous sûr de vouloir supprimer cette Zone ?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-danger" wire:click="deleteCommune">Supprimer</button>
+                <button type="button" class="btn btn-danger" wire:click="deleteZone">Supprimer</button>
             </div>
         </div>
     </div>

@@ -9,7 +9,7 @@
 
 </div>
 
-<script>
+{{-- <script>
     window.addEventListener("showEditForm",function(e){
         Swal.fire({
             title: "Edition d'un commune",
@@ -29,8 +29,8 @@
             }
         })
     })
-</script>
-
+</script> --}}
+{{--
 <script>
     window.addEventListener("showSuccessMessage", event=>{
         Swal.fire({
@@ -43,9 +43,9 @@
                 }
             )
     })
-</script>
+</script> --}}
 
-<script>
+{{-- <script>
     window.addEventListener("showConfirmMessage", event=>{
        Swal.fire({
         title: event.detail.message.title,
@@ -66,7 +66,7 @@
         })
     })
 
-</script>
+</script> --}}
 
 <script>
 
@@ -95,10 +95,11 @@
            "show": true,
            "backdrop": "static"
        })
-       console.log('soro');
+       //console.log('soro');
     })
     window.addEventListener("closeDeleteModal", event=>{
        $("#DelectetModalProp").modal("hide")
     })
 
 </script>
+

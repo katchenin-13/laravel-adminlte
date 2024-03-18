@@ -2,23 +2,23 @@
     <div class="modal-dialog" style="top:50px;">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #15a1e2; color: white;">
-                <h5 class="modal-title" >Edition Commune </h5>
+                <h5 class="modal-title" >Edition Tarif</h5>
 
             </div>
 
-            <form role="form" wire:submit.prevent="updateCommune({{$editCommuneid}})">
+            <form role="form" wire:submit.prevent="updateTarification({{$editTarificationid}})">
                  @csrf
                 <div class="modal-body">
                     <div class="d-flex my-4 bg-gray-light p-3">
                         <div class="d-flex flex-grow-1 mr-2">
                          <div class="flex-grow-1 mr-2">
 
-                        <div class="form-group"><h3>Commune</h3>
+                        <div class="form-group"><h3>Tarification</h3>
                            <div class="col-md-12" wire:ignore>
                                     <input type="text" placeholder="Nom" wire:keypress.enter=""
-                                    wire:model="editCommuneName" class="form-control @error(" editCommuneName")
-                                    is-invalid @enderror" name ="editCommuneName">
-                                @error("editCommuneName")
+                                    wire:model="editTarificationName" class="form-control @error(" editTarificationName")
+                                    is-invalid @enderror" name ="editTarificationName">
+                                @error("editTarificationName")
                                 <span class="text-danger">{{$message}}</span>
                                 @enderror
                            </div>

@@ -20,10 +20,18 @@ class CommuneComp extends Component
     public $editCommuneName = "";
     public $editCommuneid ="";
     public $selectedCommune;
-    public $showDeleteModal = false;
+    // public $communeCount;
+    public $showDeleteModal="false";
+
 
 
     protected $paginationTheme = "bootstrap";
+
+    // public function mount()
+    // {
+    //    $this->communeCount = Commune::count();
+
+    // }
 
     public function render()
     {
@@ -32,6 +40,8 @@ class CommuneComp extends Component
         $searchCriteria = "%" . $this->search . "%";
 
         $communes = Commune::where("nom", "like", $searchCriteria)->latest()->paginate(10);
+
+        // $communeCount = $this->communeCount;
 
         return view('livewire.commune.index', ['communes' => Commune::latest()->paginate(10)])
             ->extends("layouts.app")
@@ -42,24 +52,32 @@ class CommuneComp extends Component
     public function addNewCommune()
     {
         $validated = $this->validate([
-            "newCommuneName" => "required|max:50|unique:communes,nom"
+            "newCommuneName" => "required|max:20|unique:communes,nom"], [
+            "newCommuneName.required" => "Le champ du nom de la commune est requis.",
+            "newCommuneName.max" => "Le nom de la commune ne peut pas dépasser :max caractères.",
+            "newCommuneName.unique" => "Ce nom de commune est déjà utilisé.",
         ]);
-        Commune::create(["nom" => $validated["newCommuneName"]]);
 
+        Commune::create(["nom" => $validated["newCommuneName"]]);
+        session()->flash('message', 'Le nom de la commune a été enregistré avec succès!');
     }
 
 
 
     public function updateCommune(Commune $commune)
     {
-        $communes = Commune::findOrFail($commune->id);
         $validated = $this->validate([
-            "editCommuneName" => ["required", "max:50", Rule::unique("communes", "nom")->ignore($commune->id)]
+            "editCommuneName" => ["required", "max:50", Rule::unique("communes", "nom")->ignore($commune->id)],
+        ], [
+            "editCommuneName.required" => "Le champ du nom de la commune est requis.",
+            "editCommuneName.max" => "Le nom de la commune ne peut pas dépasser :max caractères.",
+            "editCommuneName.unique" => "Ce nom de commune est déjà utilisé.",
         ]);
-       $communes->nom = $this->editCommuneName;
-       $result = $communes->save();
-       $communes->nom ="";
 
+        $communes = Commune::findOrFail($commune->id);
+        $communes->nom = $this->editCommuneName;
+        $result = $communes->save();
+        $communes->nom = "";
     }
 
     public function showProp(Commune $commune)
@@ -67,12 +85,30 @@ class CommuneComp extends Component
         $this->selectedCommune = $commune;
         $this->dispatch("showModal", []);
     }
+
     public function showPropD(Commune $commune)
     {
-        // Logique de suppression de la commune...
-       // $this->showDeleteModal = false;
-        $this->dispatch("showDeleteModal",[$commune->nom]); // Fermer la modal après la suppression
+        $this->showDeleteModal = true; // Définir la propriété pour afficher le modal
+
+
+        $commune->delete();
+        // dd('Method called');
+        // Facultativement, vous pouvez envoyer un événement pour afficher un message de confirmation ou effectuer d'autres actions après la suppression.
+
+        // Fermer la fenêtre modale de suppression après la suppression
+        $this->dispatch("closeDeleteModal", []);
     }
+
+    public function showPropC(Commune $commune)
+    {
+        $this->selectedCommune = $commune->nom;
+
+        $this->dispatch("showReadModal", []);
+
+        // dd('bonjour');
+    }
+
+
 
     public function showPropE(Commune $commune)
     {
@@ -119,5 +155,6 @@ class CommuneComp extends Component
     //         ]
     //     ]]);
     // }
+
 
 }

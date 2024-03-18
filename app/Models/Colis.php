@@ -14,10 +14,10 @@ class Colis extends Model
         'bordereau_id',
     ];
 
-    // public function livraison()
-    // {
-    //     return $this->belongsTo(Livraison::class);
-    // }
+    public function categorie()
+    {
+        return $this->belongsTo(Ctegorie::class);
+    }
 
     public function coursiers()
     {

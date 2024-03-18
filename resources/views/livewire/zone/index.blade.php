@@ -1,10 +1,10 @@
 <div>
 
-    @include("livewire.commune.editProp")
+    @include("livewire.zone.editProp")
 
-    @include("livewire.commune.addProp")
+    @include("livewire.zone.addProp")
 
-    @include("livewire.commune.list")
+    @include("livewire.zone.list")
 
 
 </div>
@@ -12,9 +12,9 @@
 <script>
     window.addEventListener("showEditForm",function(e){
         Swal.fire({
-            title: "Edition d'un commune",
+            title: "Edition d'un zone",
             input: 'text',
-            inputValue: e.detail.commune.nom ,
+            inputValue: e.detail.zone.nom ,
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
@@ -25,7 +25,7 @@
                 return 'Champ obligatoire'
                 }
 
-                @this.updateCommune(e.detail.commune.id, value)
+                @this.updateZone(e.detail.zone.id, value)
             }
         })
     })
@@ -58,8 +58,8 @@
         cancelButtonText: 'Annuler'
         }).then((result) => {
         if (result.isConfirmed) {
-            if(event.detail.message.data.commune_id){
-                @this.deleteCommune(event.detail.message.data.commune_id)
+            if(event.detail.message.data.zone_id){
+                @this.deleteZone(event.detail.message.data.zone_id)
             }
 
         }

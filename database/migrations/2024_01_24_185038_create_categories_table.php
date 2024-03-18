@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('colis', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
-            $table->unsignedBigInteger('categorie_id');
-            $table->foreign('categorie_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();
         });
-
-        // Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -27,10 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // Schema::table('colis', function (Blueprint $table) {
-        //     $table->foreignId('livraison_id');
-
-        // });
-        Schema::dropIfExists('colis');
+        Schema::dropIfExists('categories');
     }
 };
