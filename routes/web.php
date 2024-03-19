@@ -57,15 +57,14 @@ Route::middleware('auth')->group(function () {
 
     Route::get('users', [UserController::class, 'espace'])->name('espace');
     Route::get('/user.index', [UserController::class,'index'])->name('index');
-    Route::get('/user/create', [UserController::class,'create'])->name('modal');
-    Route::get('/modal/{id}', [UserController::class,'loadData'])->name('modal.load');
-    Route::get('/user/{id}', [UserController::class,'show'])->name('user.show');
-    Route::get('/user/{id}/edit', [UserController::class,'edit'])->name('user.edit');
+    Route::get('/user/create', [UserController::class,'create'])->name('create');
+    Route::get('/user/{id}', [UserController::class,'show'])->name('show');
+    Route::get('/user/{id}/edit', [UserController::class,'edit'])->name('edit');
 
 
-    Route::post('/user', [UserController::class,'store'])->name('user.istore');
-    Route::patch('/user/{id}', [UserController::class,'update'])->name('user.update');
-    Route::delete('/user/{id}', [UserController::class,'destroy'])->name('user.destroy');
+    Route::post('/user', [UserController::class,'store'])->name('store');
+    Route::patch('/user/{id}', [UserController::class,'update'])->name('update');
+    Route::delete('/user/{id}', [UserController::class,'destroy'])->name('destroy');
 
 });
 

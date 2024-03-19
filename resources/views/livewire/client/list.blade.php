@@ -36,14 +36,14 @@
                         <tbody>
                             @foreach ($clients as $item)
                             <tr>
-                                {{-- <td>{{ $commune->id}}</td> --}}
+                                <td>{{ $commune->id}}</td>
                                 <td>{{ $loop->iteration}}</td>
                                 <td class="text-center">{{ $item->nom}}</td>
                                 <td class="text-center">{{ $item->telephone}}</td>
                                 <td class="text-center">{{ $item->gmail}}</td>
                                 <td class="text-center">
-                                    <button class="btn btn-primary mr-2" wire:click="showPropE({{$item->id}})">
-                                        <i class="far fa-edit"></i>
+                                    <button class="btn btn-primary mr-2" wire:click="showPropE({{$item->id}})"> --}}
+                                         <i class="far fa-edit"></i>
                                     </button>
 
                                     <button class="btn btn-info mr-2" wire:click="showPropC({{ $item->id }})">
@@ -54,10 +54,10 @@
                                         <i class="far fa-trash-alt"></i>
                                     </button>
 
-                                    {{-- <button class="btn btn-link" wire:click="showPropE('{{$item->id}})">
+                                    <button class="btn btn-link" wire:click="showPropE('{{$item->id}})">
                                         <i class="far fa-trash-alt"></i>
-                                    </button> --}}
-                                </td>
+                                    </button>
+                                 </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -66,7 +66,7 @@
                 <!-- /.table-responsive -->
             </div>
             <!-- /.card-body -->
-            <div class="card-footer">
+             <div class="card-footer">
                 <div class="float-right">
                     {{ $clients->links() }}
                 </div>
