@@ -14,6 +14,8 @@ class Tarification extends Model
 
     public function categorie()
     {
-        return $this->belongsTo(Ctegorie::class);
+        return $this->belongsTo(Categorie::class);
     }
 }
+
+

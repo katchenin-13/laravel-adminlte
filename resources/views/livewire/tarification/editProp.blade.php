@@ -6,7 +6,7 @@
 
             </div>
 
-            <form role="form" wire:submit.prevent="updateTarification({{$editTarificationid}})">
+            <form role="form" wire:submit.prevent="updateTarification({{$editTarificationId}})">
                  @csrf
                 <div class="modal-body">
                     <div class="d-flex my-4 bg-gray-light p-3">
@@ -15,10 +15,10 @@
 
                         <div class="form-group"><h3>Tarification</h3>
                            <div class="col-md-12" wire:ignore>
-                                    <input type="text" placeholder="Nom" wire:keypress.enter=""
-                                    wire:model="editTarificationName" class="form-control @error(" editTarificationName")
-                                    is-invalid @enderror" name ="editTarificationName">
-                                @error("editTarificationName")
+                                    <input type="decimal" placeholder="Prix" wire:keypress.enter=""
+                                    wire:model="editTarificationPrix" class="form-control @error("editTarificationPrix")
+                                    is-invalid @enderror" name ="editTarificationPrix">
+                                @error("editTarificationPrix")
                                 <span class="text-danger">{{$message}}</span>
                                 @enderror
                            </div>

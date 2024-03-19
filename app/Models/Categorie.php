@@ -25,4 +25,5 @@ class Categorie extends Model
         return $this->hasmany(Tarification::class);
 
     }
+
 }

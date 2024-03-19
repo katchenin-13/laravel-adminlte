@@ -112,17 +112,11 @@ class CommuneComp extends Component
 
     public function showPropE(Commune $commune)
     {
-       // dd($commune->nom);
 
-       // $this->selectedCommune = $commune;
-
-            // $this->editCommune= $commune->nom ;
-            // $this->resetErrorBag(["editCommuneName"]);
         $editCommune = $commune;
         $this->editCommuneid = $editCommune ->id;
         $this->editCommuneName = $editCommune ->nom;
 
-        //dd($editCommune);
 
         $this->dispatch("showEditModal", [$commune->nom]);
     }

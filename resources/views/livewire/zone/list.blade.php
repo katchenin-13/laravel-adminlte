@@ -4,12 +4,13 @@
             <div class="card-header bg-gradient-primary d-flex align-items-center">
                 <h3 class="card-title flex-grow-1"><i class="fa fa-list fa-2x"></i> Liste des Zones</h3>
 
-                <div class="card-tools d-flex align-items-center ">
-                    <a class="btn btn-link text-white mr-4 d-block" data-toggle="modal" data-target="#myModal"><i
-                            class="fas fa-map-marker-alt"></i> Nouvelle Zone</a>
+                <div class="card-tools d-flex align-items-center">
+                    <a class="btn btn-link text-white mr-4 d-block" wire:click="showProp">
+                        <i class="fas fa-map-marker-alt"></i> Nouvelle Zone
+                    </a>
                     <div class="input-group input-group-md" style="width: 250px;">
-                        <input type="text" name="table_search" wire:model.debounce.250ms="search"
-                            class="form-control float-right" placeholder="Search">
+                        <input type="text" name="table_search" wire:model.debounce.300ms="search"
+                            class="form-control float-right" placeholder="Rechercher">
 
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
@@ -22,9 +23,10 @@
                 <table class="table table-head-fixed">
                     <thead>
                         <tr>
-                            <th style="width:10%;">Zone</th>
-                            <th style="width:20%;" class="text-center">Ajouté</th>
-                            <th style="width:30%;" class="text-center">Action</th>
+                            <th style="width:10%;">No</th>
+                            <th style="width:20%;" class="text-center">Zone</th>
+                            <th style="width:20%;" class="text-center">Commune</th>
+                            <th style="width:20%;" class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,6 +35,11 @@
 
                             <td>{{ $loop->iteration}}</td>
                             <td class="text-center">{{ $item->nom}}</td>
+                            <td class="text-center">
+                                @if ($item->commune)
+                                    {{ $item->commune->nom }}
+                                @endif
+                            </td>
                             <td class="text-center">
                                 <button class="btn btn-primary mr-2" wire:click="showPropE({{$item->id}})">
                                     <i class="far fa-edit"></i>

@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use App\Models\Categorie;
 use App\Models\Tarification;
 use Livewire\WithPagination;
 use Illuminate\Support\Carbon;
@@ -14,21 +15,13 @@ class TarificationComp extends Component
 
     public $search = "";
     public $newTarificationPrix = "";
-    public $editTarificationPrix= "";
-    public $editTarificationid ="";
+    public $editTarificationPrix = "";
+    public $editTarificationId = "";
     public $selectedTarification;
-    // public $tarificationCount;
-    public $showDeleteModal="false";
-
-
+    public $selectedCategorie = "";
+    public $showDeleteModal = false;
 
     protected $paginationTheme = "bootstrap";
-
-    // public function mount()
-    // {
-    //    $this->tarificationCount = Tarification::count();
-
-    // }
 
     public function render()
     {
@@ -37,41 +30,47 @@ class TarificationComp extends Component
         $searchCriteria = "%" . $this->search . "%";
 
         $tarifications = Tarification::where("prix", "like", $searchCriteria)->latest()->paginate(10);
+        $categories = Categorie::all();
 
-        // $tarificationCount = $this->tarificationCount;
-
-        return view('livewire.tarification.index', ['tarifications' => Tarification::latest()->paginate(10)])
+        return view('livewire.tarification.index', compact('tarifications', 'categories'))
             ->extends("layouts.app")
             ->section("content");
     }
 
     public function addNewTarification()
-    {
-        $validated = $this->validate([
-            "newTarificationPrix" => "required|max:20|unique:tarifications,nom"], [
-            "newTarificationPrix.required" => "Le champ du prix est requis.",
-            "newTarificationPrix.max" => "Le prix ne peut pas dépasser :max caractères.",
-        ]);
+{
+    $validatedData = $this->validate([
+        "newTarificationPrix" => ["required", "max:20", "regex:/^[0-9]+$/", "unique:tarifications,prix"],
+        "selectedCategorie" => "required"
+    ], [
+        "newTarificationPrix.required" => "Le champ du prix est requis.",
+        "newTarificationPrix.max" => "Le prix ne peut pas dépasser :max caractères.",
+        "newTarificationPrix.regex" => "Le champ du prix ne peut contenir que des lettres.",
+        "selectedCategorie.required" => "Le champ de la catégorie est requis."
+    ]);
 
-        Tarification::create(["nom" => $validated["newTarificationPrix"]]);
-        session()->flash('message', 'Le prix a été enregistré avec succès!');
-    }
+    Tarification::create([
+        "prix" => $validatedData["newTarificationPrix"],
+        "categorie_id" => $validatedData["selectedCategorie"]
+    ]);
 
+    session()->flash('message', 'Le prix a été enregistré avec succès!');
+  }
 
 
     public function updateTarification(Tarfication $tarification)
     {
         $validated = $this->validate([
-            "editTarificationPrix" => ["required", "max:50", Rule::unique("tarifications", "nom")->ignore($tarification->id)],
+            "editTarificationPrix" => ["required", "max:10", Rule::unique("tarifications", "nom")->ignore($tarification->id)],
         ], [
             "editTarificationPrix.required" => "Le champ prix est requis.",
-            "editTarificationPrix.max" => "Le prixne peut pas dépasser :max caractères.",
+            "editTarificationPrix.max" => "Le prix ne peut pas dépasser :max caractères."
         ]);
 
         $tarifications = Tarification::findOrFail($tarification->id);
-        $tarifications->prix = $this->editTarificationName;
+        $tarifications->prix = $this->editTarificationPrix;
         $result = $tarifications->save();
-        $tarifications->prix = "";
+        $this->editTarificationPrix = ""; // Assurez-vous de réinitialiser la propriété après la sauvegarde
     }
 
     public function showProp(Tarification $tarification)
@@ -103,11 +102,9 @@ class TarificationComp extends Component
 
     public function showPropE(Tarification $tarification)
     {
-
         $editTarification = $tarification;
-        $this->editTarificationid = $editTarification ->id;
-        $this->editTarificationPrix = $editTarifications ->prix;
-
+        $this->editTarificationid = $editTarification->id;
+        $this->editTarificationPrix = $editTarification->prix;
 
         $this->dispatch("showEditModal", [$tarification->prix]);
     }

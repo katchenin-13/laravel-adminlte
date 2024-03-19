@@ -69,13 +69,6 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="far fa-calendar-alt" style="color: #e21515;"></i>
-                            <p>{{__('Mois')}}</p>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
                         <a href="{{ route('tarifications') }}" class="nav-link">
                             <i class="fas fa-dollar-sign" style="color: #e21515;"></i>
                             <p>{{__('Tarifications')}}</p>
@@ -94,21 +87,21 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{route('clients')}}" class="nav-link">
                             <i class="fas fa-user" style="color: #15a1e2;"></i>
                             <p>Clients</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{route('colis')}}" class="nav-link">
                             <i class="fas fa-box" style="color: #15a1e2;"></i>
                             <p>Colis</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{route('coursiers')}}" class="nav-link">
                             <i class="fas fa-truck" style="color: #15a1e2;"></i>
                             <p>Cousiers</p>
                         </a>

@@ -2,7 +2,7 @@
     <div class="modal-dialog" style="top:50px;">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #15a1e2; color: white;">
-                <h5 class="modal-title">Formulaire Catégorie</h5>
+                <h5 class="modal-title">Formulaire Coursier</h5>
 
             </div>
             <div class="form-group" >
@@ -11,12 +11,11 @@
                         <div class="d-flex flex-grow-1 mr-2">
                             <div class="flex-grow-1 mr-2">
 
-                                    <!-- Champ de saisie pour le nom de la Categorie -->
-                                    <div class="form-group">Catégorie
-                                            <input type="text" wire:keydown.enter="addNewCategorie"
-                                            class="form-control @error('newCategorieName') is-invalid @enderror"
-                                            wire:model="newCategorieName" />
-                                        @error('newCategorieName')
+                                    <div class="form-group"><h3>Nom</h3>
+                                            <input type="text" wire:keydown.enter="addNewCoursier"
+                                            class="form-control @error('newCoursierName') is-invalid @enderror"
+                                            wire:model="newCoursierName" />
+                                        @error('newCoursierName')
                                             <span class="text-danger animate__animated animate__fadeInDown">{{ $message }}</span>
                                         @enderror
                                     </div>
@@ -36,7 +35,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" wire:click="closeModal"><i class="fas fa-times"></i> Fermer</button>
-                <button class="btn btn-success" wire:click="addNewCategorie"> <i class="fa fa-check"></i> Valider</button>
+                <button class="btn btn-success" wire:click="addNewCoursier"> <i class="fa fa-check"></i> Valider</button>
             </div>
         </div>
     </div>

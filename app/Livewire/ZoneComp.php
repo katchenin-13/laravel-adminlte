@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Zone;
+use App\Models\Commune;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Carbon;
@@ -19,6 +20,7 @@ class ZoneComp extends Component
     public $editZoneName = "";
     public $editZoneid ="";
     public $selectedZone;
+    public $selectedCommune ="";
     // public $communeCount;
     public $showDeleteModal="false";
 //    public $counter = 0;
@@ -35,27 +37,36 @@ class ZoneComp extends Component
 
         $zones = Zone::where("nom", "like", $searchCriteria)->latest()->paginate(5);
 
-        return view('livewire.zone.index', compact('zones'))
+        $communes = Commune::all();
+        return view('livewire.zone.index', compact('zones','communes'))
             ->extends("layouts.app")
             ->section("content");
     }
 
     public function addNewZone()
     {
-        $validated = $this->validate([
-            "newZoneName" => "required|max:20|unique:zones,nom"], [
+        $validatedData = $this->validate([
+            "newZoneName" => "required|max:20|unique:zones,nom",
+            "selectedCommune" => "required", // Assurez-vous que la commune est sélectionnée
+        ], [
             "newZoneName.required" => "Le champ du nom de la zone est requis.",
             "newZoneName.max" => "Le nom de la zone ne peut pas dépasser :max caractères.",
             "newZoneName.unique" => "Ce nom de zone est déjà utilisé.",
+            "selectedCommune.required" => "Veuillez sélectionner une commune.",
         ]);
 
-        Zone::create(["nom" => $validated["newZoneName"]]);
+        // Créer une nouvelle zone avec la commune sélectionnée
+        Zone::create([
+            "nom" => $validatedData["newZoneName"],
+            "commune_id" => $validatedData["selectedCommune"],
+        ]);
+
         session()->flash('message', 'Le nom de la zone a été enregistré avec succès!');
     }
 
 
 
-    public function updateZone(zone $zone)
+    public function updateZone(Zone $zone)
     {
         $validated = $this->validate([
             "editZoneName" => ["required", "max:50", Rule::unique("zones", "nom")->ignore($zone->id)],
@@ -65,11 +76,22 @@ class ZoneComp extends Component
             "editZoneName.unique" => "Ce nom de zone est déjà utilisé.",
         ]);
 
-        $zones = Zone::findOrFail($zone->id);
-        $zones->nom = $this->editZoneName;
-        $result = $zones->save();
-        $zones->nom = "";
+        $editZone = Zone::findOrFail($zone->id);
+        $editZone->nom = $this->editZoneName;
+        $editZone->save();
+        $this->editZoneName = "";
+        session()->flash('message', 'mise à jour avec succès!');
     }
+
+    public function updateCommune($zoneId, $communeId)
+    {
+        $zone = Zone::findOrFail($zoneId);
+        $zone->commune_id = $communeId;
+        $zone->save();
+
+        session()->flash('message', 'La commune de la zone a été mise à jour avec succès!');
+    }
+
 
     public function showProp(Zone $zone)
     {
@@ -99,21 +121,22 @@ class ZoneComp extends Component
         // dd('bonjour');
     }
 
-
-
     public function showPropE(Zone $zone)
     {
-       // dd($zone->nom);
+        $editZone = $zone;
+        $this->editZoneid = $editZone->id;
+        $this->editZoneName = $editZone->nom;
 
-       // $this->selectedZone = $Zone;
+        // Récupérer la commune sélectionnée en fonction de l'ID de la commune associée à la zone
+        $selectedCommune = Commune::find($editZone->commune_id);
 
-            // $this->editZone= $Zone->nom ;
-            // $this->resetErrorBag(["editZoneName"]);
-        $editZone = $Zone;
-        $this->editZoneid = $editZone ->id;
-        $this->editZoneName = $editZone ->nom;
-
-        //dd($editZone);
+        if ($selectedCommune) {
+            // Si la commune est trouvée, définissez-la comme commune sélectionnée
+            $this->selectedCommune = $selectedCommune->id;
+        } else {
+            // Si la commune n'est pas trouvée, définissez la commune sélectionnée sur null ou une valeur par défaut
+            $this->selectedCommune = null; // ou toute autre valeur par défaut
+        }
 
         $this->dispatch("showEditModal", [$zone->nom]);
     }

@@ -1,25 +1,24 @@
-use App\Models\Categorie;
 <div class="modal fade" id="editModalProp" style="z-index: 1900;" role="dialog" wire:ignore.self>
     <div class="modal-dialog" style="top:50px;">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #15a1e2; color: white;">
-                <h5 class="modal-title" >Edition Categorie</h5>
+                <h5 class="modal-title" >Edition Client</h5>
 
             </div>
 
-            <form role="form" wire:submit.prevent="updateCategorie({{$editCategorieid}})">
+            <form role="form" wire:submit.prevent="updateClient({{$editClientid}})">
                  @csrf
                 <div class="modal-body">
                     <div class="d-flex my-4 bg-gray-light p-3">
                         <div class="d-flex flex-grow-1 mr-2">
                             <div class="flex-grow-1 mr-2">
 
-                                <div class="form-group">Catégorie
+                                <div class="form-group"><h3>Client</h3>
                                         {{-- <div class="col-md-12" wire:ignore> --}}
                                                     <input type="text" placeholder="Nom" wire:keypress.enter=""
-                                                    wire:model="editCategorieName" class="form-control @error(" editCategorieName")
-                                                    is-invalid @enderror" name ="editCategorieName">
-                                                @error("editCategorieName")
+                                                    wire:model="editClientName" class="form-control @error(" editClientName")
+                                                    is-invalid @enderror" name ="editClientName">
+                                                @error("editClientName")
                                                 <span class="text-danger">{{$message}}</span>
                                                 @enderror
                                           {{-- </div> --}}

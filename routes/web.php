@@ -4,7 +4,10 @@ use App\Models\Commune;
 use App\Livewire\Counter;
 use App\Livewire\PostComp;
 use App\Livewire\ZoneComp;
+use App\Livewire\ColisComp;
+use App\Livewire\ClientComp;
 use App\Livewire\CommuneComp;
+use App\Livewire\CoursierComp;
 use App\Livewire\CategorieComp;
 use App\Livewire\TarificationComp;
 use Illuminate\Support\Facades\Auth;
@@ -39,7 +42,10 @@ Route::middleware('auth')->group(function () {
     Route::view('about', 'about')->name('about');
     // Route::get('/posts', PostComp::class)->name('posts');
     Route::get('/commune', CommuneComp::class)->name('communes');
+    Route::get('/colis', ColisComp::class)->name('colis');
+    Route::get('/coursier', CoursierComp ::class)->name('coursiers');
     Route::get('/tarification', TarificationComp::class)->name('tarifications');
+    Route::get('/client', ClientComp ::class)->name('clients');
     Route::get('/categorie', CategorieComp ::class)->name('categories');
     Route::get('/zone', ZoneComp::class)->name('zones');
 

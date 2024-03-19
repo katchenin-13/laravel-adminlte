@@ -12,7 +12,7 @@
                             <div class="flex-grow-1 mr-2">
 
 
-                                    <div class="form-group"><h3>Prix</h3>
+                                    <div class="form-group">Prix
                                         <input type="decimal" wire:keydown.enter="addNewTarification"
                                         class="form-control @error('newTarificationPrix') is-invalid @enderror"
                                         wire:model="newTarificationPrix" />
@@ -20,6 +20,20 @@
                                         <span class="text-danger animate__animated animate__fadeInDown">{{ $message }}</span>
                                     @enderror
                                     </div>
+
+                                    <div class="form-group">
+                                        Catégorie:
+                                        <select wire:model="selectedCategorie" class="form-control">
+                                            <option value="">Sélectionner une catégorie</option>
+                                            @foreach($categories as $categorie)
+                                                <option value="{{ $categorie->id }}">{{ $categorie->nom }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('selectedCategorie')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+
                                     @if (session()->has('message'))
                                         <div class="alert alert-success ">
                                             {{ session('message') }}
