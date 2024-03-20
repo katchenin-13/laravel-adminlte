@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     public function espace()
     {
-
+        $users = User::all();
         return view('users.espace', compact('users'));
     }
 

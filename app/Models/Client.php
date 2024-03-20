@@ -15,7 +15,7 @@ class Client extends Model
         'prenom',
         'telephone',
         'email',
-        'secteur_activité',
+        'secteuract',
         'zone_id',
     ];
 
