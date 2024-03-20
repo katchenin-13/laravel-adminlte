@@ -10,16 +10,13 @@ class UserController extends Controller
 {
     public function espace()
     {
-        $users = User::paginate();
 
         return view('users.espace', compact('users'));
     }
 
     public function index()
     {
-
-        $users = User::paginate();
-        $users = User::all();
+        $users = User::paginate(10);
         return view('users.index', compact('users'));
     }
 
@@ -31,20 +28,24 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required',
-            'email' => 'required',
-            'password' => 'required',
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6',
+        ], [
+            // Messages de validation
         ]);
 
-
-        $user = new user([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-
         ]);
-        $user = User::create($request->all());
-        $user->save();
+
+        if ($user) {
+            return response()->json(['success' => true, 'message' => 'Utilisateur enregistré avec succès.']);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Une erreur est survenue lors de l\'enregistrement de l\'utilisateur.'], 500);
+        }
     }
 
     public function show($id)
@@ -61,22 +62,21 @@ class UserController extends Controller
         return view('users.edit', compact('user'));
     }
 
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         $request->validate([
-
-            'name'=>'required',
-            'email'=> 'required',
-            'password'=> 'password',
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'password' => 'nullable|min:6',
         ]);
 
-        $user = user::findOrFail($id);
-        $user->name = $request->get('name');
-        $user->email = $request->get('email');
-        $user->password = $request->get('password');
-
-
-        $user->update();
+        $user = User::findOrFail($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        if ($request->password) {
+            $user->password = Hash::make($request->password);
+        }
+        $user->save();
 
     }
 
@@ -85,9 +85,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = user::findOrFail($id);
+        $user = User::findOrFail($id);
         $user->delete();
-
     }
 
 }

@@ -59,12 +59,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/user.index', [UserController::class,'index'])->name('index');
     Route::get('/user/create', [UserController::class,'create'])->name('create');
     Route::get('/user/{id}', [UserController::class,'show'])->name('show');
-    Route::get('/user/{id}/edit', [UserController::class,'edit'])->name('edit');
+    Route::get('/user/{id}/edit', [UserController::class,'edit'])->name('user.edit');
 
 
     Route::post('/user', [UserController::class,'store'])->name('store');
     Route::patch('/user/{id}', [UserController::class,'update'])->name('update');
-    Route::delete('/user/{id}', [UserController::class,'destroy'])->name('destroy');
+    Route::delete('/user/{id}', [UserController::class,'destroy'])->name('users.destroy');
 
 });
 

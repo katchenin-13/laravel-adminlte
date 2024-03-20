@@ -13,7 +13,7 @@
                         <div class="d-flex flex-grow-1 mr-2">
                          <div class="flex-grow-1 mr-2">
 
-                        <div class="form-group"><h3>Commune</h3>
+                        <div class="form-group">Commune
                            <div class="col-md-12" wire:ignore>
                                     <input type="text" placeholder="Nom" wire:keypress.enter=""
                                     wire:model="editCommuneName" class="form-control @error(" editCommuneName")

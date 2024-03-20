@@ -12,7 +12,7 @@
                             <div class="flex-grow-1 mr-2">
 
                                     <!-- Champ de saisie pour le nom de la commune -->
-                                    <div class="form-group">Nom de la commune
+                                    <div class="form-group" >Nom de la commune
                                         <input type="text" wire:keydown.enter="addNewCommune"
                                         class="form-control @error('newCommuneName') is-invalid @enderror"
                                         wire:model="newCommuneName" />

@@ -101,5 +101,6 @@
        $("#DelectetModalProp").modal("hide")
     })
 
+
 </script>
 

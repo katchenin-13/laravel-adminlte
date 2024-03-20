@@ -121,6 +121,18 @@ class CommuneComp extends Component
         $this->dispatch("showEditModal", [$commune->nom]);
     }
 
+    public function showPropS(Commune $commune)
+    {
+
+        $editCommune = $commune;
+        $this->editCommuneid = $editCommune ->id;
+        $this->editCommuneName = $editCommune ->nom;
+
+
+        $this->dispatch('ModalShow', ['communeName' => $commune->nom]);
+        // dd('brice');
+    }
+
     public function closeModal()
     {
         $this->dispatch("closeModal", []);

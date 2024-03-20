@@ -13,7 +13,7 @@
                         <div class="d-flex flex-grow-1 mr-2">
                          <div class="flex-grow-1 mr-2">
 
-                        <div class="form-group"><h3>Tarification</h3>
+                        <div class="form-group">Tarification
                            <div class="col-md-12" wire:ignore>
                                     <input type="decimal" placeholder="Prix" wire:keypress.enter=""
                                     wire:model="editTarificationPrix" class="form-control @error("editTarificationPrix")
@@ -22,6 +22,16 @@
                                 <span class="text-danger">{{$message}}</span>
                                 @enderror
                            </div>
+                        </div>
+                        <div class="form-group" wire:ignore>
+                            Catégorie
+                            <div class="col-md-12">
+                                <select wire:model="selectedCategorie" class="form-control">
+                                    @foreach ($categories as $categorie)
+                                        <option value="{{ $categorie->id }}">{{ $categorie->nom }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
 
                             </div>

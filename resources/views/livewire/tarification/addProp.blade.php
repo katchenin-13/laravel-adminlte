@@ -12,7 +12,7 @@
                             <div class="flex-grow-1 mr-2">
 
 
-                                    <div class="form-group">Prix
+                                    <div class="form-group" class=" text-gray" >Prix
                                         <input type="decimal" wire:keydown.enter="addNewTarification"
                                         class="form-control @error('newTarificationPrix') is-invalid @enderror"
                                         wire:model="newTarificationPrix" />
@@ -24,7 +24,7 @@
                                     <div class="form-group">
                                         Catégorie:
                                         <select wire:model="selectedCategorie" class="form-control">
-                                            <option value="">Sélectionner une catégorie</option>
+                                            <option value="">Sélectionner une Catégorie</option>
                                             @foreach($categories as $categorie)
                                                 <option value="{{ $categorie->id }}">{{ $categorie->nom }}</option>
                                             @endforeach

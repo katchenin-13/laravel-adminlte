@@ -1,5 +1,5 @@
 
-    <div class="modal fade" id="ModalCreate" tabindex="-1" role="dialog" aria-labelledby="createUserModalLabel" aria-hidden="true">
+    <div class="modal fade" id="ModalCreate" tabindex="-1" role="dialog" aria-labelledby="createUserModalLabel" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header" style="background-color: #15a1e2; color: white;">
@@ -7,7 +7,7 @@
                 </div>
                 <div class="modal-body">
                     <!-- Form for creating a new user -->
-                    <form action="{{ url('user') }}" method="Post">
+                    <form action="{{ route('store') }}" method="Post">
                         @csrf
 
                         <div class="form-group mb-3">
@@ -32,7 +32,9 @@
 
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" id="btnCloseModal"><i class="fas fa-times"></i> Fermer</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+                                <i class="fas fa-times"></i> Fermer
+                              </button>
                             <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Valider</button>
                         </div>
 

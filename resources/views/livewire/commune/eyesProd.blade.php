@@ -1,7 +1,7 @@
-<div class="modal fade" id="eyesModalProp" tabindex="-1" role="dialog" wire:ignore.self>
+<div class="modal fade" id="ModalShow" tabindex="-1" role="dialog" wire:ignore.self>
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="eyesModalLabel">Détails de la commune</h5>
+            <h5 class="modal-title" >Détails de la commune</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>

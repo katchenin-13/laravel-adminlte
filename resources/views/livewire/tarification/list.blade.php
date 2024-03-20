@@ -28,15 +28,20 @@
                             <tr>
                                 <th style="width:10%;">No</th>
                                 <th style="width:20%;" class="text-center">Tarif</th>
+                                <th style="width:20%;" class="text-center">Catégorie</th>
                                 <th style="width:30%;" class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($tarifications as $item)
                             <tr>
-                                {{-- <td>{{ $commune->id}}</td> --}}
                                 <td>{{ $loop->iteration}}</td>
                                 <td class="text-center">{{ $item->prix}}</td>
+                                <td class="text-center">
+                                    @if ($item->categorie)
+                                        {{ $item->categorie->nom }}
+                                    @endif
+                                </td>
                                 <td class="text-center">
                                     <button class="btn btn-primary mr-2" wire:click="showPropE({{$item->id}})">
                                         <i class="far fa-edit"></i>

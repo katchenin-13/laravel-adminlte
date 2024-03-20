@@ -30,7 +30,7 @@
                         <thead>
                         <tr>
                             <th style="width:10%;">No</th>
-                            <th style="width:20%;" class="text-center">Name2</th>
+                            <th style="width:20%;" class="text-center">Name</th>
                             <th style="width:20%;" class="text-center">Email</th>
                             <th style="width:30%;" class="text-center">Action</th>
                         </tr>
@@ -43,17 +43,20 @@
                                 <td class="text-center">{{ $item->email }}</td>
                                 <td class="text-center">
                                     <div class="btn-group btn-group-xxs" role="group" aria-label="Actions">
-                                        <a class="btn btn-info mr-2"
-                                           href="{{ url('user/'. $item->id) }}">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
+
+
                                         <a class="btn btn-primary mr-2"
-                                           href="{{ url('user/'. $item->id .'/edit') }}"
-                                           data-toggle="modal" data-target="#editUserModal{{ $item->id }}">
+                                            href="{{ url('user/'. $item->id .'/edit') }}"
+                                            data-toggle="modal" data-target="#ModalEdit{{ $item->id }}">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                data-target="#confirmDelete{{ $item->id }}">
+
+                                        <a class="btn btn-info mr-2"
+                                           href="{{ url('user/'. $item->id) }}" data-toggle="modal" data-target="#ModalShow{{$item->id}}">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+
+                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#ModalDelete{{$item->id}}">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </div>
@@ -76,5 +79,8 @@
         <!-- /.card -->
     </div>
     @include('users.create')
+    @include('users.delete')
+    @include('users.edit')
+    @include('users.show')
 </div>
 @endsection

@@ -8,8 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Tarification extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'prix'
+        'prix',
+        'categorie_id'
     ];
 
     public function categorie()

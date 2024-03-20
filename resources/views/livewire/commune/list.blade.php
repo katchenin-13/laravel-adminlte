@@ -42,7 +42,7 @@
                                         <i class="far fa-edit"></i>
                                     </button>
 
-                                    <button class="btn btn-info mr-2" wire:click="showPropC({{ $item->id }})">
+                                    <button class="btn btn-info mr-2" wire:click="showPropS({{ $item->id }})">
                                         <i class="far fa-eye"></i>
                                     </button>
 
