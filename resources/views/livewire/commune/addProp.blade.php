@@ -1,4 +1,4 @@
-<div class="modal fade" id="modalProp" tabindex="-1" role="dialog" wire:ignore.self>
+<div class="modal fade" id="modalProp" style="z-index: 1900;" tabindex="-1" role="dialog" wire:ignore.self>
     <div class="modal-dialog" style="top:50px;">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #15a1e2; color: white;">
@@ -20,6 +20,7 @@
                                         <span class="text-danger animate__animated animate__fadeInDown">{{ $message }}</span>
                                     @enderror
                                     </div>
+
                                     @if (session()->has('message'))
                                         <div class="alert alert-success ">
                                             {{ session('message') }}

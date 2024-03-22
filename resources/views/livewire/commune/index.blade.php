@@ -1,8 +1,13 @@
 <div>
+     @include("livewire.commune.deletProp")
+
+    @include("livewire.commune.showProd")
 
     @include("livewire.commune.editProp")
 
     @include("livewire.commune.addProp")
+
+
 
     @include("livewire.commune.list")
 
@@ -70,7 +75,7 @@
 
 <script>
 
-    window.addEventListener("showModal", event=>{
+    window.addEventListener("CreatModal", event=>{
        $("#modalProp").modal({
            "show": true,
            "backdrop": "static"
@@ -80,7 +85,8 @@
        $("#modalProp").modal("hide")
     })
 
-    window.addEventListener("showEditModal", event=>{
+    //edit
+    window.addEventListener("EditModal", event=>{
        $("#editModalProp").modal({
            "show": true,
            "backdrop": "static"
@@ -90,15 +96,27 @@
        $("#editModalProp").modal("hide")
     })
 
-    window.addEventListener("showDeleteModal", event=>{
-       $("#DelectetModalProp").modal({
+    //show
+    window.addEventListener("ShowModal", event=>{
+       $("#showModalProp").modal({
            "show": true,
            "backdrop": "static"
        })
-       //console.log('soro');
+    })
+    window.addEventListener("closeEditModal", event=>{
+       $("#showModalProp").modal("hide")
+    })
+
+    //delete
+    window.addEventListener("DeleteModal", event=>{
+       $("#deletModalProp").modal({
+           "show": true,
+           "backdrop": "static"
+       })
+     console.log('soro');
     })
     window.addEventListener("closeDeleteModal", event=>{
-       $("#DelectetModalProp").modal("hide")
+       $("#deletModalProp").modal("hide")
     })
 
 

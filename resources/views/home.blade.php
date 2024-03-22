@@ -57,8 +57,10 @@
 
                         <div class="info-box-content">
                         <span class="info-box-text">Clients</span>
-                        <span class="info-box-number">10</span>
+                        <span class="info-box-number">50</span>
+
                         </div>
+                        {{-- {{ $clients->count() }} --}}
                         <!-- /.info-box-content -->
                     </div>
                     <!-- /.info-box -->
@@ -119,39 +121,39 @@
                                 <th>Commune</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr >
-                                <td><a href="pages/examples/invoice.html">OR9842</a></td>
-                                <td>Call of Duty IV</td>
-                                <td><span>Angaman</span></td>
-                                <td ><span >Yopougon</span></td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR1843</a></td>
-                                <td>Samsung Smart TV</td>
-                                <td><span >Itachi</span></td>
-                                <td><span >Abobo</span></td>
-                            </tr>
+                             <tbody>
+                                    <tr >
+                                        <td style="color:rgb(0, 195, 255);">OR9842</td>
+                                        <td>Call of Duty IV</td>
+                                        <td><span>Angaman</span></td>
+                                        <td ><span >Yopougon</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="color:rgb(0, 195, 255);">OR1843</td>
+                                        <td>Samsung Smart TV</td>
+                                        <td><span >Itachi</span></td>
+                                        <td><span >Abobo</span></td>
+                                    </tr>
 
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR1844</a></td>
-                                <td>Samsung Smart</td>
-                                <td><span >Koffi</span></td>
-                                <td><span>Abobo</span></td>
-                            </tr>
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR1845</a></td>
-                                <td>Teckno </td>
-                                <td><span >dibi</span></td>
-                                <td><span>Yopougon</span></td>
-                            </tr>
+                                    <tr>
+                                        <td style="color:rgb(0, 195, 255);">OR1844</td>
+                                        <td>Samsung Smart</td>
+                                        <td><span >Koffi</span></td>
+                                        <td><span>Abobo</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="color:rgb(0, 195, 255);">OR1845</td>
+                                        <td>Teckno </td>
+                                        <td><span >dibi</span></td>
+                                        <td><span>Yopougon</span></td>
+                                    </tr>
 
-                            <tr>
-                                <td><a href="pages/examples/invoice.html">OR1848</a></td>
-                                <td>Iphone </td>
-                                <td><span >Konan</span></td>
-                                <td><span>Cocody</span></td>
-                            </tr>
+                                    <tr>
+                                        <td style="color:rgb(0, 195, 255);">OR1848</td>
+                                        <td>Iphone </td>
+                                        <td><span >Konan</span></td>
+                                        <td><span>Cocody</span></td>
+                                    </tr>
                             </tbody>
                             </table>
                         </div>

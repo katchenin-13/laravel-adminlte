@@ -45,7 +45,7 @@ class TarificationComp extends Component
         ], [
             "newTarificationPrix.required" => "Le champ du prix est requis.",
             "newTarificationPrix.max" => "Le prix ne peut pas dépasser :max caractères.",
-            "newTarificationPrix.regex" => "Le champ du prix ne peut contenir que des lettres.",
+            "newTarificationPrix.regex" => "Le champ du prix ne peut contenir que des chiffres.",
             "selectedCategorie.required" => "Le champ de la catégorie est requis."
         ]);
 

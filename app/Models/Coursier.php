@@ -9,7 +9,7 @@ class Coursier extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'nom', 'prenom', 'email', 'numero_telephone', 'numero_permis_conduire',
+        'nom', 'prenom', 'email', 'numero_telephone','numero_telephone_2', 'numero_permis_conduire',
         'type_vehicule', 'plaque_immatriculation', 'statut',
         'date_embauche', 'salaire','cni', 'photo','zones_id',
     ];

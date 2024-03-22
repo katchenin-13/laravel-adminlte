@@ -29,14 +29,14 @@
                 <ul class="nav nav-treeview">
 
                     <li class="nav-item">
-                        <a href="{{ route('index')}}" class="nav-link">
+                        <a href="{{ route('users')}}" class="nav-link">
                             <i class="nav-icon fas fa-users"  style="color: #e21515;"></i>
                             <p>{{ __('Users') }}</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ route('espace') }}" class="nav-link">
+                        <a href="#" class="nav-link">
                             <i  class="nav-icon far fa-address-card" style="color: #e21515;"></i>
                             <p>{{ __('Espace User') }}</p>
                         </a>

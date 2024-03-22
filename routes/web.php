@@ -3,6 +3,7 @@
 use App\Models\Commune;
 use App\Livewire\Counter;
 use App\Livewire\PostComp;
+use App\Livewire\UserComp;
 use App\Livewire\ZoneComp;
 use App\Livewire\ColisComp;
 use App\Livewire\ClientComp;
@@ -41,6 +42,7 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 Route::middleware('auth')->group(function () {
     Route::view('about', 'about')->name('about');
     // Route::get('/posts', PostComp::class)->name('posts');
+   
     Route::get('/commune', CommuneComp::class)->name('communes');
     Route::get('/colis', ColisComp::class)->name('colis');
     Route::get('/coursier', CoursierComp ::class)->name('coursiers');
@@ -48,23 +50,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/client', ClientComp ::class)->name('clients');
     Route::get('/categorie', CategorieComp ::class)->name('categories');
     Route::get('/zone', ZoneComp::class)->name('zones');
+    Route::get('/user', UserComp::class)->name('users');
 
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 });
 
-Route::middleware('auth')->group(function () {
 
-    Route::get('users', [UserController::class, 'espace'])->name('espace');
-    Route::get('/user.index', [UserController::class,'index'])->name('index');
-    Route::get('/user/create', [UserController::class,'create'])->name('create');
-    Route::get('/user/{id}', [UserController::class,'show'])->name('show');
-    Route::get('/user/{id}/edit', [UserController::class,'edit'])->name('user.edit');
-
-
-    Route::post('/user', [UserController::class,'store'])->name('store');
-    Route::patch('/user/{id}', [UserController::class,'update'])->name('update');
-    Route::delete('/user/{id}', [UserController::class,'destroy'])->name('users.destroy');
-
-});
 

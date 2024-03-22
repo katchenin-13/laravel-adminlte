@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('colis', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
+            $table->string('description');
+            $table->decimal('quantite');
+            $table->string('statut');
             $table->unsignedBigInteger('categorie_id');
             $table->foreign('categorie_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();

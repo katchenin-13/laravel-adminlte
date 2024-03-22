@@ -21,7 +21,7 @@ class CommuneComp extends Component
     public $editCommuneid ="";
     public $selectedCommune;
     // public $communeCount;
-    public $showDeleteModal="false";
+   // public $showDeleteModal="false";
 
 
 
@@ -80,37 +80,16 @@ class CommuneComp extends Component
         $communes->nom = "";
     }
 
-    public function showProp(Commune $commune)
+    public function showCreatedProp(Commune $commune)
     {
         $this->selectedCommune = $commune;
-        $this->dispatch("showModal", []);
-    }
-
-    public function showPropD(Commune $commune)
-    {
-        $this->showDeleteModal = true; // Définir la propriété pour afficher le modal
-
-
-        $commune->delete();
-        // dd('Method called');
-        // Facultativement, vous pouvez envoyer un événement pour afficher un message de confirmation ou effectuer d'autres actions après la suppression.
-
-        // Fermer la fenêtre modale de suppression après la suppression
-        $this->dispatch("closeDeleteModal", []);
-    }
-
-    public function showPropC(Commune $commune)
-    {
-        $this->selectedCommune = $commune->nom;
-
-        $this->dispatch("showReadModal", []);
-
-        // dd('bonjour');
+        $this->dispatch("CreatModal", []);
     }
 
 
 
-    public function showPropE(Commune $commune)
+
+    public function showProp(Commune $commune)
     {
 
         $editCommune = $commune;
@@ -118,10 +97,10 @@ class CommuneComp extends Component
         $this->editCommuneName = $editCommune ->nom;
 
 
-        $this->dispatch("showEditModal", [$commune->nom]);
+        $this->dispatch("ShowModal", [$commune->nom]);
     }
 
-    public function showPropS(Commune $commune)
+    public function showEditedProp(Commune $commune)
     {
 
         $editCommune = $commune;
@@ -129,8 +108,18 @@ class CommuneComp extends Component
         $this->editCommuneName = $editCommune ->nom;
 
 
-        $this->dispatch('ModalShow', ['communeName' => $commune->nom]);
-        // dd('brice');
+        $this->dispatch("EditModal", [$commune->nom]);
+    }
+
+    public function showDeletedProp(Commune $commune)
+    {
+
+        $editCommune = $commune;
+        $this->editCommuneid = $editCommune ->id;
+        $this->editCommuneName = $editCommune ->nom;
+
+
+        $this->dispatch("DeleteModal", [$commune->nom]);
     }
 
     public function closeModal()

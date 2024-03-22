@@ -9,14 +9,16 @@ class Colis extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'categorie',
+        'nom',
+        'description',
+        'quantite',
         'coursier_id',
         'bordereau_id',
     ];
 
     public function categorie()
     {
-        return $this->belongsTo(Ctegorie::class);
+        return $this->belongsTo(Categorie::class);
     }
 
     public function coursiers()

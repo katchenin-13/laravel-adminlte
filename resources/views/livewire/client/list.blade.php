@@ -27,22 +27,24 @@
                         <thead>
                             <tr>
                                 <th style="width:10%;">No</th>
-                                <th style="width:20%;" class="text-center">Nom</th>
-                                <th style="width:20%;" class="text-center">Téléphone</th>
-                                <th style="width:20%;" class="text-center">Gmail</th>
+                                <th style="width:10%;" class="text-center">Nom</th>
+                                <th style="width:10%;" class="text-center">Prenom</th>
+                                <th style="width:10%;" class="text-center">Téléphone</th>
+                                <th style="width:10%;" class="text-center">Gmail</th>
                                 <th style="width:30%;" class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($clients as $item)
                             <tr>
-                                <td>{{ $commune->id}}</td>
                                 <td>{{ $loop->iteration}}</td>
                                 <td class="text-center">{{ $item->nom}}</td>
+                                <td class="text-center">{{ $item->prenom}}</td>
                                 <td class="text-center">{{ $item->telephone}}</td>
-                                <td class="text-center">{{ $item->gmail}}</td>
+                                <td class="text-center">{{ $item->email}}</td>
+
                                 <td class="text-center">
-                                    <button class="btn btn-primary mr-2" wire:click="showPropE({{$item->id}})"> --}}
+                                    <button class="btn btn-primary mr-2" wire:click="showPropE({{$item->id}})">
                                          <i class="far fa-edit"></i>
                                     </button>
 
@@ -54,9 +56,6 @@
                                         <i class="far fa-trash-alt"></i>
                                     </button>
 
-                                    <button class="btn btn-link" wire:click="showPropE('{{$item->id}})">
-                                        <i class="far fa-trash-alt"></i>
-                                    </button>
                                  </td>
                             </tr>
                             @endforeach

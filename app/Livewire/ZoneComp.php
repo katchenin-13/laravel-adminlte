@@ -89,7 +89,7 @@ class ZoneComp extends Component
         $zone->commune_id = $communeId;
         $zone->save();
 
-        session()->flash('message', 'La commune de la zone a été mise à jour avec succès!');
+
     }
 
 
