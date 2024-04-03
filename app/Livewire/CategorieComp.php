@@ -83,29 +83,29 @@ class CategorieComp extends Component
         $this->dispatch("showModal", []);
     }
 
+
+
+
     public function showPropD(Categorie $categorie)
     {
-        $this->showDeleteModal = true; // Définir la propriété pour afficher le modal
-
-
-        $categorie->delete();
-        // dd('Method called');
-        // Facultativement, vous pouvez envoyer un événement pour afficher un message de confirmation ou effectuer d'autres actions après la suppression.
-
-        // Fermer la fenêtre modale de suppression après la suppression
-        $this->dispatch("closeDeleteModal", []);
+        $this->selectedCategorie = $categorie;
+        $this->dispatch("showDeleteModal", []);
+    }
+    
+    public function deleteCategorie()
+    {
+        if ($this->selectedCategorie) {
+            $this->selectedCategorie->delete();
+            $this->dispatch('categorieDeleted');
+        }
     }
 
-    public function showPropC($categoryId)
+
+     public function showPropC(Categorie $categorie)
     {
-        // Récupérer l'objet de la catégorie à partir de l'identifiant
-        $categorie = Categorie::findOrFail($categoryId);
+        $this->selectedCategorie = $categorie;
 
-        // Stocker le nom de la catégorie dans la propriété selectedCategorie
-        $this->selectedCategorie = $categorie->nom;
-
-        // Afficher le modal de lecture
-        $this->dispatch("showReadModal", []);
+        $this->dispatch("ReadModal", []);
     }
 
 
@@ -136,6 +136,12 @@ class CategorieComp extends Component
     {
         $this->resetErrorBag();
         $this->dispatch("closeEditModal", []);
+    }
+
+    public function closereadModal()
+    {
+        $this->resetErrorBag();
+        $this->dispatch("closereadModal", []);
     }
 
     public function closeDeleteModal()

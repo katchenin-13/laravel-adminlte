@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Client;
+use App\Models\Commune;
+use App\Models\Coursier;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +27,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('/home');
+        $userCount = User::count();
+        $communeCount = Commune::count();
+        $coursierCount = Coursier::count();
+        $clientCount = Client::count();
+        return view('/home', compact('userCount','communeCount','coursierCount','clientCount'));
     }
 }

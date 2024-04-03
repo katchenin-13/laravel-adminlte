@@ -85,18 +85,23 @@ class TarificationComp extends Component
 
     public function showPropD(Tarification $tarification)
     {
-        $this->showDeleteModal = true; // Définir la propriété pour afficher le modal
-
-        $tarification->delete();
-
-        $this->dispatch("closeDeleteModal");
+        $this->selectedTarification = $tarification;
+        $this->dispatch("showDeleteModal", []);
+    }
+    
+    public function deleteTarification()
+    {
+        if ($this->selectedTarification) {
+            $this->selectedTarification->delete();
+            $this->dispatch('tarificationDeleted');
+        }
     }
 
     public function showPropC(Tarification $tarification)
     {
-        $this->selectedTarification = $tarification->prix;
+        $this->selectedTarification = $tarification;
 
-        $this->dispatch("showReadModal", []);
+        $this->dispatch("ReadModal", []);
 
         // dd('bonjour');
     }
@@ -121,6 +126,13 @@ class TarificationComp extends Component
         $this->resetErrorBag();
         $this->dispatch("closeEditModal");
     }
+
+    public function closereadModal()
+    {
+        $this->resetErrorBag();
+        $this->dispatch("closereadModal");
+    }
+
 
     public function closeDeleteModal()
     {

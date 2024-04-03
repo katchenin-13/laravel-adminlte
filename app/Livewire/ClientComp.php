@@ -27,18 +27,19 @@ class ClientComp extends Component
     public $editClientid ="";
     public $selectedClient;
     public $selectedZone;
-    // public $clientCount;
+    public $clientCount;
     public $showDeleteModal="false";
+    public $clientToDelete;
 
 
 
     protected $paginationTheme = "bootstrap";
 
-    // public function mount()
-    // {
-    //    $this->clientCount = Client::count();
+     public function mount()
+     {
+        $this->clientCount = Client::count();
 
-    // }
+    }
 
     public function render()
     {
@@ -77,7 +78,7 @@ class ClientComp extends Component
             "newClientEmail.unique" => "Email est déjà utilisé.",
             "newClientSecteur.required" => "Le champ du seacteur d'activité du client est requis.",
             "newClientSecteur.max" => "Le secteur d'activité du client ne peut pas dépasser :max caractères.",
-            "selectedZone.required" => "Veuillez sélectionner une commune.",
+            "selectedZone.required" => "Veuillez sélectionner une client.",
         ]);
 
         Client::create([
@@ -159,14 +160,14 @@ class ClientComp extends Component
         $this->editClientEmail = $editClient->email;
         $this->editClientSecteur= $editClient->secteuract;
 
-        // Récupérer la commune sélectionnée en fonction de l'ID de la commune associée à la zone
+        // Récupérer la client sélectionnée en fonction de l'ID de la client associée à la zone
         $selectedZone = Zone::find($editClient->zone_id);
 
         if ($selectedZone) {
-            // Si la commune est trouvée, définissez-la comme commune sélectionnée
+            // Si la client est trouvée, définissez-la comme client sélectionnée
             $this->selectedZone = $selectedZone->id;
         } else {
-            // Si la commune n'est pas trouvée, définissez la commune sélectionnée sur null ou une valeur par défaut
+            // Si la client n'est pas trouvée, définissez la client sélectionnée sur null ou une valeur par défaut
             $this->selectedZone = null; // ou toute autre valeur par défaut
         }
 
@@ -181,16 +182,29 @@ class ClientComp extends Component
 
     public function showPropD(Client $client)
     {
-        $this->showDeleteModal = true;
-
-
-        $client->delete();
-        $this->dispatch("closeDeleteModal", []);
+        $this->selectedClient = $client;
+        $this->dispatch("showDeleteModal", []);
+    }
+    
+    public function deleteClient()
+    {
+        if ($this->selectedClient) {
+            $this->selectedClient->delete();
+            $this->dispatch('clientDeleted');
+        }
     }
 
-    public function closeDeleteModal()
+    public function showPropC(Client $client)
+    {
+        $this->selectedClient = $client;
+        $this->dispatch("readModal", []);
+    }
+
+    public function closereadModal()
     {
         $this->resetErrorBag();
-        $this->dispatch("closeDeleteModal", []);
+        $this->dispatch("closereadModal", []);
     }
+
+
 }

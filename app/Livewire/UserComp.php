@@ -22,11 +22,18 @@ class UserComp extends Component
     public $editUserPassword= "";
     public $editUserid ="";
     public $selectedUser;
+    public $userCount;
 
 
 
     protected $paginationTheme = "bootstrap";
 
+
+    public function mount()
+    {
+        // Utilisez la méthode statique count() du modèle User pour compter les utilisateurs
+        $this->userCount = User::count();
+    }
 
     public function render()
     {
@@ -91,9 +98,9 @@ class UserComp extends Component
         $users->name = "";
         $users->email = "";
         $users->password = "";
-         
+
     }
-    
+
 
     public function showCreatedProp(User $user)
     {
@@ -107,15 +114,13 @@ class UserComp extends Component
     public function showProp(User $user)
     {
 
-        $editUser = $user;
-        $this->editUserid = $editUser ->id;
-        $this->editUserName = $editUser ->name;
+        $this->selectedUser = $user;
 
+        $this->dispatch("readModal", []);
+        // $user->name,$user->email,$user->password
 
-        $this->dispatch("ShowModal", [$user->name,$user->email,$user->password]);
-        dd('bonjour');
     }
-   
+
 
     public function showEditedProp(User $user)
     {
@@ -128,15 +133,19 @@ class UserComp extends Component
         $this->dispatch("EditModal", [$user->name]);
     }
 
-    public function showDeletedProp(User $user)
+
+    public function showPropD(User $user)
     {
-
-        $editUser = $user;
-        $this->editUserid = $editUser ->id;
-        $this->editUserName = $editUser ->name;
-
-
-        $this->dispatch("DeleteModal", [$user->name]);
+        $this->selectedUser = $user;
+        $this->dispatch("showDeleteModal", []);
+    }
+    
+    public function deleteUser()
+    {
+        if ($this->selectedUser) {
+            $this->selectedUser->delete();
+            $this->dispatch('userDeleted');
+        }
     }
 
     public function closeModal()
@@ -150,11 +159,14 @@ class UserComp extends Component
         $this->dispatch("closeEditModal", []);
     }
 
-    public function closeDeleteModal()
+
+    public function closeUserModal()
     {
         $this->resetErrorBag();
-        $this->dispatch("closeDeleteModal", []);
+        $this->dispatch("closeUserModal", []);
     }
+
+
 
     // public function showDeletePrompt($nom, $id)
     // {

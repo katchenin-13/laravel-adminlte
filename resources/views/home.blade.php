@@ -43,7 +43,7 @@
                         <div class="info-box-content">
                         <span class="info-box-text">Users</span>
                         <span class="info-box-number">
-                            10
+                            {{ $userCount }}
                         </span>
                         </div>
                         <!-- /.info-box-content -->
@@ -57,7 +57,7 @@
 
                         <div class="info-box-content">
                         <span class="info-box-text">Clients</span>
-                        <span class="info-box-number">50</span>
+                        <span class="info-box-number">{{ $clientCount }}</span>
 
                         </div>
                         {{-- {{ $clients->count() }} --}}
@@ -76,7 +76,7 @@
 
                         <div class="info-box-content">
                         <span class="info-box-text">Coursiers</span>
-                        <span class="info-box-number">10</span>
+                        <span class="info-box-number">{{ $coursierCount }}</span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -89,7 +89,7 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">Communes</span>
-                            <span class="info-box-number">10</span>
+                            <span class="info-box-number">{{ $communeCount }}</span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -122,6 +122,7 @@
                             </tr>
                             </thead>
                              <tbody>
+
                                     <tr >
                                         <td style="color:rgb(0, 195, 255);">OR9842</td>
                                         <td>Call of Duty IV</td>

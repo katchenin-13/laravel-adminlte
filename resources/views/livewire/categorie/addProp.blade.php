@@ -11,6 +11,12 @@
                         <div class="d-flex flex-grow-1 mr-2">
                             <div class="flex-grow-1 mr-2">
 
+                                @if (session()->has('message'))
+                                    <div class="alert alert-success ">
+                                        {{ session('message') }}
+                                    </div>
+                                @endif
+
                                     <!-- Champ de saisie pour le nom de la Categorie -->
                                     <div class="form-group">Catégorie
                                             <input type="text" wire:keydown.enter="addNewCategorie"
@@ -21,11 +27,7 @@
                                         @enderror
                                     </div>
 
-                                    @if (session()->has('message'))
-                                        <div class="alert alert-success ">
-                                            {{ session('message') }}
-                                        </div>
-                                    @endif
+
 
                             </div>      <!-- Autres éléments existants de la modal -->
                         </div>

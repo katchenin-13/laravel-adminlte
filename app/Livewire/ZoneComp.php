@@ -101,25 +101,28 @@ class ZoneComp extends Component
 
     public function showPropD(Zone $zone)
     {
-        $this->showDeleteModal = true; // Définir la propriété pour afficher le modal
-
-
-        $zone->delete();
-        // dd('Method called');
-        // Facultativement, vous pouvez envoyer un événement pour afficher un message de confirmation ou effectuer d'autres actions après la suppression.
-
-        // Fermer la fenêtre modale de suppression après la suppression
-        $this->dispatch("closeDeleteModal", []);
+        $this->selectedZone = $zone;
+        $this->dispatch("showDeleteModal", []);
+    }
+    
+    public function deleteZone()
+    {
+        if ($this->selectedZone) {
+            $this->selectedZone->delete();
+            $this->dispatch('ZoneDeleted');
+        }
     }
 
     public function showPropC(Zone $zone)
     {
-        $this->selectedZone = $zone->nom;
+        $this->selectedZone = $zone;
 
-        $this->dispatch("showReadModal", []);
+        $this->dispatch("ReadModal", []);
 
         // dd('bonjour');
     }
+
+
 
     public function showPropE(Zone $zone)
     {
@@ -150,6 +153,12 @@ class ZoneComp extends Component
     {
         $this->resetErrorBag();
         $this->dispatch("closeEditModal", []);
+    }
+
+    public function closereadModal()
+    {
+        $this->resetErrorBag();
+        $this->dispatch("closereadModal", []);
     }
 
     public function closeDeleteModal()

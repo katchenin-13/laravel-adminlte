@@ -28,6 +28,8 @@
                             <tr>
                                 <th style="width:10%;">No</th>
                                 <th style="width:20%;" class="text-center">Nom</th>
+                                <th style="width:20%;" class="text-center">quantité</th>
+                                {{-- <th style="width:20%;" class="text-center">Nom</th> --}}
                                 <th style="width:20%;" class="text-center">Catégorie</th>
                                 <th style="width:30%;" class="text-center">Action</th>
                             </tr>
@@ -37,18 +39,19 @@
                             <tr>
                                 <td>{{ $loop->iteration}}</td>
                                 <td class="text-center">{{ $item->nom}}</td>
+                                <td class="text-center">{{ $item->quatite}}</td>
                                 <td class="text-center">{{ $item->categorie->nom}}</td>
                                 <td class="text-center">{{ $item->gmail}}</td>
                                 <td class="text-center">
-                                    <button class="btn btn-primary mr-2" wire:click="showPropE({{$item->id}})">
+                                    <button class="btn btn-primary btn-sm" wire:click="showPropE({{$item->id}})">
                                         <i class="far fa-edit"></i>
                                     </button>
 
-                                    <button class="btn btn-info mr-2" wire:click="showPropC({{ $item->id }})">
+                                    <button class="btn btn-info btn-sm" wire:click="showPropC({{ $item->id }})">
                                         <i class="far fa-eye"></i>
                                     </button>
 
-                                    <button class="btn btn-danger" wire:click="showPropD({{$item->id}})">
+                                    <button class="btn btn-danger btn-sm" wire:click="showPropD({{$item->id}})">
                                         <i class="far fa-trash-alt"></i>
                                     </button>
 

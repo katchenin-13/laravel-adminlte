@@ -11,7 +11,7 @@
 
 <script>
 
-    window.addEventListener("showModal", event=>{
+    window.addEventListener("ModalCreate", event=>{
        $("#modalProp").modal({
            "show": true,
            "backdrop": "static"

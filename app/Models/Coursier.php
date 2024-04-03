@@ -9,14 +9,31 @@ class Coursier extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'nom', 'prenom', 'email', 'numero_telephone','numero_telephone_2', 'numero_permis_conduire',
-        'type_vehicule', 'plaque_immatriculation', 'statut',
-        'date_embauche', 'salaire','cni', 'photo','zones_id',
+        'nom',
+        'prenom',
+        'email',
+        'numero_telephone',
+        'numero_telephone_2',
+        'numero_permis_conduire',
+        'plaque_immatriculation',
+        'statut',
+        'date_embauche',
+        'salaire',
+        'cni',
+        'photo',
+        'zone_id',
+        'vehicule_id',
     ];
 
-    public function Zone()
+    public function zone()
     {
         return $this->belongsto(Zone::class);
+
+    }
+
+    public function vehicule()
+    {
+        return $this->belongsto(Vehicule::class);
 
     }
 
@@ -42,4 +59,5 @@ class Coursier extends Model
         return $this->hasmany(Bordereau::class);
 
     }
+
 }

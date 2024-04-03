@@ -6,6 +6,10 @@
 
     @include("livewire.zone.list")
 
+    @include("livewire.zone.readProd")
+
+    @include("livewire.zone.deletProp")
+
 
 </div>
 
@@ -69,6 +73,7 @@
 </script>
 
 <script>
+  //create
     window.addEventListener("showModal", event=>{
        $("#modalProp").modal({
            "show": true,
@@ -78,7 +83,7 @@
     window.addEventListener("closeModal", event=>{
        $("#modalProp").modal("hide")
     })
-
+  //edit
     window.addEventListener("showEditModal", event=>{
        $("#editModalProp").modal({
            "show": true,
@@ -88,5 +93,30 @@
     window.addEventListener("closeEditModal", event=>{
        $("#editModalProp").modal("hide")
     })
+
+    //show
+
+    window.addEventListener("ReadModal", event=>{
+       $("#readmodalProp").modal({
+           "show": true,
+           "backdrop": "static"
+       })
+    })
+    window.addEventListener("closereadModal", event=>{
+       $("#readmodalProp").modal("hide")
+    })
+
+    //delet
+    window.addEventListener("showDeleteModal", event=>{
+            $("#DelectetModalProp").modal({
+                "show": true,
+                "backdrop": "static"
+            })
+            //console.log('soro');
+            })
+            window.addEventListener('ZoneDeleted', function () {
+            //console.log('fermerture')
+            $('#DelectetModalProp').modal('hide');
+        });
 
 </script>

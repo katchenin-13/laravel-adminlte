@@ -27,9 +27,9 @@
                         <thead>
                             <tr>
                                 <th style="width:10%;">No</th>
-                                <th style="width:20%;" class="text-center">Nom</th>
+                                <th style="width:10%;" class="text-center">Nom</th>
                                 <th style="width:20%;" class="text-center">Prenom</th>
-                                <th style="width:20%;" class="text-center">Gmail</th>
+                                <th style="width:20%;" class="text-center">Email</th>
                                 <th style="width:20%;" class="text-center">Telephone</th>
                                 <th style="width:30%;" class="text-center">Action</th>
                             </tr>
@@ -40,24 +40,21 @@
                                 <td>{{ $loop->iteration}}</td>
                                 <td class="text-center">{{ $item->nom}}</td>
                                 <td class="text-center">{{ $item->prenom}}</td>
-                                <td class="text-center">{{ $item->telephone}}</td>
-                                <td class="text-center">{{ $item->gmail}}</td>
+                                <td class="text-center">{{ $item->email}}</td>
+                                <td class="text-center">{{ $item->numero_telephone}}</td>
                                 <td class="text-center">
-                                    <button class="btn btn-primary mr-2" wire:click="showPropE({{$item->id}})">
+                                    <button class="btn btn-primary btn-sm" wire:click="showPropE({{$item->id}})">
                                         <i class="far fa-edit"></i>
                                     </button>
 
-                                    <button class="btn btn-info mr-2" wire:click="showPropC({{ $item->id }})">
+                                    <button class="btn btn-info btn-sm" wire:click="showPropC({{ $item->id }})">
                                         <i class="far fa-eye"></i>
                                     </button>
 
-                                    <button class="btn btn-danger" wire:click="showPropD({{$item->id}})">
+                                    <button class="btn btn-danger btn-sm" wire:click="showPropD({{$item->id}})">
                                         <i class="far fa-trash-alt"></i>
                                     </button>
 
-                                    {{-- <button class="btn btn-link" wire:click="showPropE('{{$item->id}})">
-                                        <i class="far fa-trash-alt"></i>
-                                    </button> --}}
                                 </td>
                             </tr>
                             @endforeach

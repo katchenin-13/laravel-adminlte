@@ -36,7 +36,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{route('espace.index')}}" class="nav-link">
                             <i  class="nav-icon far fa-address-card" style="color: #e21515;"></i>
                             <p>{{ __('Espace User') }}</p>
                         </a>
@@ -74,6 +74,20 @@
                             <p>{{__('Tarifications')}}</p>
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a href="{{route('statuts')}}" class="nav-link">
+                            <i class="fas fa-info-circle" style="color: #e21515;"></i>
+                            <p>{{__('statut')}}</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{route('vehicules')}}" class="nav-link">
+                            <i class="fas fa-car" style="color: #e21515;"></i>
+                            <p>{{__('Type_vehicule')}}</p>
+                        </a>
+                    </li>
                 </ul>
             </li>
 
@@ -94,18 +108,27 @@
                     </li>
 
                     <li class="nav-item">
+                        <a href="{{route('coursiers')}}" class="nav-link">
+                            <i class="fas fa-truck" style="color: #15a1e2;"></i>
+                            <p>Cousiers</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{route('colis')}}" class="nav-link">
+                            <i class="fas fa-box" style="color: #15a1e2;"></i>
+                            <p>Livraison</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a href="{{route('colis')}}" class="nav-link">
                             <i class="fas fa-box" style="color: #15a1e2;"></i>
                             <p>Colis</p>
                         </a>
                     </li>
 
-                    <li class="nav-item">
-                        <a href="{{route('coursiers')}}" class="nav-link">
-                            <i class="fas fa-truck" style="color: #15a1e2;"></i>
-                            <p>Cousiers</p>
-                        </a>
-                    </li>
+
 
                     <li class="nav-item">
                         <a href="#" class="nav-link">
@@ -114,12 +137,18 @@
                         </a>
                     </li>
 
+
+               
+
+
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="fas fa-clipboard" style="color: #15a1e2;"></i>
                             <p>Bordereaux</p>
                         </a>
                     </li>
+
+
 
                     <li class="nav-item">
                         <a href="#" class="nav-link">
@@ -134,7 +163,14 @@
                             <p>Factures</p>
                         </a>
                     </li>
-                    <!-- Ajoutez ici les autres éléments de gestionnaires -->
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-times" style="color: #15a1e2;"></i>
+                            <p>Problème</p>
+                        </a>
+                    </li>
+                    {{-- ajouter ici --}}
                 </ul>
             </li>
 

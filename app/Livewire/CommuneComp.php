@@ -11,8 +11,6 @@ use Illuminate\Validation\Rule;
 class CommuneComp extends Component
 {
 
-
-
     use WithPagination;
 
     public $search = "";
@@ -21,7 +19,7 @@ class CommuneComp extends Component
     public $editCommuneid ="";
     public $selectedCommune;
     // public $communeCount;
-   // public $showDeleteModal="false";
+    public $showDeleteModal="false";
 
 
 
@@ -40,8 +38,6 @@ class CommuneComp extends Component
         $searchCriteria = "%" . $this->search . "%";
 
         $communes = Commune::where("nom", "like", $searchCriteria)->latest()->paginate(10);
-
-        // $communeCount = $this->communeCount;
 
         return view('livewire.commune.index', ['communes' => Commune::latest()->paginate(10)])
             ->extends("layouts.app")
@@ -78,48 +74,60 @@ class CommuneComp extends Component
         $communes->nom = $this->editCommuneName;
         $result = $communes->save();
         $communes->nom = "";
+        session()->flash('message', 'Le nom de la commune a été modifié avec succès!');
     }
-
-    public function showCreatedProp(Commune $commune)
-    {
-        $this->selectedCommune = $commune;
-        $this->dispatch("CreatModal", []);
-    }
-
-
 
 
     public function showProp(Commune $commune)
     {
-
-        $editCommune = $commune;
-        $this->editCommuneid = $editCommune ->id;
-        $this->editCommuneName = $editCommune ->nom;
-
-
-        $this->dispatch("ShowModal", [$commune->nom]);
+        $this->selectedCommune = $commune;
+        $this->dispatch("CreateModal", []);
     }
 
-    public function showEditedProp(Commune $commune)
+    public function showPropD(Commune $commune)
+    {
+        $this->selectedCommune = $commune;
+        $this->dispatch("showDeleteModal", []);
+    }
+    
+    public function deleteCommune()
+    {
+        if ($this->selectedCommune) {
+            $this->selectedCommune->delete();
+            $this->dispatch('communeDeleted');
+        }
+    }
+
+    // public function showPropC(Commune $commune)
+    // {
+    //     // Récupérer l'objet de la commune à partir de l'identifiant
+    //     // $commune = Commune::findOrFail($communeId);
+
+    //     // Stocker le nom de la commune dans la propriété selectedCommune
+    //     $this->selectedCommune = $commune->nom;
+
+    //     // Afficher le modal de lecture
+    //     $this->dispatch("ReadModal", []);
+    // }
+
+    public function showPropC(Commune $commune)
+    {
+        $this->selectedCommune = $commune;
+        $this->dispatch("ReadModal", []);
+    }
+
+
+
+    public function showPropE(Commune $commune)
     {
 
         $editCommune = $commune;
         $this->editCommuneid = $editCommune ->id;
         $this->editCommuneName = $editCommune ->nom;
 
+        //dd($editCommune);
 
         $this->dispatch("EditModal", [$commune->nom]);
-    }
-
-    public function showDeletedProp(Commune $commune)
-    {
-
-        $editCommune = $commune;
-        $this->editCommuneid = $editCommune ->id;
-        $this->editCommuneName = $editCommune ->nom;
-
-
-        $this->dispatch("DeleteModal", [$commune->nom]);
     }
 
     public function closeModal()
@@ -133,23 +141,16 @@ class CommuneComp extends Component
         $this->dispatch("closeEditModal", []);
     }
 
-    public function closeDeleteModal()
+    public function closeshowModal()
     {
         $this->resetErrorBag();
-        $this->dispatch("closeDeleteModal", []);
+        $this->dispatch("closeshowModal", []);
     }
 
-    // public function showDeletePrompt($nom, $id)
+    // public function closeDeleteModal()
     // {
-    //     $this->dispatch("showConfirmMessage", ["message" => [
-    //         "text" => "Vous êtes sur le point de supprimer '$nom' de la liste des propriétés d'articles. Voulez-vous continuer?",
-    //         "title" => "Êtes-vous sûr de continuer?",
-    //         "type" => "warning",
-    //         "data" => [
-    //             "propriete_id" => $id
-    //         ]
-    //     ]]);
+    //     $this->resetErrorBag();
+    //     $this->dispatch("closeDeleteModal", []);
     // }
-
 
 }

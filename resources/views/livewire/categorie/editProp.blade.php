@@ -1,4 +1,4 @@
-use App\Models\Categorie;
+
 <div class="modal fade" id="editModalProp" style="z-index: 1900;" role="dialog" wire:ignore.self>
     <div class="modal-dialog" style="top:50px;">
         <div class="modal-content">
@@ -14,6 +14,12 @@ use App\Models\Categorie;
                         <div class="d-flex flex-grow-1 mr-2">
                             <div class="flex-grow-1 mr-2">
 
+                                @if (session()->has('message'))
+                                    <div class="alert alert-success ">
+                                        {{ session('message') }}
+                                    </div>
+                                @endif
+
                                 <div class="form-group">Catégorie
                                         {{-- <div class="col-md-12" wire:ignore> --}}
                                                     <input type="text" placeholder="Nom" wire:keypress.enter=""
@@ -23,11 +29,7 @@ use App\Models\Categorie;
                                                 <span class="text-danger">{{$message}}</span>
                                                 @enderror
                                           {{-- </div> --}}
-                                                @if (session()->has('message'))
-                                                    <div class="alert alert-success ">
-                                                        {{ session('message') }}
-                                                    </div>
-                                                 @endif
+
                                 </div>
 
                             </div>

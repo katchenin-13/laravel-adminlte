@@ -29,7 +29,7 @@
                                 <th style="width:10%;">No</th>
                                 <th style="width:20%;" class="text-center">Nom</th>
                                 <th style="width:20%;" class="text-center">Email</th>
-                                <th style="width:30%;" class="text-center">Action</th>
+                                <th style="width:30%;" class="text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -48,7 +48,7 @@
                                         <i class="far fa-eye"></i>
                                     </button>
 
-                                    <button class="btn btn-danger btn-sm" wire:click="showDeletedProp({{$item->id}})">
+                                    <button class="btn btn-danger btn-sm" wire:click="showPropD({{$item->id}})">
                                         <i class="far fa-trash-alt"></i>
                                     </button>
 

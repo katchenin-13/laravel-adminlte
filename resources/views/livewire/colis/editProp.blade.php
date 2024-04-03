@@ -13,6 +13,12 @@
                         <div class="d-flex flex-grow-1 mr-2">
                             <div class="flex-grow-1 mr-2">
 
+                                @if (session()->has('message'))
+                                    <div class="alert alert-success ">
+                                        {{ session('message') }}
+                                    </div>
+                                @endif
+
                                 <div class="form-group"><h3>Colis</h3>
                                         {{-- <div class="col-md-12" wire:ignore> --}}
                                                     <input type="text" placeholder="Nom" wire:keypress.enter=""
@@ -22,11 +28,7 @@
                                                 <span class="text-danger">{{$message}}</span>
                                                 @enderror
                                           {{-- </div> --}}
-                                                @if (session()->has('message'))
-                                                    <div class="alert alert-success ">
-                                                        {{ session('message') }}
-                                                    </div>
-                                                 @endif
+
                                 </div>
 
                             </div>

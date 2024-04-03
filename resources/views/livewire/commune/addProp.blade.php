@@ -1,8 +1,8 @@
-<div class="modal fade" id="modalProp" style="z-index: 1900;" tabindex="-1" role="dialog" wire:ignore.self>
+<div class="modal fade" id="ShowModalProp" tabindex="-1" role="dialog" wire:ignore.self>
     <div class="modal-dialog" style="top:50px;">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #15a1e2; color: white;">
-                <h5 class="modal-title">Formulaire Commune</h5>
+                <h5 class="modal-title">Formulaire commune</h5>
 
             </div>
             <div class="form-group" >
@@ -10,6 +10,12 @@
                     <div class="d-flex my-4 bg-gray-light p-3">
                         <div class="d-flex flex-grow-1 mr-2">
                             <div class="flex-grow-1 mr-2">
+
+                                @if (session()->has('message'))
+                                    <div class="alert alert-success ">
+                                        {{ session('message') }}
+                                    </div>
+                                @endif
 
                                     <!-- Champ de saisie pour le nom de la commune -->
                                     <div class="form-group" >Nom de la commune
@@ -21,11 +27,7 @@
                                     @enderror
                                     </div>
 
-                                    @if (session()->has('message'))
-                                        <div class="alert alert-success ">
-                                            {{ session('message') }}
-                                        </div>
-                                    @endif
+
 
                             </div>      <!-- Autres éléments existants de la modal -->
                         </div>
@@ -35,7 +37,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" wire:click="closeModal"><i class="fas fa-times"></i> Fermer</button>
+                <button type="button" class="btn btn-danger" wire:click="closeshowModal"><i class="fas fa-times"></i> Fermer</button>
                 <button class="btn btn-success" wire:click="addNewCommune"> <i class="fa fa-check"></i> Valider</button>
             </div>
         </div>

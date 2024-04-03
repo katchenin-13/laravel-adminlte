@@ -9,14 +9,20 @@ class Livraison extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'statut',
         'jourlivraison',
-        'coursier_id'
+        'coursier_id',
+        'statut_id'
     ];
 
     public function coursier()
     {
         return $this->belongsto(Coursier::class);
+
+    }
+
+    public function statut()
+    {
+        return $this->belongsto(Statut::class);
 
     }
 

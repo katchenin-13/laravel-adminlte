@@ -7,7 +7,7 @@
                 </h3>
 
                 <div class="card-tools d-flex align-items-center">
-                    <a class="btn btn-link text-white mr-4 d-block" wire:click="showCreatedProp">
+                    <a class="btn btn-link text-white mr-4 d-block" wire:click="showPropC">
                         <i class="fas fa-building"></i> Nouvelle Commune
                     </a>
                     <div class="input-group input-group-md" style="width: 250px;">
@@ -27,8 +27,8 @@
                         <thead>
                             <tr>
                                 <th style="width:10%;">No</th>
-                                <th style="width:20%;" class="text-center">Commune</th>
-                                <th style="width:30%;" class="text-center">Action</th>
+                                <th style="width:50%;" class="text-center">Commune</th>
+                                <th style="width:100%;" class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -38,15 +38,15 @@
                                 <td>{{ $loop->iteration}}</td>
                                 <td class="text-center">{{ $item->nom}}</td>
                                 <td class="text-center">
-                                    <button class="btn btn-primary mr-2" wire:click="showEditedProp({{$item->id}})">
+                                    <button class="btn btn-primary btn-sm" wire:click="showPropE({{$item->id}})">
                                         <i class="far fa-edit"></i>
                                     </button>
 
-                                    <button class="btn btn-info mr-2" wire:click="showProp({{ $item->id }})">
+                                    <button class="btn btn-info btn-sm" wire:click="showProp({{ $item->id }})">
                                         <i class="far fa-eye"></i>
                                     </button>
 
-                                    <button class="btn btn-danger" wire:click="showDeletedProp({{$item->id}})">
+                                    <button class="btn btn-danger btn-sm" wire:click="showPropD({{$item->id}})">
                                         <i class="far fa-trash-alt"></i>
                                     </button>
 

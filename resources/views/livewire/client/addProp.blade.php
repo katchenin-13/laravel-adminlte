@@ -11,6 +11,12 @@
                         <div class="d-flex flex-grow-1 mr-2">
                             <div class="flex-grow-1 mr-2">
 
+                                @if (session()->has('message'))
+                                    <div class="alert alert-success ">
+                                        {{ session('message') }}
+                                    </div>
+                                @endif
+
                                     <!-- Champ de saisie pour le nom du client -->
                                     <div class="row">
                                         <div class="col-md-6">
@@ -87,11 +93,7 @@
                                            </div>
                                     </div>
 
-                                    @if (session()->has('message'))
-                                    <div class="alert alert-success ">
-                                        {{ session('message') }}
-                                    </div>
-                                @endif
+
 
                             </div>      <!-- Autres éléments existants de la modal -->
                         </div>

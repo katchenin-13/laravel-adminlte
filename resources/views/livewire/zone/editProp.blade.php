@@ -11,6 +11,12 @@
                     <div class="d-flex my-4 bg-gray-light p-3">
                         <div class="d-flex flex-grow-1 mr-2">
                             <div class="flex-grow-1 mr-2">
+
+                                @if (session()->has('message'))
+                                    <div class="alert alert-success ">
+                                        {{ session('message') }}
+                                    </div>
+                                @endif
                                 <div class="form-group">
                                     Zone
                                     <div class="col-md-12" wire:ignore>

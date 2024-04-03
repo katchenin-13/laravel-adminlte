@@ -1,13 +1,11 @@
 <div>
     @include("livewire.users.deletProp")
 
-   @include("livewire.users.showProp")
+   @include("livewire.users.readProd")
 
    @include("livewire.users.editProp")
 
    @include("livewire.users.addProp")
-
-
 
    @include("livewire.users.liste")
 
@@ -17,9 +15,9 @@
 {{-- <script>
    window.addEventListener("showEditForm",function(e){
        Swal.fire({
-           title: "Edition d'un commune",
+           title: "Edition d'un user",
            input: 'text',
-           inputValue: e.detail.commune.nom ,
+           inputValue: e.detail.user.nom ,
            showCancelButton: true,
            confirmButtonColor: '#3085d6',
            cancelButtonColor: '#d33',
@@ -30,7 +28,7 @@
                return 'Champ obligatoire'
                }
 
-               @this.updateCommune(e.detail.commune.id, value)
+               @this.updateUser(e.detail.user.id, value)
            }
        })
    })
@@ -63,8 +61,8 @@
        cancelButtonText: 'Annuler'
        }).then((result) => {
        if (result.isConfirmed) {
-           if(event.detail.message.data.commune_id){
-               @this.deleteCommune(event.detail.message.data.commune_id)
+           if(event.detail.message.data.user_id){
+               @this.deleteUser(event.detail.message.data.user_id)
            }
 
        }
@@ -97,27 +95,28 @@
    })
 
    //show
-   window.addEventListener("ShowModal", event=>{
-      $("#showModalProp").modal({
+   window.addEventListener("readModal", event=>{
+      $("#readmodalProp").modal({
           "show": true,
           "backdrop": "static"
       })
    })
-   window.addEventListener("closeEditModal", event=>{
-      $("#showModalProp").modal("hide")
+   window.addEventListener("closeUserModal", event=>{
+      $("#readmodalProp").modal("hide")
    })
 
    //delete
-   window.addEventListener("DeleteModal", event=>{
-      $("#deletModalProp").modal({
-          "show": true,
-          "backdrop": "static"
-      })
-    console.log('soro');
-   })
-   window.addEventListener("closeDeleteModal", event=>{
-      $("#deletModalProp").modal("hide")
-   })
+   window.addEventListener("showDeleteModal", event=>{
+            $("#DelectetModalProp").modal({
+                "show": true,
+                "backdrop": "static"
+            })
+            //console.log('soro');
+            })
+            window.addEventListener('userDeleted', function () {
+            //console.log('fermerture')
+            $('#DelectetModalProp').modal('hide');
+        });
 
 
 </script>

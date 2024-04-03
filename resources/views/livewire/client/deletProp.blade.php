@@ -1,15 +1,15 @@
-<div class="modal fade" id="editModalProp" style="z-index: 1900;" role="dialog">
-    <div class="modal-dialog" style="top:50px;">
+<div class="modal fade" id="DelectetModalProp" style="z-index: 1900;" role="dialog" wire:ignore.self>
+    <div class="modal-dialog" style="top:10px;">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="background-color: #15a1e2; color: white;">
                 <h5 class="modal-title">Confirmation de suppression</h5>
             </div>
             <div class="modal-body">
-                Êtes-vous sûr de vouloir supprimer cette Categorie ?
+                Êtes-vous sûr de vouloir supprimer ce client?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-danger" wire:click="deleteCategorie">Supprimer</button>
+                <button type="button" class="btn btn-danger" wire:click="deleteClient">Supprimer</button>
             </div>
         </div>
     </div>

@@ -11,6 +11,11 @@
                         <div class="d-flex flex-grow-1 mr-2">
                             <div class="flex-grow-1 mr-2">
 
+                                     @if (session()->has('message'))
+                                        <div class="alert alert-success ">
+                                            {{ session('message') }}
+                                        </div>
+                                     @endif
 
                                     <div class="form-group" class=" text-gray" >Prix
                                         <input type="decimal" wire:keydown.enter="addNewTarification"
@@ -34,11 +39,7 @@
                                         @enderror
                                     </div>
 
-                                    @if (session()->has('message'))
-                                        <div class="alert alert-success ">
-                                            {{ session('message') }}
-                                        </div>
-                                    @endif
+
 
                             </div>      <!-- Autres éléments existants de la modal -->
                         </div>
