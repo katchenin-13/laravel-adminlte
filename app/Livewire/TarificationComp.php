@@ -40,7 +40,7 @@ class TarificationComp extends Component
     public function addNewTarification()
     {
         $validatedData = $this->validate([
-            "newTarificationPrix" => ["required", "max:20", "regex:/^\d+$/", Rule::unique("tarifications", "prix")],
+            "newTarificationPrix" => ["required", "max:9", "regex:/^\d+$/", Rule::unique("tarifications", "prix")],
             "selectedCategorie" => "required"
         ], [
             "newTarificationPrix.required" => "Le champ du prix est requis.",
@@ -55,6 +55,7 @@ class TarificationComp extends Component
         ]);
 
         session()->flash('message', 'Le prix a été enregistré avec succès!');
+        $this->reset('newTarificationPrix','selectedCategorie');
     }
 
 
@@ -88,7 +89,7 @@ class TarificationComp extends Component
         $this->selectedTarification = $tarification;
         $this->dispatch("showDeleteModal", []);
     }
-    
+
     public function deleteTarification()
     {
         if ($this->selectedTarification) {

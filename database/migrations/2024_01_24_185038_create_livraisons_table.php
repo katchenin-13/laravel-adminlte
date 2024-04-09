@@ -14,9 +14,13 @@ return new class extends Migration
         Schema::create('livraisons', function (Blueprint $table) {
             $table->id();
             $table->string('destinataire');
+            $table->string('numerodes');
+            $table->string('adresse_livraison');
             $table->timestamps();
             $table->unsignedBigInteger('coursier_id');
             $table->foreign('coursier_id')->references('id')->on('coursiers')->onDelete('cascade');
+            $table->unsignedBigInteger('colis_id');
+            $table->foreign('colis_id')->references('id')->on('colis')->onDelete('cascade');
             $table->unsignedBigInteger('statut_id');
             $table->foreign('statut_id')->references('id')->on('statuts')->onDelete('cascade');
 

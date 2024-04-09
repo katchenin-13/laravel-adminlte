@@ -12,8 +12,8 @@ class Colis extends Model
         'nom',
         'description',
         'quantite',
-        'coursier_id',
-        'bordereau_id',
+        'categorie_id',
+        'client_id',
     ];
 
     public function categorie()
@@ -21,13 +21,13 @@ class Colis extends Model
         return $this->belongsTo(Categorie::class);
     }
 
-    public function coursiers()
+    public function clients()
     {
-        return $this->belongsToMany(Coursier::class);
+        return $this->belongsToMany(Client::class);
     }
 
-    public function lbordereau()
+    public function coursiers()
     {
-        return $this->hasMany(Lbordereau::class);
+        return $this->belongsToMany(Coursier::class, 'livraisons', 'colis_id', 'coursier_id');
     }
 }

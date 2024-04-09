@@ -13,11 +13,13 @@ use App\Livewire\CommuneComp;
 use App\Livewire\CoursierComp;
 use App\Livewire\VehiculeComp;
 use App\Livewire\CategorieComp;
+use App\Livewire\LivraisonComp;
 use App\Livewire\TarificationComp;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\StatsController;
 use App\Http\Controllers\EspaceController;
 
 /*
@@ -48,6 +50,7 @@ Route::middleware('auth')->group(function () {
     // Route::get('/posts', PostComp::class)->name('posts');
 
     Route::get('espace', [EspaceController::class, 'index'])->name('espace.index');
+    Route::get('stat', [StatsController::class, 'index'])->name('stat.index');
     Route::get('/commune', CommuneComp::class)->name('communes');
     Route::get('/colis', ColisComp::class)->name('colis');
     Route::get('/coursier', CoursierComp ::class)->name('coursiers');
@@ -58,6 +61,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/user', UserComp::class)->name('users');
     Route::get('/statut', StatutComp::class)->name('statuts');
     Route::get('/vehicule', VehiculeComp::class)->name('vehicules');
+    Route::get('/livraison', LivraisonComp::class)->name('livraison');
 
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');

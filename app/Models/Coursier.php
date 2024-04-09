@@ -43,21 +43,15 @@ class Coursier extends Model
 
     // }
 
-    public function livraison()
-    {
-        return $this->hasmany(Livraison::class);
-
-    }
-
     public function colis()
     {
-        return $this->belongsToMany(Colis::class);
+        return $this->belongsToMany(Colis::class, 'livraisons', 'coursier_id', 'colis_id');
     }
 
-    public function bordereau()
-    {
-        return $this->hasmany(Bordereau::class);
+    // public function bordereau()
+    // {
+    //     return $this->hasmany(Bordereau::class);
 
-    }
+    // }
 
 }

@@ -55,6 +55,7 @@ class CategorieComp extends Component
 
         Categorie::create(["nom" => $validated["newCategorieName"]]);
         session()->flash('message', 'Le nom de la catégorie a été enregistré avec succès!');
+        $this->reset('newCategorieName');
     }
 
 
@@ -91,7 +92,7 @@ class CategorieComp extends Component
         $this->selectedCategorie = $categorie;
         $this->dispatch("showDeleteModal", []);
     }
-    
+
     public function deleteCategorie()
     {
         if ($this->selectedCategorie) {

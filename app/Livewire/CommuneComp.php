@@ -56,6 +56,8 @@ class CommuneComp extends Component
 
         Commune::create(["nom" => $validated["newCommuneName"]]);
         session()->flash('message', 'Le nom de la commune a été enregistré avec succès!');
+
+        $this->reset('newCommuneName');
     }
 
 
@@ -89,7 +91,7 @@ class CommuneComp extends Component
         $this->selectedCommune = $commune;
         $this->dispatch("showDeleteModal", []);
     }
-    
+
     public function deleteCommune()
     {
         if ($this->selectedCommune) {

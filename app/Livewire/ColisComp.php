@@ -56,6 +56,7 @@ class ColisComp extends Component
             "newColisName" => "required|max:20",
             "newColisDes" => "required|max:550",
             "newColisQuan" => "required|max:100",
+            "selectedCategorie" => "required",
         ], [
             "newColisName.required" => "Le champ du nom du colis est requis.",
             "newColisName.max" => "Le nom du colis ne peut pas dépasser :max caractères.",
@@ -73,6 +74,7 @@ class ColisComp extends Component
             "categorie_id" => $validatedData["selectedCategorie"],
         ]);
         session()->flash('message', 'Le colis a été enregistré avec succès!');
+        $this->reset('newColisName','newColisDes','newColisQuan','selectedCategorie');
     }
 
 

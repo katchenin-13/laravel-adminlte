@@ -48,6 +48,7 @@ class StatutComp extends Component
 
         Statut::create(["nom" => $validated["newStatutName"]]);
         session()->flash('message', 'Le nom de la statut a été enregistré avec succès!');
+        $this->reset('newStatutName');
     }
 
 
@@ -67,6 +68,7 @@ class StatutComp extends Component
         $result = $statuts->save();
         $statuts->nom = "";
         session()->flash('message', 'Le nom du statut a été modifié avec succès!');
+
     }
 
 
@@ -81,7 +83,7 @@ class StatutComp extends Component
         $this->selectedStatut = $statut;
         $this->dispatch("showDeleteModal", []);
     }
-    
+
     public function deleteStatut()
     {
         if ($this->selectedStatut) {

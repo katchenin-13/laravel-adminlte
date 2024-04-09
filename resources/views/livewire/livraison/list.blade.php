@@ -3,12 +3,12 @@
         <div class="card">
             <div class="card-header bg-gradient-primary d-flex align-items-center">
                 <h3 class="card-title flex-grow-1">
-                    <i class="fa fa-list fa-2x"></i> Liste des Colis
+                    <i class="fa fa-list fa-2x"></i> Liste des Livraisons
                 </h3>
 
                 <div class="card-tools d-flex align-items-center">
-                    <a class="btn btn-link text-white mr-4 d-block" wire:click="showProp">
-                        <i class="far fa-calendar-alt"></i> Nouveau Colis
+                    <a class="btn btn-link text-white mr-4 d-block" wire:click="showPropC">
+                        <i class="fas fa-truck"></i> Nouvelle Livraison
                     </a>
                     <div class="input-group input-group-md" style="width: 250px;">
                         <input type="text" name="table_search" wire:model.debounce.300ms="search"
@@ -27,25 +27,27 @@
                         <thead>
                             <tr>
                                 <th style="width:10%;">No</th>
-                                <th style="width:20%;" class="text-center">Nom</th>
-                                <th style="width:20%;" class="text-center">quantité</th>
-                                <th style="width:20%;" class="text-center">Catégorie</th>
+                                <th style="width:10%;" class="text-center">Destinataire</th>
+                                <th style="width:20%;" class="text-center">coursier</th>
+                                <th style="width:20%;" class="text-center">colis</th>
+                                <th style="width:20%;" class="text-center">Telephone</th>
                                 <th style="width:30%;" class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($colis as $item)
+                            @foreach ($livraisons as $item)
                             <tr>
                                 <td>{{ $loop->iteration}}</td>
-                                <td class="text-center">{{ $item->nom}}</td>
-                                <td class="text-center">{{ $item->quantite}}</td>
-                                <td class="text-center">{{ $item->categorie->nom}}</td>
+                                <td class="text-center">{{ $item->destinataire}}</td>
+                                <td class="text-center">{{ $item->coursier->nom}}</td>
+                                <td class="text-center">{{ $item->colis->nom}}</td>
+                                <td class="text-center">{{ $item->numerodes}}</td>
                                 <td class="text-center">
                                     <button class="btn btn-primary btn-sm" wire:click="showPropE({{$item->id}})">
                                         <i class="far fa-edit"></i>
                                     </button>
 
-                                    <button class="btn btn-info btn-sm" wire:click="showPropC({{ $item->id }})">
+                                    <button class="btn btn-info btn-sm" wire:click="showProp({{ $item->id }})">
                                         <i class="far fa-eye"></i>
                                     </button>
 
@@ -53,9 +55,6 @@
                                         <i class="far fa-trash-alt"></i>
                                     </button>
 
-                                    {{-- <button class="btn btn-link" wire:click="showPropE('{{$item->id}})">
-                                        <i class="far fa-trash-alt"></i>
-                                    </button> --}}
                                 </td>
                             </tr>
                             @endforeach
@@ -67,7 +66,7 @@
             <!-- /.card-body -->
             <div class="card-footer">
                 <div class="float-right">
-                    {{ $colis->links() }}
+                    {{ $livraisons->links() }}
                 </div>
             </div>
             <!-- /.card-footer -->

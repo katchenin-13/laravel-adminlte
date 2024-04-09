@@ -33,4 +33,10 @@ class Client extends Model
     {
         return $this->hasOne(Contrat::class);
     }
+
+    public function colis()
+    {
+        return $this->hasmany(Colis::class);
+
+    }
 }

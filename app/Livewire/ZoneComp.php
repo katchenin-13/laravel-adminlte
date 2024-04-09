@@ -62,6 +62,7 @@ class ZoneComp extends Component
         ]);
 
         session()->flash('message', 'Le nom de la zone a été enregistré avec succès!');
+        $this->reset('newZoneName','selectedCommune');
     }
 
 
@@ -104,7 +105,7 @@ class ZoneComp extends Component
         $this->selectedZone = $zone;
         $this->dispatch("showDeleteModal", []);
     }
-    
+
     public function deleteZone()
     {
         if ($this->selectedZone) {

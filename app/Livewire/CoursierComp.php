@@ -75,7 +75,7 @@ class CoursierComp extends Component
              "newCoursiersPhone"=>"required|max:10|unique:coursiers,numero_telephone",
              "newCoursiersPhone2" =>"max:10",
              "newCoursiersNump" =>"required|max:20|unique:coursiers,numero_permis_conduire",
-             "newCoursiersSal" =>"required|max:9",
+             "newCoursiersSal" =>"required|max:9|regex:/^\d+$/",
              "newCoursiersCni" =>"required|max:9|unique:coursiers,cni",
              "newCoursiersPhoto" =>"max:100",
              "newCoursiersPlaq" =>"required|max:20",
@@ -125,6 +125,7 @@ class CoursierComp extends Component
             "zone_id" => $validatedData["selectedZone"],
         ]);
         session()->flash('message', 'Le coursier a été enregistré avec succès!');
+        $this->reset('newCoursiersCni','selectedVehicule','selectedZone','newCoursiersEmail','newCoursiersPhoto','newCoursiersName','newCoursiersPrenom','newCoursiersPhone','newCoursiersPhone2','newCoursiersNump','newCoursiersPlaq','newCoursiersSal');
     }
 
 
@@ -148,7 +149,7 @@ class CoursierComp extends Component
             "editCoursiersPhone1 "=>"required|max:10|unique:coursiers,numero_telephone",
             "editCoursiersPhone2" =>"max:10",
             "editCoursiersNump" =>"required|max:20|unique:coursiers,numero_permis_conduire",
-            "editCoursiersSal" =>"required|max:9",
+            "editCoursiersSal" =>"required|max:9|regex:/^\d+$/",
             "editCoursiersCni" =>"required|max:9|unique:coursiers,cni",
             "newCoursiersPhoto" =>"max:100",
             "editCoursiersEmail" =>"required|max:10|unique:coursiers,email",
@@ -227,7 +228,7 @@ class CoursierComp extends Component
     public function showPropC(Coursier $coursier)
     {
         $this->selectedCoursiers = $coursier;
-        
+
         $this->dispatch("readModal", []);
     }
 
@@ -280,7 +281,7 @@ class CoursierComp extends Component
         $this->selectedCoursiers = $coursier;
         $this->dispatch("showDeleteModal", []);
     }
-    
+
     public function deleteCoursier()
     {
         if ($this->selectedCoursiers) {

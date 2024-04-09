@@ -9,8 +9,11 @@ class Livraison extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'jourlivraison',
+        'destinataire',
+        'numerodes',
+        'adresse_livraison',
         'coursier_id',
+        'colis_id',
         'statut_id'
     ];
 
@@ -20,14 +23,15 @@ class Livraison extends Model
 
     }
 
+    public function colis()
+    {
+        return $this->belongsto(Colis::class);
+
+    }
+
     public function statut()
     {
         return $this->belongsto(Statut::class);
 
-    }
-
-    public function colis()
-    {
-        return $this->hasMany(Colis::class);
     }
 }

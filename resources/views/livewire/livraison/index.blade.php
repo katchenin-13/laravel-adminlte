@@ -1,24 +1,22 @@
 <div>
 
-    @include("livewire.commune.editProp")
+    @include("livewire.livraison.editProp")
 
-    @include("livewire.commune.addProp")
+    @include("livewire.livraison.addProp")
 
-    @include("livewire.commune.readProd")
+    @include("livewire.livraison.list")
 
-    @include("livewire.commune.deletProp")
+    @include("livewire.livraison.deletProp")
 
-    @include("livewire.commune.list")
+    @include("livewire.livraison.readProd")
 
 
 </div>
 
 <script>
 
-
- //create
-
-    window.addEventListener("ReadModal", event=>{
+//create
+window.addEventListener("ReadModal", event=>{
        $("#ShowModalProp").modal({
            "show": true,
            "backdrop": "static"
@@ -65,13 +63,6 @@
             $('#DelectetModalProp').modal('hide');
         });
 
-    // function hideMessageDiv() {
-    //    setTimeout(function() {
-    //    $('.alert-success').fadeOut();
-    //  }, 2000);
-    // }
-    // $(document).ready(function(){
-    //     hideMessageDiv();
-    // });
+
 </script>
 

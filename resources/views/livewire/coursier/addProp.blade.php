@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg" style="left:100px;" >
         <div class="modal-content">
             <div class="modal-header" style="background-color: #15a1e2; color: white;">
-                <h5 class="modal-title">Formulaire Colis</h5>
+                <h5 class="modal-title">Formulaire Coursier</h5>
 
             </div>
             <div class="form-group" >

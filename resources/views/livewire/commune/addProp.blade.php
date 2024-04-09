@@ -12,7 +12,7 @@
                             <div class="flex-grow-1 mr-2">
 
                                 @if (session()->has('message'))
-                                    <div class="alert alert-success ">
+                                    <div class="alert alert-success">
                                         {{ session('message') }}
                                     </div>
                                 @endif

@@ -90,6 +90,7 @@ class ClientComp extends Component
             "zone_id" => $validatedData["selectedZone"],
         ]);
         session()->flash('message', 'Le client a été enregistré avec succès!');
+        $this->reset('newClientName','newClientPrenom','newClientPhone','newClientEmail','newClientSecteur','selectedZone');
     }
 
 
@@ -185,7 +186,7 @@ class ClientComp extends Component
         $this->selectedClient = $client;
         $this->dispatch("showDeleteModal", []);
     }
-    
+
     public function deleteClient()
     {
         if ($this->selectedClient) {

@@ -46,6 +46,7 @@ class VehiculeComp extends Component
 
         Vehicule::create(["nom" => $validated["newVehiculeName"]]);
         session()->flash('message', 'Le nom du type de vehicule a été enregistré avec succès!');
+        $this->reset('newVehiculeName');
     }
 
 
@@ -79,7 +80,7 @@ class VehiculeComp extends Component
         $this->selectedVehicule = $vehicule;
         $this->dispatch("showDeleteModal", []);
     }
-    
+
     public function deleteVehicule()
     {
         if ($this->selectedVehicule) {
