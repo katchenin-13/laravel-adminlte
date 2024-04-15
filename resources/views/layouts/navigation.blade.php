@@ -121,12 +121,12 @@
                         </a>
                     </li>
 
-            
+
 
 
 
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('dossiers') }}" class="nav-link">
                             <i class="fas fa-folder" style="color: #15a1e2;"></i>
                             <p>Dossiers</p>
                         </a>

@@ -7,6 +7,7 @@ use App\Models\Client;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Carbon;
+use App\Events\NewclientCreated;
 
 
 class ClientComp extends Component
@@ -81,7 +82,7 @@ class ClientComp extends Component
             "selectedZone.required" => "Veuillez sélectionner une client.",
         ]);
 
-        Client::create([
+        $newClient=Client::create([
             "nom" => $validatedData["newClientName"],
             "prenom" => $validatedData["newClientPrenom"],
             "telephone" => $validatedData["newClientPhone"],
@@ -89,6 +90,8 @@ class ClientComp extends Component
             "secteuract" => $validatedData["newClientSecteur"],
             "zone_id" => $validatedData["selectedZone"],
         ]);
+
+        event(new NewclientCreated($newClient));
         session()->flash('message', 'Le client a été enregistré avec succès!');
         $this->reset('newClientName','newClientPrenom','newClientPhone','newClientEmail','newClientSecteur','selectedZone');
     }

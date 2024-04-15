@@ -10,6 +10,8 @@ use App\Livewire\ColisComp;
 use App\Livewire\ClientComp;
 use App\Livewire\StatutComp;
 use App\Livewire\CommuneComp;
+use App\Livewire\DossierComp;
+use App\Livewire\ContenudComp;
 use App\Livewire\CoursierComp;
 use App\Livewire\VehiculeComp;
 use App\Livewire\CategorieComp;
@@ -59,6 +61,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/categorie', CategorieComp ::class)->name('categories');
     Route::get('/zone', ZoneComp::class)->name('zones');
     Route::get('/user', UserComp::class)->name('users');
+    Route::get('/dossier', DossierComp::class)->name('dossiers');
+    Route::get('/contenud', ContenudComp::class)->name('contenu');
+
     Route::get('/statut', StatutComp::class)->name('statuts');
     Route::get('/vehicule', VehiculeComp::class)->name('vehicules');
     Route::get('/livraison', LivraisonComp::class)->name('livraison');
