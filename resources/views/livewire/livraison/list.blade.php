@@ -55,6 +55,8 @@
                                         <i class="far fa-trash-alt"></i>
                                     </button>
 
+                                    <button wire:click="generatePDF">Générer PDF</button>
+
                                 </td>
                             </tr>
                             @endforeach

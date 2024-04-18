@@ -19,6 +19,7 @@ use App\Livewire\LivraisonComp;
 use App\Livewire\TarificationComp;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StatsController;
@@ -61,6 +62,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/categorie', CategorieComp ::class)->name('categories');
     Route::get('/zone', ZoneComp::class)->name('zones');
     Route::get('/user', UserComp::class)->name('users');
+    Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
     Route::get('/dossier', DossierComp::class)->name('dossiers');
     Route::get('/contenud', ContenudComp::class)->name('contenu');
 

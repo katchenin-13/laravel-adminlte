@@ -8,7 +8,7 @@
         /* Styles CSS pour la mise en page */
         .container {
             max-width: 1000px;
-            margin: 0 auto;
+            margin: 20px auto 0; /* Ajout de la marge en haut */
             background-color: #fff;
             /* padding: 10px; */
             border-radius: 10px;
@@ -61,7 +61,7 @@
             <thead>
                 <tr>
                     <th>Colis</th>
-                    <th>Statut</th>
+                    <th>Statut</th>a
                     <th>Date d'envoi</th>
                     <th>Date de livraison prévue</th>
                     <th>Numéro de suivi</th>
