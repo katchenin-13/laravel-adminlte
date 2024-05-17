@@ -8,7 +8,7 @@
 
                 <div class="card-tools d-flex align-items-center">
                     <a class="btn btn-link text-white mr-4 d-block" wire:click="showCreatedProp">
-                        <i class="fas fa-building"></i> Nouvelle User
+                        <i class="fas fa-users"></i> Nouvelle User
                     </a>
                     <div class="input-group input-group-md" style="width: 250px;">
                         <input type="text" name="table_search" wire:model.debounce.300ms="search"

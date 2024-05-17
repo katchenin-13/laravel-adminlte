@@ -46,25 +46,25 @@
     <div class="container">
         <h1 style="text-align: center;">Dossier Client</h1>
 
-        <!-- Informations personnelles du client -->
+        {{-- @foreach($details as $client) --}}
         <h2>Informations personnelles du client :</h2>
         <ul>
-            <li><strong>Nom complet :</strong> {{ $selectedClient->nom }} {{ $selectedClient->prenom }}</li>
-            <li><strong>Adresse e-mail :</strong> {{ $selectedClient->email }}</li>
-            <li><strong>Numéro de téléphone :</strong> {{ $selectedClient->telephone }}</li>
-            <li><strong>Adresse postale:</strong> {{ $selectedClient->zone->nom }}</li>
+            <li><strong>Nom complet :</strong> {{ $client->nom }} {{ $client->prenom }}</li>
+            <li><strong>Adresse e-mail :</strong> {{ $client->email }}</li>
+            <li><strong>Numéro de téléphone :</strong> {{ $client->telephone }}</li>
+            {{-- <li><strong>Adresse postale :</strong> {{ $selectedClient->zone->nom }}</li> --}}
         </ul>
 
         <!-- Historique des colis -->
-        <h2>Historique des colis :</h2> <button>Facture</button>
+        <h2>Historique des colis :</h2>
         <table>
             <thead>
                 <tr>
                     <th>Colis</th>
-                    <th>Statut</th>a
-                    <th>Date d'envoi</th>
+                    <th>Statut</th>
                     <th>Date de livraison prévue</th>
-                    <th>Numéro de suivi</th>
+                    <th>Livreur</th>
+                    <th>Bordereau</th>
                 </tr>
             </thead>
             <tbody>
@@ -73,7 +73,11 @@
                     <td>[Statut du colis]</td>
                     <td>[Date d'envoi du colis]</td>
                     <td>[Date de livraison prévue du colis]</td>
-                    <td>[Numéro de suivi du colis]</td>
+                    <td class="text-center">
+                        <button class="btn btn-primary btn-sm">
+                            <i class="fas fa-download"></i>
+                       </button>
+                    </td>
                 </tr>
                 <!-- Ajoutez d'autres lignes pour plus de colis si nécessaire -->
             </tbody>
@@ -85,9 +89,9 @@
             <thead>
                 <tr>
                     <th>Colis</th>
-                    <th>Transporteur</th>
+                    <th>Livreur</th>
                     <th>Date d'expédition</th>
-                    <th>Numéro de suivi</th>
+                    <th>Quantité</th>
                 </tr>
             </thead>
             <tbody>
@@ -100,6 +104,9 @@
                 <!-- Ajoutez d'autres lignes pour plus de colis en transit si nécessaire -->
             </tbody>
         </table>
-    </div>
+    {{-- @endforeach --}}
+</div>
+
+
 </body>
 </html>

@@ -22,9 +22,9 @@
                         <div class="form-group">Nom
                            <div class="col-md-12" wire:ignore>
                                     <input type="text" placeholder="Nom" wire:keypress.enter=""
-                                    wire:model="editUserName" class="form-control @error(" editUserName")
-                                    is-invalid @enderror" name ="editUserName">
-                                @error('editUserName')
+                                    wire:model="editUserGmail" class="form-control @error(" editUserGmail")
+                                    is-invalid @enderror" name ="editUserGmail">
+                                @error('editUserGmail')
                                     <span class="text-danger animate__animated animate__fadeInDown">{{ $message }}</span>
                                 @enderror
                            </div>

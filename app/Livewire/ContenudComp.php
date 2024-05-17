@@ -7,21 +7,35 @@ use Livewire\Component;
 
 class ContenudComp extends Component
 {
-    public $selectedClient;
 
-    public function mount()
-    {
-        // Sélectionner le premier client par défaut
-        $this->selectedClient = Client::first();
+
+     public $clientIp;
+    public $client;
+
+    public function mount(Client $client){
+        $this->clientIp = $client;
+        $this->client = Client::all();
+
+        // return view('livewire.contenud');
     }
 
     public function render()
     {
         // Récupérer les informations du client sélectionné
-        $client = $this->selectedClient;
-
-        return view('livewire.contenud', compact('client'))
+        //$client = $this->selectedClient;
+  return view('livewire.contenud', [
+            "clients"=>Client::find("id")
+        ])
             ->extends("layouts.app")
             ->section("content");
+            dd(Client::find("id"));
+
+
+
     }
+
+
+
+
+
 }

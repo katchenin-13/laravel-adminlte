@@ -50,11 +50,16 @@ class ClientComp extends Component
 
         $clients = Client::where("nom", "like", $searchCriteria)->latest()->paginate(10);
 
-        // $clientCount = $this->clientCount;
         $zones = Zone::all();
-        return view('livewire.client.index', compact('clients','zones'))
+
+        return view('livewire.client.index', compact('clients', 'zones'))
             ->extends("layouts.app")
             ->section("content");
+    }
+
+    public function search()
+    {
+        $this->render();
     }
 
     public function addNewClient()
@@ -93,6 +98,8 @@ class ClientComp extends Component
 
         event(new NewclientCreated($newClient));
         session()->flash('message', 'Le client a été enregistré avec succès!');
+
+
         $this->reset('newClientName','newClientPrenom','newClientPhone','newClientEmail','newClientSecteur','selectedZone');
     }
 

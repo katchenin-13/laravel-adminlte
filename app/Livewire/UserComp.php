@@ -56,7 +56,7 @@ class UserComp extends Component
         $validated = $this->validate([
             "newUserName" => "required|max:20",
             "newUserEmail" => "required|max:50|unique:users,email",
-            "newUserPassword" => "required|max:6", 
+            "newUserPassword" => "required|max:6",
             "role" => "required|exists:roles,name" ], [
             "newUserName.required" => "Le champ du nom du user est requis.",
             "newUserName.max" => "Le nom du user ne peut pas dépasser :max caractères.",
@@ -70,9 +70,9 @@ class UserComp extends Component
         User::create(["name" => $validated["newUserName"],
                       "email"=>$validated["newUserEmail"],
                      "password" => $validated["newUserPassword"]]);
-                     
-                     $role = Role::where('name', $validated['role'])->firstOrFail();
-                     $User->assignRole($role);
+
+                    //  $role = Role::where('name', $validated['role'])->firstOrFail();
+                    //  $User->assignRole($role);
         session()->flash('message', 'Le nom de la user a été enregistré avec succès!');
     }
 
@@ -144,7 +144,7 @@ class UserComp extends Component
         $this->selectedUser = $user;
         $this->dispatch("showDeleteModal", []);
     }
-    
+
     public function deleteUser()
     {
         if ($this->selectedUser) {

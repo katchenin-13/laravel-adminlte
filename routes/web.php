@@ -17,13 +17,16 @@ use App\Livewire\VehiculeComp;
 use App\Livewire\CategorieComp;
 use App\Livewire\LivraisonComp;
 use App\Livewire\TarificationComp;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StatsController;
 use App\Http\Controllers\EspaceController;
+use Spatie\Permission\Models\Permission;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,7 +48,32 @@ Auth::routes();
 
 
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// $createSuperadmin = Role::create(['name'=> 'Super Administrateur']);
+// $createAdmin = Role::create(['name'=> 'Administrateur']);
+// $createCour = Role::create(['name'=> 'Coursier']);
+
+// $PermHelloword = Permission ::create(['name'=>'See Hello word']);
+// $PermGoodbye = Permission ::create(['name'=>'See Good bye']);
+
+// dump($PermHelloword);
+// dump($PermGoodbye);
+
+// $roleSuperadmin = Role::find(1);
+// $roleSuperadmin->givePermissionTo('See Hello word','See Good bye');
+
+// $roleAdmin = Role::find(2);
+// $roleAdmin->givePermissionTo('See Hello word');
+
+// $roleCour = Role::find(3);
+// $roleCour->givePermissionTo('See Hello word');
+
+// dump($roleSuperadmin);
+// dump($roleAdmin);
+// dump($roleCour);
+
+
 // Route::get("/posts", PostComp::class)->name("posts");
 
 Route::middleware('auth')->group(function () {
@@ -65,6 +93,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
     Route::get('/dossier', DossierComp::class)->name('dossiers');
     Route::get('/contenud', ContenudComp::class)->name('contenu');
+    // Route::get('/detail', [DossierComp::class,  'DetailClient'])->name('affichedetail');
+
 
     Route::get('/statut', StatutComp::class)->name('statuts');
     Route::get('/vehicule', VehiculeComp::class)->name('vehicules');

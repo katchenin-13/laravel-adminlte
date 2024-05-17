@@ -2,7 +2,7 @@
     <div class="modal-dialog" style="top:50px;">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #15a1e2; color: white;">
-                <h5 class="modal-title">Détails Zone</h5>
+                <h5 class="modal-title">Détails User</h5>
             </div>
             <div class="form-group">
                 <div class="modal-body">

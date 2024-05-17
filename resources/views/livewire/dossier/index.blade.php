@@ -26,7 +26,7 @@
                         @foreach ($clients as $client)
                         <div class="dossier" style="margin-right: 20px; margin-bottom: 20px;">
                             {{-- <p>Nom du client : {{ $client->nom }}</p> --}}
-                           <a href="{{ route('contenu',['id'=>$client->nom$client->nom])}}/{{ $client->id }}"> <img src="{{ asset('images/dossier.png')}}" alt="Image du dossier" style="width: 100px; height: auto;">
+                           <a href="{{ route('contenu',['id'=>$client->id])}}"> <img src="{{ asset('images/dossier.png')}}" alt="Image du dossier" style="width: 100px; height: auto;">
                             <p>{{ $client->id }}_{{ $client->nom }}</p></a>
                         </div>
                         @endforeach
@@ -36,3 +36,6 @@
         </div>
     </div>
 </div>
+{{-- <span wire:click="showDetail({{ $client->id }})" >
+    <img src="{{ asset('images/dossier.png')}}" alt="Image du dossier" style="width: 100px; height: auto;">
+</span> --}}

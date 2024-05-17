@@ -11,7 +11,7 @@
                         <div class="d-flex flex-grow-1 mr-2">
                             <div class="flex-grow-1 mr-2">
 
-                                    
+
 
                                     @if (session()->has('message'))
                                         <div class="alert alert-success ">
@@ -19,7 +19,7 @@
                                         </div>
                                     @endif
 
-                                    <div class="form-group" >Nom 
+                                    <div class="form-group" >Nom
                                         <input type="text" wire:keydown.enter="addNewUser"
                                         class="form-control @error('newUserName') is-invalid @enderror"
                                         wire:model="newUserName" />
