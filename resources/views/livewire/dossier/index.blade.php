@@ -36,6 +36,4 @@
         </div>
     </div>
 </div>
-{{-- <span wire:click="showDetail({{ $client->id }})" >
-    <img src="{{ asset('images/dossier.png')}}" alt="Image du dossier" style="width: 100px; height: auto;">
-</span> --}}
+

@@ -9,22 +9,18 @@ class ContenudComp extends Component
 {
 
 
-     public $clientIp;
-    public $client;
+    public $contenuId;
 
-    public function mount(Client $client){
-        $this->clientIp = $client;
-        $this->client = Client::all();
-
-        // return view('livewire.contenud');
+    public function mount($id)
+    {
+        $this->contenuId = $id;
     }
 
     public function render()
     {
-        // Récupérer les informations du client sélectionné
-        //$client = $this->selectedClient;
+        $contenu = Client::find($this->contenuId);
   return view('livewire.contenud', [
-            "clients"=>Client::find("id")
+         'contenu' => $contenu,
         ])
             ->extends("layouts.app")
             ->section("content");

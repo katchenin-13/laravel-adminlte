@@ -49,10 +49,10 @@
         {{-- @foreach($details as $client) --}}
         <h2>Informations personnelles du client :</h2>
         <ul>
-            <li><strong>Nom complet :</strong> {{ $client->nom }} {{ $client->prenom }}</li>
-            <li><strong>Adresse e-mail :</strong> {{ $client->email }}</li>
-            <li><strong>Numéro de téléphone :</strong> {{ $client->telephone }}</li>
-            {{-- <li><strong>Adresse postale :</strong> {{ $selectedClient->zone->nom }}</li> --}}
+            <li><strong>Nom complet :</strong> {{ $contenu->nom }} {{ $contenu->prenom }}</li>
+            <li><strong>Adresse e-mail :</strong> {{ $contenu->email }}</li>
+            <li><strong>Numéro de téléphone :</strong> {{ $contenu->telephone }}</li>
+            {{-- <li><strong>Adresse postale :</strong> {{ $selectedcontenu->zone->nom }}</li> --}}
         </ul>
 
         <!-- Historique des colis -->

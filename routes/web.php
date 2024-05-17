@@ -92,8 +92,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/user', UserComp::class)->name('users');
     Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
     Route::get('/dossier', DossierComp::class)->name('dossiers');
-    Route::get('/contenud', ContenudComp::class)->name('contenu');
-    // Route::get('/detail', [DossierComp::class,  'DetailClient'])->name('affichedetail');
+    Route::get('/contenu/{id}', ContenudComp::class)->name('contenu');
+
 
 
     Route::get('/statut', StatutComp::class)->name('statuts');
