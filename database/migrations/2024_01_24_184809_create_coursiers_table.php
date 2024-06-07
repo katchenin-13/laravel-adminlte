@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('coursiers', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->string('nom');
             $table->string('prenom');
             $table->string('numero_telephone');

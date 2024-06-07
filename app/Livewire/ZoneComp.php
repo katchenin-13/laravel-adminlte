@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Zone;
+use Ramsey\Uuid\Uuid;
 use App\Models\Commune;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -38,7 +39,10 @@ class ZoneComp extends Component
         $zones = Zone::where("nom", "like", $searchCriteria)->latest()->paginate(5);
 
         $communes = Commune::all();
-        return view('livewire.zone.index', compact('zones','communes'))
+        return view('livewire.zone.index',[
+            'zones' => $zones,
+            'communes' => $communes,
+        ])
             ->extends("layouts.app")
             ->section("content");
     }
@@ -55,8 +59,10 @@ class ZoneComp extends Component
             "selectedCommune.required" => "Veuillez sélectionner une commune.",
         ]);
 
+        $uuid = Uuid::uuid4()->toString();
         // Créer une nouvelle zone avec la commune sélectionnée
         Zone::create([
+            "uuid" => $uuid,
             "nom" => $validatedData["newZoneName"],
             "commune_id" => $validatedData["selectedCommune"],
         ]);

@@ -48,14 +48,38 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea id="description"
-                        class="form-control @error('newColisDes') is-invalid @enderror"
-                        wire:model="newColisDes"></textarea>
-                    @error('newColisDes')
-                        <span class="text-danger animate__animated animate__fadeInDown">{{ $message }}</span>
-                    @enderror
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            Client:
+                            <select wire:model="selectedCategorie" class="form-control">
+                                <option value="">Sélectionner une categorie</option>
+                                @foreach($categories as $categorie)
+                                    <option value="{{ $categorie->id }}">{{ $categorie->nom }}</option>
+                                @endforeach
+                            </select>
+                            @error('selectedCategorie')
+                                <span class="text-danger animate__animated animate__fadeInDown">{{ $message }}</span>
+                            @enderror
+                        </div>
+                </div>
+
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea id="description"
+                                class="form-control @error('newColisDes') is-invalid @enderror"
+                                wire:model="newColisDes"></textarea>
+                            @error('newColisDes')
+                                <span class="text-danger animate__animated animate__fadeInDown">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                
+
                 </div>
             </div>
             <div class="modal-footer">

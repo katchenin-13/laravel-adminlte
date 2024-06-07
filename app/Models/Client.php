@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
+use Ramsey\Uuid\Uuid;
+use App\Models\Dossier;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Models\Dossier;
 
 class Client extends Model
 {
     use HasFactory, Notifiable;
     protected $fillable = [
+        'uuid',
         'nom',
         'prenom',
         'telephone',
@@ -38,5 +40,20 @@ class Client extends Model
     {
         return $this->hasmany(Colis::class);
 
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->uuid = static::generateUuid();
+        });
+    }
+
+    protected static function generateUuid()
+    {
+        $uuid = base_convert(Uuid::uuid4()->getHex(), 16, 36);
+        return substr($uuid, 0, 4);
     }
 }

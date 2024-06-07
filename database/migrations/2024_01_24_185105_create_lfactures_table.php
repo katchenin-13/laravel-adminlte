@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('lfactures', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->char('numero');
             $table->char('quantite');
             $table->string('statut');

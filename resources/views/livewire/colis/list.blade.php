@@ -27,7 +27,8 @@
                         <thead>
                             <tr>
                                 <th style="width:10%;">No</th>
-                                <th style="width:20%;" class="text-center">Nom</th>
+                                <th style="width:15%;" class="text-center">ID</th>
+                                <th style="width:15%;" class="text-center">Nom</th>
                                 <th style="width:20%;" class="text-center">quantité</th>
                                 <th style="width:20%;" class="text-center">Catégorie</th>
                                 <th style="width:30%;" class="text-center">Action</th>
@@ -37,6 +38,7 @@
                             @foreach ($colis as $item)
                             <tr>
                                 <td>{{ $loop->iteration}}</td>
+                                <td class="text-center">{{ $item->uuid}}</td>
                                 <td class="text-center">{{ $item->nom}}</td>
                                 <td class="text-center">{{ $item->quantite}}</td>
                                 <td class="text-center">{{ $item->categorie->nom}}</td>

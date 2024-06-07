@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Colis;
+use Ramsey\Uuid\Uuid;
 use Livewire\Component;
 use App\Models\Categorie;
 use Livewire\WithPagination;
@@ -45,7 +46,10 @@ class ColisComp extends Component
 
         // $colisCount = $this->colisCount;
         $categories = Categorie::all();
-        return view('livewire.colis.index', compact('colis','categories'))
+        return view('livewire.colis.index', [
+            'categories' => $categories,
+            'colis' => $colis,
+        ])
             ->extends("layouts.app")
             ->section("content");
     }
@@ -67,7 +71,10 @@ class ColisComp extends Component
             "selectedCategorie.required" => "Veuillez sélectionner une catégorie.",
         ]);
 
+        $uuid = Uuid::uuid4()->toString();
+
         Colis::create([
+            "uuid" => $uuid,
             "nom" => $validatedData["newColisName"],
             "description" => $validatedData["newColisDes"],
             "quantite" => $validatedData["newColisQuan"],

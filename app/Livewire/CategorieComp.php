@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Ramsey\Uuid\Uuid;
 use Livewire\Component;
 use App\Models\Categorie;
 use Livewire\WithPagination;
@@ -53,7 +54,11 @@ class CategorieComp extends Component
             "newCategorieName.unique" => "Ce nom de catégorie est déjà utilisé.",
         ]);
 
-        Categorie::create(["nom" => $validated["newCategorieName"]]);
+        $uuid = Uuid::uuid4()->toString();
+
+        Categorie::create([
+            "uuid" => $uuid,
+            "nom" => $validated["newCategorieName"]]);
         session()->flash('message', 'Le nom de la catégorie a été enregistré avec succès!');
         $this->reset('newCategorieName');
     }

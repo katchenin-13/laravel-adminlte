@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('zones', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->string('nom');
             $table->unsignedBigInteger('commune_id');
             $table->foreign('commune_id')->references('id') ->on('communes')->onDelete('cascade');

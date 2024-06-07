@@ -27,8 +27,8 @@
                         <thead>
                             <tr>
                                 <th style="width:10%;">No</th>
+                                <th style="width:10%;" class="text-center">ID</th>
                                 <th style="width:10%;" class="text-center">Nom</th>
-                                <th style="width:20%;" class="text-center">Prenom</th>
                                 <th style="width:20%;" class="text-center">Email</th>
                                 <th style="width:20%;" class="text-center">Telephone</th>
                                 <th style="width:30%;" class="text-center">Action</th>
@@ -38,8 +38,8 @@
                             @foreach ($coursiers as $item)
                             <tr>
                                 <td>{{ $loop->iteration}}</td>
+                                <td class="text-center">{{ $item->uuid}}</td>
                                 <td class="text-center">{{ $item->nom}}</td>
-                                <td class="text-center">{{ $item->prenom}}</td>
                                 <td class="text-center">{{ $item->email}}</td>
                                 <td class="text-center">{{ $item->numero_telephone}}</td>
                                 <td class="text-center">

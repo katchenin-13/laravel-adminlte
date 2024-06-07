@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('tarifications', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->decimal('prix');
             $table->unsignedBigInteger('categorie_id');
             $table->foreign('categorie_id')->references('id')->on('categories')->onDelete('cascade');

@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Colis;
+use Ramsey\Uuid\Uuid;
 use App\Models\Statut;
 use Livewire\Component;
 use App\Models\Coursier;
@@ -42,7 +43,12 @@ class LivraisonComp extends Component
         $colis = Colis::all();
         $statuts = Statut::all();
 
-        return view('livewire.livraison.index', compact('livraisons', 'coursiers', 'statuts', 'colis'))
+        return view('livewire.livraison.index', [
+            'livraisons' => $livraisons,
+            'coursiers' => $coursiers,
+            'statuts' => $statuts,
+            'colis' => $colis,
+               ])
             ->extends("layouts.app")
             ->section("content");
     }
@@ -68,7 +74,10 @@ class LivraisonComp extends Component
             "selectedStatut.required" => "Veuillez sélectionner un statut.",
         ]);
 
+        $uuid = Uuid::uuid4()->toString();
+
         Livraison::create([
+            "uuid" => $uuid,
             "destinataire" => $validatedData["newDestinataireName"],
             "numerodes" => $validatedData["newLivraisonsPhone"],
             "adresse_livraison" => $validatedData["newLivraisonsAdd"],
@@ -110,6 +119,18 @@ class LivraisonComp extends Component
 
 
     }
+
+        // public function generatePDF()
+    // {
+    //     $livraisons = Livraison::all();
+    //     $data = [
+    //         'livraisons' => $livraisons
+    //     ];
+    //     $pdf = PDF::loadView('livewire.bordereau.index', [$data]);
+    //     return $pdf->download('bordereau.pdf');
+    // }
+
+
     public function updateCoursier($livraisonId, $coursierId)
     {
         $livraison = Livraison::findOrFail($livraisonId);
@@ -144,6 +165,7 @@ class LivraisonComp extends Component
     {
         $this->selectedLivraison= $livraison;
         $this->dispatch("ReadModal", []);
+        
     }
 
     public function closereadModal()
@@ -190,6 +212,7 @@ class LivraisonComp extends Component
         }
 
         $this->dispatch("showEditModal", []);
+        dd($livraison);
     }
 
     public function showPropD(Livraison $livraison)

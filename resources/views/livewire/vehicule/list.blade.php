@@ -29,6 +29,7 @@
                         <thead>
                             <tr>
                                 <th style="width:10%;">No</th>
+                                <th style="width:20%;" class="text-center">ID</th>
                                 <th style="width:20%;" class="text-center">Vehicules</th>
                                 <th style="width:30%;" class="text-center">Actions</th>
                             </tr>
@@ -36,6 +37,7 @@
                         <tbody>
                             @foreach ($vehicules as $item)
                                 <td>{{ $loop->iteration}}</td>
+                                <td class="text-center">{{ $item->uuid}}</td>
                                 <td class="text-center">{{ $item->nom}}</td>
                                 <td class="text-center">
                                     <button class="btn btn-primary btn-sm" wire:click="showPropE({{$item->id}})">

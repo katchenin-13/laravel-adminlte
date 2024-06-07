@@ -3,8 +3,10 @@
 namespace App\Livewire;
 
 use App\Models\Zone;
+use Ramsey\Uuid\Uuid;
 use App\Models\Client;
 use Livewire\Component;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Livewire\WithPagination;
 use Illuminate\Support\Carbon;
 use App\Events\NewclientCreated;
@@ -52,7 +54,10 @@ class ClientComp extends Component
 
         $zones = Zone::all();
 
-        return view('livewire.client.index', compact('clients', 'zones'))
+        return view('livewire.client.index',[
+            'clients' => $clients,
+            'zones' => $zones,
+        ])
             ->extends("layouts.app")
             ->section("content");
     }
@@ -87,7 +92,10 @@ class ClientComp extends Component
             "selectedZone.required" => "Veuillez sélectionner une client.",
         ]);
 
+        $uuid = Uuid::uuid4()->toString();
+
         $newClient=Client::create([
+            "uuid" => $uuid,
             "nom" => $validatedData["newClientName"],
             "prenom" => $validatedData["newClientPrenom"],
             "telephone" => $validatedData["newClientPhone"],
@@ -102,6 +110,8 @@ class ClientComp extends Component
 
         $this->reset('newClientName','newClientPrenom','newClientPhone','newClientEmail','newClientSecteur','selectedZone');
     }
+
+
 
 
 

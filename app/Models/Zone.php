@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Ramsey\Uuid\Uuid;
 use App\Models\Client;
 use App\Models\Coursier;
 use App\Models\Tarification;
@@ -12,6 +13,7 @@ class Zone extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'uuid',
         'nom',
         'commune_id',
     ];
@@ -37,5 +39,20 @@ class Zone extends Model
     {
         return $this->hasmany(Client::class);
 
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->uuid = static::generateUuid();
+        });
+    }
+
+    protected static function generateUuid()
+    {
+        $uuid = base_convert(Uuid::uuid4()->getHex(), 16, 36);
+        return substr($uuid, 0, 4);
     }
 }

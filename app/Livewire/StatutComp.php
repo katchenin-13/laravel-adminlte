@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Ramsey\Uuid\Uuid;
 use App\Models\Statut;
 use Livewire\Component;
 use Illuminate\Support\Carbon;
@@ -46,7 +47,9 @@ class StatutComp extends Component
             "newStatutName.unique" => "Ce nom de statut est déjà utilisé.",
         ]);
 
-        Statut::create(["nom" => $validated["newStatutName"]]);
+        $uuid = Uuid::uuid4()->toString();
+        Statut::create(["uuid" => $uuid,
+            "nom" => $validated["newStatutName"]]);
         session()->flash('message', 'Le nom de la statut a été enregistré avec succès!');
         $this->reset('newStatutName');
     }

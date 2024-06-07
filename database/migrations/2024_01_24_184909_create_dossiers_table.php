@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('dossiers', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->string('nom');
             $table->unsignedBigInteger('client_id');
             $table->foreign('client_id')->references('id') ->on('clients')->onDelete('cascade');

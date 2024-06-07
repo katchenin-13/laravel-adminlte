@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Ramsey\Uuid\Uuid;
 use Livewire\Component;
 use App\Models\Vehicule;
 use Illuminate\Support\Carbon;
@@ -44,7 +45,9 @@ class VehiculeComp extends Component
             "newVehiculeName.unique" => "Ce nom du type de vehicule est déjà utilisé.",
         ]);
 
-        Vehicule::create(["nom" => $validated["newVehiculeName"]]);
+        $uuid = Uuid::uuid4()->toString();
+        Vehicule::create(["uuid" => $uuid,
+            "nom" => $validated["newVehiculeName"]]);
         session()->flash('message', 'Le nom du type de vehicule a été enregistré avec succès!');
         $this->reset('newVehiculeName');
     }

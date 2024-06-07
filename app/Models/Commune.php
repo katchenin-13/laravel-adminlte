@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Ramsey\Uuid\Uuid;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Commune extends Model
 {
     use HasFactory;
     protected $fillable=
     [
+        'uuid',
         'nom',
 
     ];
@@ -17,6 +19,21 @@ class Commune extends Model
     public function zone()
     {
         return $this->hasmany(Zone::class);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->uuid = static::generateUuid();
+        });
+    }
+
+    protected static function generateUuid()
+    {
+        $uuid = base_convert(Uuid::uuid4()->getHex(), 16, 36);
+        return substr($uuid, 0, 4);
     }
 
 }

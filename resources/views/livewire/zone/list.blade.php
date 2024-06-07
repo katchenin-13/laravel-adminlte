@@ -19,21 +19,24 @@
                 </div>
             </div>
             <!-- /.card-header -->
-            <div class="card-body table-responsive p-0 table-striped" style="height: 300px;">
-                <table class="table table-head-fixed">
-                    <thead>
-                        <tr>
-                            <th style="width:10%;">No</th>
-                            <th style="width:20%;" class="text-center">Zone</th>
-                            <th style="width:20%;" class="text-center">Commune</th>
-                            <th style="width:20%;" class="text-center">Action</th>
-                        </tr>
-                    </thead>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th style="width:10%;">No</th>
+                                <th style="width:20%;" class="text-center">ID</th>
+                                <th style="width:20%;" class="text-center">Zone</th>
+                                <th style="width:20%;" class="text-center">Commune</th>
+                                <th style="width:20%;" class="text-center">Action</th>
+                            </tr>
+                        </thead>
                     <tbody>
                         @foreach ($zones as $item)
                         <tr>
 
                             <td>{{ $loop->iteration}}</td>
+                            <td class="text-center">{{ $item->uuid}}</td>
                             <td class="text-center">{{ $item->nom}}</td>
                             <td class="text-center">
                                 @if ($item->commune)
@@ -67,5 +70,6 @@
             </div>
         </div>
         <!-- /.card -->
-    </div>
+     </div>
+  </div>
 </div>

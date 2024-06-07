@@ -27,6 +27,7 @@
                         <thead>
                             <tr>
                                 <th style="width:10%;">No</th>
+                                <th style="width:20%;" class="text-center">ID</th>
                                 <th style="width:20%;" class="text-center">Tarif</th>
                                 <th style="width:20%;" class="text-center">Catégorie</th>
                                 <th style="width:30%;" class="text-center">Action</th>
@@ -36,6 +37,7 @@
                             @foreach ($tarifications as $item)
                             <tr>
                                 <td>{{ $loop->iteration}}</td>
+                                <td class="text-center">{{ $item->uuid}}</td>
                                 <td class="text-center">{{ $item->prix}}</td>
                                 <td class="text-center">
                                     @if ($item->categorie)

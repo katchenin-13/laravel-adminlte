@@ -27,8 +27,9 @@
                         <thead>
                             <tr>
                                 <th style="width:10%;">No</th>
-                                <th style="width:50%;" class="text-center">Commune</th>
-                                <th style="width:100%;" class="text-center">Action</th>
+                                <th style="width:30%;" class="text-center">ID</th>
+                                <th style="width:30%;" class="text-center">Commune</th>
+                                <th style="width:60%;" class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -36,6 +37,7 @@
                             <tr>
                                 {{-- <td>{{ $commune->id}}</td> --}}
                                 <td>{{ $loop->iteration}}</td>
+                                <td class="text-center">{{ $item->uuid}}</td>
                                 <td class="text-center">{{ $item->nom}}</td>
                                 <td class="text-center">
                                     <button class="btn btn-primary btn-sm" wire:click="showPropE({{$item->id}})">

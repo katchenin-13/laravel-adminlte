@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Ramsey\Uuid\Uuid;
 use Livewire\Component;
 use App\Models\Categorie;
 use App\Models\Tarification;
@@ -32,7 +33,10 @@ class TarificationComp extends Component
         $tarifications = Tarification::where("prix", "like", $searchCriteria)->latest()->paginate(10);
         $categories = Categorie::all();
 
-        return view('livewire.tarification.index', compact('tarifications', 'categories'))
+        return view('livewire.tarification.index', [
+            'categories' => $categories,
+            'tarifications' => $tarifications,
+          ])
             ->extends("layouts.app")
             ->section("content");
     }
@@ -49,7 +53,9 @@ class TarificationComp extends Component
             "selectedCategorie.required" => "Le champ de la catégorie est requis."
         ]);
 
+        $uuid = Uuid::uuid4()->toString();
         Tarification::create([
+            "uuid" => $uuid,
             "prix" => $validatedData["newTarificationPrix"],
             "categorie_id" => $validatedData["selectedCategorie"]
         ]);

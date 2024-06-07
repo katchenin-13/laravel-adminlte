@@ -27,20 +27,20 @@
                         <thead>
                             <tr>
                                 <th style="width:10%;">No</th>
+                                <th style="width:10%;" class="text-center">ID</th>
                                 <th style="width:10%;" class="text-center">Destinataire</th>
-                                <th style="width:20%;" class="text-center">coursier</th>
                                 <th style="width:20%;" class="text-center">colis</th>
                                 <th style="width:20%;" class="text-center">Telephone</th>
-                                <th style="width:30%;" class="text-center">Action</th>
+                                <th style="width:20%;" class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($livraisons as $item)
                             <tr>
                                 <td>{{ $loop->iteration}}</td>
+                                <td class="text-center">{{ $item->uuid}}</td>
                                 <td class="text-center">{{ $item->destinataire}}</td>
                                 <td class="text-center">{{ $item->coursier->nom}}</td>
-                                <td class="text-center">{{ $item->colis->nom}}</td>
                                 <td class="text-center">{{ $item->numerodes}}</td>
                                 <td class="text-center">
                                     <button class="btn btn-primary btn-sm" wire:click="showPropE({{$item->id}})">
@@ -55,7 +55,6 @@
                                         <i class="far fa-trash-alt"></i>
                                     </button>
 
-                                    <button wire:click="generatePDF">Générer PDF</button>
 
                                 </td>
                             </tr>

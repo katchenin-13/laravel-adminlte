@@ -15,6 +15,7 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         h1, h2 {
+            font-family: 'Quicksand', sans-serif;
             color: #09daff;
             margin-top: 0;
         }
@@ -24,6 +25,7 @@
             padding-bottom: 5px;
         }
         table {
+            border: 5px;
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
@@ -49,38 +51,45 @@
         {{-- @foreach($details as $client) --}}
         <h2>Informations personnelles du client :</h2>
         <ul>
+            <li><strong>Identifiant :</strong> {{ $contenu->uuid }}
             <li><strong>Nom complet :</strong> {{ $contenu->nom }} {{ $contenu->prenom }}</li>
             <li><strong>Adresse e-mail :</strong> {{ $contenu->email }}</li>
             <li><strong>Numéro de téléphone :</strong> {{ $contenu->telephone }}</li>
-            {{-- <li><strong>Adresse postale :</strong> {{ $selectedcontenu->zone->nom }}</li> --}}
+             <li><strong>Zone :</strong> {{ $contenu->zone->nom }}</li>
         </ul>
 
-        <!-- Historique des colis -->
+        <!-- Livraison des colis -->
         <h2>Historique des colis :</h2>
         <table>
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Colis</th>
-                    <th>Statut</th>
+                    <th>Destinataire</th>
                     <th>Date de livraison prévue</th>
                     <th>Livreur</th>
                     <th>Bordereau</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>Colis 1</td>
-                    <td>[Statut du colis]</td>
-                    <td>[Date d'envoi du colis]</td>
-                    <td>[Date de livraison prévue du colis]</td>
-                    <td class="text-center">
-                        <button class="btn btn-primary btn-sm">
-                            <i class="fas fa-download"></i>
-                       </button>
-                    </td>
-                </tr>
-                <!-- Ajoutez d'autres lignes pour plus de colis si nécessaire -->
-            </tbody>
+            @foreach($livraisons as $livraison)
+               {{-- @if($livraison->statut === 'livrer') --}}
+                    <tbody>
+                    <tr >
+                        <td >{{ $livraison->uuid }}</td>
+                        <td>{{ $livraison->colis->nom }}</td>
+                        <td>{{ $livraison->destinataire }}</td>
+                        <td>{{ $livraison->created_at->format('d/m/Y') }}</td>
+                        <td>{{ $livraison->coursier->nom }}</td>
+                        <td class="text-center">
+                            <a href="{{ route('bordereau', ['livraison' => $livraison->id]) }}">
+                                <button class="btn btn-primary btn-sm" >PDF</button>
+                            </a>
+                        </td>
+                    </tr>
+                    <!-- Ajoutez d'autres lignes pour plus de colis si nécessaire -->
+                    </tbody>
+                {{-- @endif --}}
+            @endforeach
         </table>
 
         <!-- Informations sur les colis en cours -->
@@ -88,23 +97,32 @@
         <table>
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Colis</th>
                     <th>Livreur</th>
-                    <th>Date d'expédition</th>
-                    <th>Quantité</th>
+                    <th>Adresse</th>
+                    <th>Telephone</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>Colis 1</td>
-                    <td>[Nom du transporteur]</td>
-                    <td>[Date d'expédition du colis]</td>
-                    <td>[Numéro de suivi du colis]</td>
-                </tr>
-                <!-- Ajoutez d'autres lignes pour plus de colis en transit si nécessaire -->
-            </tbody>
+
+
+            @foreach($livraisons as $livraison)
+               @if($livraison->statut === 'en cour')
+                <tbody>
+                    <tr>
+                        <td>{{ $livraison->uuid }}</td>
+                        <td>{{ $livraison->nom }}</td>
+                        <td>{{ $livraison->coursier->nom }}</td>
+                        <td>{{ $livraison->adresse_livraison}}</td>
+                        <td>{{ $livraison->numerodes}}</td>
+                    </tr>
+                    <!-- Ajoutez d'autres lignes pour plus de colis en transit si nécessaire -->
+                </tbody>
+
+                @endif
+             @endforeach
         </table>
-    {{-- @endforeach --}}
+
 </div>
 
 

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('bordereaus', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->date('date');
             $table->string('nom_des');
             $table->unsignedBigInteger('coursier_id');

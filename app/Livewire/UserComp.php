@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\User;
+use Ramsey\Uuid\Uuid;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Carbon;
@@ -67,13 +68,16 @@ class UserComp extends Component
             "newUserPassword.max" => "Le password de la user ne peut pas dépasser :max caractères.",
         ]);
 
-        User::create(["name" => $validated["newUserName"],
-                      "email"=>$validated["newUserEmail"],
-                     "password" => $validated["newUserPassword"]]);
+        $uuid = Uuid::uuid4()->toString();
 
-                    //  $role = Role::where('name', $validated['role'])->firstOrFail();
-                    //  $User->assignRole($role);
+        User::create([ "uuid" => $uuid,
+                       "name" => $validated["newUserName"],
+                       "email"=>$validated["newUserEmail"],
+                       "password" => $validated["newUserPassword"]]);
+
+
         session()->flash('message', 'Le nom de la user a été enregistré avec succès!');
+        $this->reset('newClientName','newUserEmail','newUserPassword');
     }
 
 

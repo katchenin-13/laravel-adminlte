@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Ramsey\Uuid\Uuid;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Categorie extends Model
 {
     use HasFactory;
     protected $fillable =
     [
+        'uuid',
         'nom',
 
     ];
@@ -26,4 +28,19 @@ class Categorie extends Model
 
     }
 
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->uuid = static::generateUuid();
+        });
+    }
+
+    protected static function generateUuid()
+    {
+        $uuid = base_convert(Uuid::uuid4()->getHex(), 16, 36);
+        return substr($uuid, 0, 4);
+    }
 }

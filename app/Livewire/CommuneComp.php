@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Ramsey\Uuid\Uuid;
 use App\Models\Commune;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -54,7 +55,11 @@ class CommuneComp extends Component
             "newCommuneName.unique" => "Ce nom de commune est déjà utilisé.",
         ]);
 
-        Commune::create(["nom" => $validated["newCommuneName"]]);
+        $uuid = Uuid::uuid4()->toString();
+
+        Commune::create([
+            "uuid" => $uuid,
+            "nom" => $validated["newCommuneName"]]);
         session()->flash('message', 'Le nom de la commune a été enregistré avec succès!');
 
         $this->reset('newCommuneName');

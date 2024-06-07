@@ -14,6 +14,7 @@ use App\Livewire\DossierComp;
 use App\Livewire\ContenudComp;
 use App\Livewire\CoursierComp;
 use App\Livewire\VehiculeComp;
+use App\Livewire\BordereauComp;
 use App\Livewire\CategorieComp;
 use App\Livewire\LivraisonComp;
 use App\Livewire\TarificationComp;
@@ -24,9 +25,9 @@ use App\Http\Controllers\PDFController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\StatsController;
 use App\Http\Controllers\EspaceController;
-use Spatie\Permission\Models\Permission;
 
 /*
 |--------------------------------------------------------------------------
@@ -89,10 +90,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/client', ClientComp ::class)->name('clients');
     Route::get('/categorie', CategorieComp ::class)->name('categories');
     Route::get('/zone', ZoneComp::class)->name('zones');
+    Route::get('/bordereau', BordereauComp::class)->name('pdf');
     Route::get('/user', UserComp::class)->name('users');
-    Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
+    Route::get('/pdf/{livraison}', [PDFController::class, 'generatePDF'])->name('bordereau');
     Route::get('/dossier', DossierComp::class)->name('dossiers');
     Route::get('/contenu/{id}', ContenudComp::class)->name('contenu');
+
 
 
 

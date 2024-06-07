@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('factures', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique();
             $table->char('montantT');
             $table->string('statut');
             $table->date('date');

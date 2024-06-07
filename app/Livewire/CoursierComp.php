@@ -3,11 +3,12 @@
 namespace App\Livewire;
 
 use App\Models\Zone;
+use Ramsey\Uuid\Uuid;
 use Livewire\Component;
 use App\Models\Coursier;
+use App\Models\Vehicule;
 use Livewire\WithPagination;
 use Illuminate\Support\Carbon;
-use App\Models\Vehicule;
 
 class CoursierComp extends Component
 {
@@ -110,7 +111,10 @@ class CoursierComp extends Component
             "selectedVehicule.required" => "Veuillez sélectionner un vehicule.",
         ]);
 
+        $uuid = Uuid::uuid4()->toString();
+        
         Coursier::create([
+            "uuid" => $uuid,
             "nom" => $validatedData["newCoursiersName"],
             "prenom" => $validatedData["newCoursiersPrenom"],
             "numero_telephone" => $validatedData["newCoursiersPhone"],
