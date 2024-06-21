@@ -11,29 +11,26 @@ use Spatie\Permission\Models\Role;
 
 class UserComp extends Component
 {
-
-
     use WithPagination;
 
     public $search = "";
     public $newUserName = "";
-    public $newUserEmail= "";
+    public $newUserEmail = "";
     public $newUserPassword = "";
     public $editUserName = "";
     public $editUserGmail = "";
-    public $editUserPassword= "";
-    public $editUserid ="";
+    public $editUserPassword = "";
+    public $editRole = "";
+    public $editUserid = "";
     public $selectedUser;
     public $userCount;
-
-
+    public $role;
 
     protected $paginationTheme = "bootstrap";
 
-
     public function mount()
     {
-        // Utilisez la méthode statique count() du modèle User pour compter les utilisateurs
+        // Utilisation de la méthode statique count() du modèle User pour compter les utilisateurs
         $this->userCount = User::count();
     }
 
@@ -43,14 +40,16 @@ class UserComp extends Component
 
         $searchCriteria = "%" . $this->search . "%";
 
+        // Utilisation de $searchCriteria pour filtrer les utilisateurs par ID ou autre critère
         $users = User::where("id", "like", $searchCriteria)->latest()->paginate(10);
-
-
-        return view('livewire.users.index', ['users' => User::latest()->paginate(10)])
+        // $roles = Role::pluck('name');
+        return view('livewire.users.index', [
+        'users' => $users,
+        // 'roles' => $roles,
+        ])
             ->extends("layouts.app")
             ->section("content");
     }
-
 
     public function addNewUser()
     {
@@ -58,58 +57,64 @@ class UserComp extends Component
             "newUserName" => "required|max:20",
             "newUserEmail" => "required|max:50|unique:users,email",
             "newUserPassword" => "required|max:6",
-            "role" => "required|exists:roles,name" ], [
-            "newUserName.required" => "Le champ du nom du user est requis.",
-            "newUserName.max" => "Le nom du user ne peut pas dépasser :max caractères.",
-            "newUserEmail.required" => "Le champ email du user est requis.",
-            "newUserEmail.max" => "L'email du user ne peut pas dépasser :max caractères.",
-            "newUserEmail.unique" => "l'email  déjà utilisé.",
-            "newUserPassword.required" => "Le mot de passe du user est requis.",
-            "newUserPassword.max" => "Le password de la user ne peut pas dépasser :max caractères.",
+            "role" => "required|exists:roles,name"
+        ], [
+            "newUserName.required" => "Le champ du nom de l'utilisateur est requis.",
+            "newUserName.max" => "Le nom de l'utilisateur ne peut pas dépasser :max caractères.",
+            "newUserEmail.required" => "Le champ email de l'utilisateur est requis.",
+            "newUserEmail.max" => "L'email de l'utilisateur ne peut pas dépasser :max caractères.",
+            "newUserEmail.unique" => "L'email est déjà utilisé.",
+            "newUserPassword.required" => "Le mot de passe de l'utilisateur est requis.",
+            "newUserPassword.max" => "Le mot de passe de l'utilisateur ne peut pas dépasser :max caractères.",
+            "role.required" => "Veuillez attribuer un rôle à l'utilisateur."
         ]);
 
         $uuid = Uuid::uuid4()->toString();
 
-        User::create([ "uuid" => $uuid,
-                       "name" => $validated["newUserName"],
-                       "email"=>$validated["newUserEmail"],
-                       "password" => $validated["newUserPassword"]]);
+        $newUser = User::create([
+            "uuid" => $uuid,
+            "name" => $validated["newUserName"],
+            "email" => $validated["newUserEmail"],
+            "password" => bcrypt($validated["newUserPassword"]) // Utilisation de bcrypt pour hasher le mot de passe
+        ]);
 
+        $role = Role::where('name', $validated['role'])->first();
+        $newUser->assignRole($role);
 
-        session()->flash('message', 'Le nom de la user a été enregistré avec succès!');
-        $this->reset('newClientName','newUserEmail','newUserPassword');
+        session()->flash('message', "L'utilisateur a été créé avec succès !");
+        $this->reset(['newUserName', 'newUserEmail', 'newUserPassword', 'role']);
     }
-
-
 
     public function updateUser(User $user)
     {
         $validated = $this->validate([
-            "editUserName" => ["required", "max:20"],
-            "editUserGmail" => ["required", "max:50|unique:users,email"],
-            "editUserPassword" => ["required", "max:6"],
+            "editUserName" => "required|max:20",
+            "editUserGmail" => "required|max:50|unique:users,email," . $user->id,
+            "editUserPassword" => "required|max:6",
+            "editRole" => "required|exists:roles,name"
         ], [
-            "editUserName.required" => "Le champ du nom du user est requis.",
-            "editUserName.max" => "Le nom de la user ne peut pas dépasser :max caractères.",
-            "newUserName.required" => "Le champ du nom du user est requis.",
-            "editUserGmail.required" => "Le champ email du user est requis.",
-            "editUserGmail.max" => "L'email du user ne peut pas dépasser :max caractères.",
-            "editUserGmail.unique" => "l'email  déjà utilisé.",
-            "editUserPassword.required" => "Le mot de passe du user est requis.",
-            "editUserPassword.max" => "Le password de la user ne peut pas dépasser :max caractères.",
+            "editUserName.required" => "Le champ du nom de l'utilisateur est requis.",
+            "editUserName.max" => "Le nom de l'utilisateur ne peut pas dépasser :max caractères.",
+            "editUserGmail.required" => "Le champ email de l'utilisateur est requis.",
+            "editUserGmail.max" => "L'email de l'utilisateur ne peut pas dépasser :max caractères.",
+            "editUserGmail.unique" => "L'email est déjà utilisé.",
+            "editUserPassword.required" => "Le mot de passe de l'utilisateur est requis.",
+            "editUserPassword.max" => "Le mot de passe de l'utilisateur ne peut pas dépasser :max caractères.",
+            "editRole.required" => "Veuillez attribuer un rôle à l'utilisateur."
         ]);
 
-        $users = User::findOrFail($user->id);
-        $users->nom = $this->editUserName;
-        $users->email = $this->editUserGmail;
-        $users->password = $this->editUserPassword;
-        $result = $users->save();
-        $users->name = "";
-        $users->email = "";
-        $users->password = "";
+        $user = User::findOrFail($user->id);
+        $user->name = $validated['editUserName'];
+        $user->email = $validated['editUserGmail'];
+        $user->password = bcrypt($validated['editUserPassword']);
+        $user->save();
 
+        $role = Role::where('name', $validated['editRole'])->first();
+        $user->syncRoles([$role->name]);
+
+        session()->flash('message', "L'utilisateur a été mis à jour avec succès !");
+        $this->reset(['editUserName', 'editUserGmail', 'editUserPassword', 'editRole']);
     }
-
 
     public function showCreatedProp(User $user)
     {
@@ -117,31 +122,20 @@ class UserComp extends Component
         $this->dispatch("CreatModalU", []);
     }
 
-
-
-
     public function showProp(User $user)
     {
-
         $this->selectedUser = $user;
-
         $this->dispatch("readModal", []);
-        // $user->name,$user->email,$user->password
-
     }
-
 
     public function showEditedProp(User $user)
     {
-
-        $editUser = $user;
-        $this->editUserid = $editUser ->id;
-        $this->editUserName = $editUser ->name;
-
+        $this->editUserid = $user->id;
+        $this->editUserName = $user->name;
+        $this->editUserGmail = $user->email;
 
         $this->dispatch("EditModal", [$user->name]);
     }
-
 
     public function showPropD(User $user)
     {
@@ -168,24 +162,9 @@ class UserComp extends Component
         $this->dispatch("closeEditModal", []);
     }
 
-
     public function closeUserModal()
     {
         $this->resetErrorBag();
         $this->dispatch("closeUserModal", []);
     }
-
-
-
-    // public function showDeletePrompt($nom, $id)
-    // {
-    //     $this->dispatch("showConfirmMessage", ["message" => [
-    //         "text" => "Vous êtes sur le point de supprimer '$nom' de la liste des propriétés d'articles. Voulez-vous continuer?",
-    //         "title" => "Êtes-vous sûr de continuer?",
-    //         "type" => "warning",
-    //         "data" => [
-    //             "propriete_id" => $id
-    //         ]
-    //     ]]);
-    // }
 }

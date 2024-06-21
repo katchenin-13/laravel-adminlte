@@ -14,7 +14,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use   HasRoles, HasApiTokens, HasFactory, Notifiable;
+    use  HasRoles, HasApiTokens, HasFactory, Notifiable;
 
 
     /**

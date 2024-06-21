@@ -10,6 +10,7 @@ use App\Models\Coursier;
 use App\Models\Livraison;
 use Livewire\WithPagination;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class LivraisonComp extends Component
 {
@@ -27,6 +28,7 @@ class LivraisonComp extends Component
     public $selectedCoursiers;
     public $selectedColis;
     public $selectedStatut;
+    public $userName;
     public $showDeleteModal = false;
 
     protected $paginationTheme = "bootstrap";
@@ -53,6 +55,11 @@ class LivraisonComp extends Component
             ->section("content");
     }
 
+    public function mount()
+        {
+            $this->userName = Auth::user()->name;
+        }
+
     public function addNewLivraison()
     {
         $validatedData = $this->validate([
@@ -61,7 +68,7 @@ class LivraisonComp extends Component
             "newLivraisonsAdd" => "required|max:50|unique:livraisons,adresse_livraison",
             "selectedColis" => "required",
             "selectedCoursiers" => "required",
-            "selectedStatut" => "required",
+            // "selectedStatut" => "required",
         ], [
             "newDestinataireName.required" => "Le champ du nom du livraison est requis.",
             "newDestinataireName.max" => "Le nom du livraison ne peut pas dépasser :max caractères.",
@@ -69,7 +76,7 @@ class LivraisonComp extends Component
             "newLivraisonsPhone.regex" => "Le champ du téléphonene peut contenir que des chiffres.",
             "newLivraisonsAdd.required" => "Le champ adresse du destinataire est requis.",
             "newLivraisonsAdd.max" => "L'adresse du destinataire ne peut pas dépasser :max caractères.",
-            "selectedCoursier.required" => "Veuillez sélectionner un coursiers.",
+            // "selectedCoursier.required" => "Veuillez sélectionner un coursiers.",
             "selectedColis.required" => "Veuillez sélectionner un colis.",
             "selectedStatut.required" => "Veuillez sélectionner un statut.",
         ]);
@@ -82,9 +89,10 @@ class LivraisonComp extends Component
             "numerodes" => $validatedData["newLivraisonsPhone"],
             "adresse_livraison" => $validatedData["newLivraisonsAdd"],
             "colis_id" => $validatedData["selectedColis"],
-            "coursier_id" => $validatedData["selectedCoursiers"],
             "statut_id" => $validatedData["selectedStatut"],
+            "coursier_id" => $this->userName,
         ]);
+
 
         session()->flash('message', 'Le livraison a été enregistré avec succès!');
         $this->reset('newDestinataireName','newLivraisonsPhone','newLivraisonsAdd','selectedColis','selectedCoursiers','selectedStatut');
@@ -165,7 +173,7 @@ class LivraisonComp extends Component
     {
         $this->selectedLivraison= $livraison;
         $this->dispatch("ReadModal", []);
-        
+
     }
 
     public function closereadModal()
@@ -212,7 +220,6 @@ class LivraisonComp extends Component
         }
 
         $this->dispatch("showEditModal", []);
-        dd($livraison);
     }
 
     public function showPropD(Livraison $livraison)

@@ -41,18 +41,21 @@
         <div>
             <h1 style="margin: 0;">BOXLOGIN</h1>
         </div>
-        <div>
-            <h6>Numéro de facture n°12345</h6>
-            <p>18 mai 2027</p>
-        </div>
+        @foreach ($livraisons as $livraison )
+            <div>
+                <h6>Numéro de facture {{ $livraison->uuid }}</h6>
+                <p>18 mai 2027</p>
+            </div>
+        @endforeach
+
     </div>
 
 
     <div>
-        
-        @foreach ($livraisons as $livraison )    
+
+        @foreach ($livraisons as $livraison )
             <div class="client">
-                <h2>CLIENT</h2>
+                <h2>Destinataire</h2>
                 <p>{{ $livraison->destinataire }}</p>
                 <p>{{ $livraison->numerodes }}</p>
                 <p>{{ $livraison->adresse_livraison }}</p>
@@ -60,7 +63,7 @@
         @endforeach
 
         <table class="table">
-        
+
             <thead>
                 <tr>
                     <th>No</th>

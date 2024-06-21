@@ -68,7 +68,7 @@
                     <th>Destinataire</th>
                     <th>Date de livraison prévue</th>
                     <th>Livreur</th>
-                    <th>Bordereau</th>
+                    <th></th>
                 </tr>
             </thead>
             @foreach($livraisons as $livraison)
@@ -82,7 +82,8 @@
                         <td>{{ $livraison->coursier->nom }}</td>
                         <td class="text-center">
                             <a href="{{ route('bordereau', ['livraison' => $livraison->id]) }}">
-                                <button class="btn btn-primary btn-sm" >PDF</button>
+                                <i class="fa fa-download"></i>
+
                             </a>
                         </td>
                     </tr>

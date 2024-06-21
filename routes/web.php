@@ -95,7 +95,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/pdf/{livraison}', [PDFController::class, 'generatePDF'])->name('bordereau');
     Route::get('/dossier', DossierComp::class)->name('dossiers');
     Route::get('/contenu/{id}', ContenudComp::class)->name('contenu');
-
+    Route::get('/userInfo', 'UserRequette@userInfo')->name('userInfo');
 
 
 
@@ -107,5 +107,14 @@ Route::middleware('auth')->group(function () {
     Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 });
 
+Route::middleware('role:superadmin')->group(function () {
+        Route::get('/home', function () {
+            return view('home');
+        })->name('admin.home');
+});
 
-
+Route::middleware('role:admin')->group(function () {
+        Route::get('/home', function () {
+            return view('home');
+        })->name('admin.home');
+});

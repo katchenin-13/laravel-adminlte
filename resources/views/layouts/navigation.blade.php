@@ -177,6 +177,18 @@
                 </a>
             </li>
 
+                <footer>
+
+                    <li class="nav-item">
+                        <a  class="nav-link">
+                            <i class="fas fa-chart-bar"></i>
+                            <p>{{ __('Configuration') }}</p>
+                        </a>
+                    </li>
+
+                </footer>
+
+
         </ul>
     </nav>
     <!-- /.sidebar-menu -->

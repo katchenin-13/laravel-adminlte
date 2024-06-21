@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Colis;
 use Ramsey\Uuid\Uuid;
+use App\Models\Client;
 use Livewire\Component;
 use App\Models\Categorie;
 use Livewire\WithPagination;
@@ -23,6 +24,7 @@ class ColisComp extends Component
     public $editColisid ="";
     public $selectedColis;
     public $selectedCategorie;
+    public $selectedClient;
     // public $colisCount;
     public $showDeleteModal="false";
 
@@ -46,8 +48,12 @@ class ColisComp extends Component
 
         // $colisCount = $this->colisCount;
         $categories = Categorie::all();
+
+        $clients = Client::all();
+
         return view('livewire.colis.index', [
             'categories' => $categories,
+            'clients' => $clients,
             'colis' => $colis,
         ])
             ->extends("layouts.app")
@@ -60,6 +66,7 @@ class ColisComp extends Component
             "newColisName" => "required|max:20",
             "newColisDes" => "required|max:550",
             "newColisQuan" => "required|max:100",
+            "selectedClient" => "required",
             "selectedCategorie" => "required",
         ], [
             "newColisName.required" => "Le champ du nom du colis est requis.",
@@ -68,6 +75,7 @@ class ColisComp extends Component
             "newColisDes.max" => "Le description du colis ne peut pas dépasser :max caractères.",
             "newColisQuan.required" => "Le champ quantité du colis est requis.",
             "newColisQuan.max" => "La quantité du colis ne peut pas dépasser :max caractères.",
+            "selectedClient.required" => "Veuillez sélectionner le client.",
             "selectedCategorie.required" => "Veuillez sélectionner une catégorie.",
         ]);
 
@@ -78,10 +86,11 @@ class ColisComp extends Component
             "nom" => $validatedData["newColisName"],
             "description" => $validatedData["newColisDes"],
             "quantite" => $validatedData["newColisQuan"],
+            "client_id" => $validatedData["selectedClient"],
             "categorie_id" => $validatedData["selectedCategorie"],
         ]);
         session()->flash('message', 'Le colis a été enregistré avec succès!');
-        $this->reset('newColisName','newColisDes','newColisQuan','selectedCategorie');
+        $this->reset('newColisName','newColisDes','newColisQuan','selectedClient','selectedCategorie');
     }
 
 
@@ -104,6 +113,7 @@ class ColisComp extends Component
             "editColisDes" => ["required", "max:550"],
             "editColisQuan" => ["required", "max:100"],
 
+
         ], [
             "editColisName.required" => "Le champ du nom du colis est requis.",
             "editColisName.max" => "Le nom du colis ne peut pas dépasser :max caractères.",
@@ -111,7 +121,9 @@ class ColisComp extends Component
             "editColisDes.max" => "Le description du colis ne peut pas dépasser :max caractères.",
             "editColisQuan.required" => "Le champ quantité du colis est requis.",
             "editColisQuan.max" => "La quantité du colis ne peut pas dépasser :max caractères.",
+            "selectedClient.required" => "Veuillez sélectionner le client.",
             "selectedCategorie.required" => "Veuillez sélectionner une catégorie.",
+
         ]);
 
         $colis = Colis::findOrFail($colis->id);
@@ -124,9 +136,10 @@ class ColisComp extends Component
         $colis->quantite = "";
 
     }
-    public function updateCategorie($colisId, $categorieId)
+    public function updateCategorie($colisId,$clientId, $categorieId)
     {
         $colis = Colis::findOrFail($colisId);
+        $colis->client_id = $clientId;
         $colis->categorie_id = $categorieId;
         $colis->save();
 
@@ -144,11 +157,18 @@ class ColisComp extends Component
         $selectedCategorie = Categorie::find($editColis->categorie_id);
 
         if ($selectedCategorie) {
-            // Si la commune est trouvée, définissez-la comme commune sélectionnée
             $this->selectedCategorie = $selectedCategorie->id;
         } else {
-            // Si la commune n'est pas trouvée, définissez la commune sélectionnée sur null ou une valeur par défaut
-            $this->selectedCategorie = null; // ou toute autre valeur par défaut
+            $this->selectedCategorie = null;
+        }
+
+        $selectedClient = Client::find($editColis->client_id);
+
+        if ($selectedClient) {
+
+            $this->selectedClient = $selectedClient->id;
+        } else {
+            $this->selectedClient = null;
         }
 
         $this->dispatch("showEditModal", [$colis->nom,$colis->description,$colis->telephone,$colis->email,$colis->secteuract]);
@@ -160,6 +180,16 @@ class ColisComp extends Component
         $this->dispatch("closeEditModal", []);
     }
 
+    public function showPropC(Colis $colis)
+    {
+        $this->selectedColis = $colis;
+
+        $this->dispatch("ReadModal", []);
+    }
+
+
+
+
     public function showPropD(Colis $colis)
     {
         $this->showDeleteModal = true;
@@ -167,6 +197,14 @@ class ColisComp extends Component
 
         $colis->delete();
         $this->dispatch("closeDeleteModal", []);
+    }
+
+    public function deleteColis()
+    {
+        if ($this->selectedColis) {
+            $this->selectedColis->delete();
+            $this->dispatch('cilisDeleted');
+        }
     }
 
     public function closeDeleteModal()
