@@ -28,7 +28,10 @@ class VehiculeComp extends Component
 
         $searchCriteria = "%" . $this->search . "%";
 
-        $vehicules = Vehicule::where("nom", "like", $searchCriteria)->latest()->paginate(10);
+        $vehicules = Vehicule::where('nom', 'like', '%'.$this->search.'%')
+        ->orWhere('email', 'like', '%'.$this->search.'%')
+        ->orWhere('numero_telephone', 'like', '%'.$this->search.'%')
+        ->paginate(10);
 
         return view('livewire.vehicule.index', ['vehicules' => Vehicule::latest()->paginate(10)])
             ->extends("layouts.app")

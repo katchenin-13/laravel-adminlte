@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Configcontroller;
 use App\Models\User;
 use App\Models\Commune;
 use App\Livewire\Counter;
@@ -78,11 +79,45 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // Route::get("/posts", PostComp::class)->name("posts");
 
 Route::middleware('auth')->group(function () {
+
+     Route::view('about', 'about')->name('about');
+
+    // Route::get('espace', [EspaceController::class, 'index'])->name('espace.index');
+    Route::get('stat', [StatsController::class, 'index'])->name('stat.index');
+    // Route::get('config', [Configcontroller::class, 'index'])->name('config');
+    // Route::get('/commune', CommuneComp::class)->name('communes');
+    Route::get('/colis', ColisComp::class)->name('colis');
+    // Route::get('/coursier', CoursierComp ::class)->name('coursiers');
+    // Route::get('/tarification', TarificationComp::class)->name('tarifications');
+    // Route::get('/client', ClientComp ::class)->name('clients');
+    // Route::get('/categorie', CategorieComp ::class)->name('categories');
+    // Route::get('/zone', ZoneComp::class)->name('zones');
+    Route::get('/bordereau', BordereauComp::class)->name('pdf');
+    // Route::get('/user', UserComp::class)->name('users');
+    Route::get('/pdf/{livraison}', [PDFController::class, 'generatePDF'])->name('bordereau');
+    Route::get('/dossier', DossierComp::class)->name('dossiers');
+    Route::get('/contenu/{id}', ContenudComp::class)->name('contenu');
+    Route::get('/userInfo', 'UserRequette@userInfo')->name('userInfo');
+    Route::post('/send', 'FactureController@send');
+
+
+
+    // Route::get('/statut', StatutComp::class)->name('statuts');
+    // Route::get('/vehicule', VehiculeComp::class)->name('vehicules');
+    Route::get('/livraison', LivraisonComp::class)->name('livraison');
+
+    Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
+    Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+});
+
+
+//route pour mes superadmin
+Route::group(['middleware' => ['role:superadmin']], function () {
     Route::view('about', 'about')->name('about');
-    // Route::get('/posts', PostComp::class)->name('posts');
 
     Route::get('espace', [EspaceController::class, 'index'])->name('espace.index');
     Route::get('stat', [StatsController::class, 'index'])->name('stat.index');
+    Route::get('config', [Configcontroller::class, 'index'])->name('config');
     Route::get('/commune', CommuneComp::class)->name('communes');
     Route::get('/colis', ColisComp::class)->name('colis');
     Route::get('/coursier', CoursierComp ::class)->name('coursiers');
@@ -93,8 +128,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/bordereau', BordereauComp::class)->name('pdf');
     Route::get('/user', UserComp::class)->name('users');
     Route::get('/pdf/{livraison}', [PDFController::class, 'generatePDF'])->name('bordereau');
-    Route::get('/dossier', DossierComp::class)->name('dossiers');
-    Route::get('/contenu/{id}', ContenudComp::class)->name('contenu');
+    // Route::get('/dossier', DossierComp::class)->name('dossiers');
+    // Route::get('/contenu/{id}', ContenudComp::class)->name('contenu');
     Route::get('/userInfo', 'UserRequette@userInfo')->name('userInfo');
 
 
@@ -107,14 +142,9 @@ Route::middleware('auth')->group(function () {
     Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 });
 
-Route::middleware('role:superadmin')->group(function () {
-        Route::get('/home', function () {
-            return view('home');
-        })->name('admin.home');
-});
 
-Route::middleware('role:admin')->group(function () {
-        Route::get('/home', function () {
-            return view('home');
-        })->name('admin.home');
-});
+// Route::middleware('role:admin')->group(function () {
+//         Route::get('/home', function () {
+//             return view('home');
+//         })->name('admin.home');
+// });

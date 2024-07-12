@@ -1,10 +1,10 @@
-@if ($request->user()->can('edit') || $request->user()->can('editc')){
+{{-- @if ($request->user()->can('edit') || $request->user()->can('editc')){ --}}
 
        <div class="modal fade" id="editModalProp" style="z-index: 1900;" role="dialog" wire:ignore.self>
                 <div class="modal-dialog modal-lg" style="left:100px;" >
                     <div class="modal-content">
                         <div class="modal-header" style="background-color: #15a1e2; color: white;">
-                            <h5 class="modal-title" >Edition Coursier</h5>
+                            <h5 class="modal-title" >Edition Livraison</h5>
 
                         </div>
 
@@ -120,4 +120,4 @@
                 </div>
             </div>
 
-        }&
+        {{-- }& --}}

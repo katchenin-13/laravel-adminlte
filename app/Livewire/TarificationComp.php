@@ -30,7 +30,10 @@ class TarificationComp extends Component
 
         $searchCriteria = "%" . $this->search . "%";
 
-        $tarifications = Tarification::where("prix", "like", $searchCriteria)->latest()->paginate(10);
+        $tarifications = Tarification::where('nom', 'like', '%'.$this->search.'%')
+        ->orWhere('email', 'like', '%'.$this->search.'%')
+        ->orWhere('numero_telephone', 'like', '%'.$this->search.'%')
+        ->paginate(10);
         $categories = Categorie::all();
 
         return view('livewire.tarification.index', [

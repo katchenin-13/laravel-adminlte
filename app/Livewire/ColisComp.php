@@ -44,7 +44,10 @@ class ColisComp extends Component
 
         $searchCriteria = "%" . $this->search . "%";
 
-        $colis = Colis::where("nom", "like", $searchCriteria)->latest()->paginate(10);
+        $colis = Colis::where('nom', 'like', '%'.$this->search.'%')
+        ->orWhere('email', 'like', '%'.$this->search.'%')
+        ->orWhere('numero_telephone', 'like', '%'.$this->search.'%')
+        ->paginate(10);
 
         // $colisCount = $this->colisCount;
         $categories = Categorie::all();
@@ -187,23 +190,26 @@ class ColisComp extends Component
         $this->dispatch("ReadModal", []);
     }
 
+    public function closeReadModal()
+    {
+        $this->resetErrorBag();
+        $this->dispatch("closereadModal");
+    }
+
 
 
 
     public function showPropD(Colis $colis)
     {
-        $this->showDeleteModal = true;
-
-
-        $colis->delete();
-        $this->dispatch("closeDeleteModal", []);
+        $this->selectedColis = $colis;
+        $this->dispatch("showDeleteModal", []);
     }
 
     public function deleteColis()
     {
         if ($this->selectedColis) {
             $this->selectedColis->delete();
-            $this->dispatch('cilisDeleted');
+            $this->dispatch('colisDeleted');
         }
     }
 

@@ -23,22 +23,18 @@ class RoleSeeder extends Seeder
             $coursierRole = Role::create(['name' => 'coursier']);
 
             // Création des permissions
-            $listePermission = Permission::create(['name' => 'liste']);
             $addPermission = Permission::create(['name' => 'add']);
             $deletePermission = Permission::create(['name' => 'delet']);
             $editPermission = Permission::create(['name' => 'edit']);
             $readPermission = Permission::create(['name' => 'read']);
             $modifierPermission = Permission::create(['name' => 'modifier']);
-            $listecPermission = Permission::create(['name' => 'listec']);
-            $addcPermission = Permission::create(['name' => 'addc']);
-            $deletecPermission = Permission::create(['name' => 'deletc']);
-            $editcPermission = Permission::create(['name' => 'editc']);
-            $readcPermission = Permission::create(['name' => 'readc']);
 
 
             // Attribution des permissions aux rôles
-            $adminRole->syncPermissions([$listePermission->id, $addPermission->id, $readPermission->id, $deletePermission->id, $editPermission->id, $modifierPermission->id]);
-            $coursierRole->syncPermissions([$listecPermission->id, $addcPermission->id, $readcPermission->id, $deletecPermission->id, $editcPermission->id]);
+            $adminRole->syncPermissions([$addPermission->id, $readPermission->id, $deletePermission->id, $editPermission->id, $modifierPermission->id]);
+            $coursierRole->syncPermissions([$addPermission->id, $readPermission->id, $editPermission->id]);
+
+
 
             DB::commit();
         } catch (\Exception $e) {

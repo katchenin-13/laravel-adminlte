@@ -30,7 +30,10 @@ class StatutComp extends Component
 
         $searchCriteria = "%" . $this->search . "%";
 
-        $statuts = Statut::where("nom", "like", $searchCriteria)->latest()->paginate(10);
+        $statuts = Statut::where('nom', 'like', '%'.$this->search.'%')
+        ->orWhere('email', 'like', '%'.$this->search.'%')
+        ->orWhere('numero_telephone', 'like', '%'.$this->search.'%')
+        ->paginate(10);
 
         return view('livewire.statut.index', ['statuts' => Statut::latest()->paginate(10)])
             ->extends("layouts.app")

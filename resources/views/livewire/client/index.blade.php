@@ -55,7 +55,7 @@
             //console.log('soro');
             })
             window.addEventListener('clientDeleted', function () {
-            console.log('fermerture')
+            // console.log('fermerture')
             $('#DelectetModalProp').modal('hide');
         });
 

@@ -41,7 +41,10 @@ class UserComp extends Component
         $searchCriteria = "%" . $this->search . "%";
 
         // Utilisation de $searchCriteria pour filtrer les utilisateurs par ID ou autre critère
-        $users = User::where("id", "like", $searchCriteria)->latest()->paginate(10);
+        $users = User::where('nom', 'like', '%'.$this->search.'%')
+        ->orWhere('email', 'like', '%'.$this->search.'%')
+        ->orWhere('numero_telephone', 'like', '%'.$this->search.'%')
+        ->paginate(10);
         // $roles = Role::pluck('name');
         return view('livewire.users.index', [
         'users' => $users,
@@ -84,6 +87,7 @@ class UserComp extends Component
         session()->flash('message', "L'utilisateur a été créé avec succès !");
         $this->reset(['newUserName', 'newUserEmail', 'newUserPassword', 'role']);
     }
+
 
     public function updateUser(User $user)
     {

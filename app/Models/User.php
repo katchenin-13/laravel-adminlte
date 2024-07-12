@@ -66,4 +66,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    // $user = User::find($userId);
+
+
 }

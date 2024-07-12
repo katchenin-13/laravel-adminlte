@@ -1,4 +1,4 @@
-@if ($request->user()->can('liste') || $request->user()->can('listec')){
+{{-- @if ($request->user()->can('liste') || $request->user()->can('listec')){ --}}
        <div class="row p-4 pt-5">
                 <div class="col-12">
                     <div class="card">
@@ -12,11 +12,11 @@
                                     <i class="fas fa-truck"></i> Nouvelle Livraison
                                 </a>
                                 <div class="input-group input-group-md" style="width: 250px;">
-                                    <input type="text" name="table_search" wire:model.debounce.300ms="search"
-                                        class="form-control float-right" placeholder="Rechercher">
+                                    <input type="text" wire:model="search" class="form-control float-right" placeholder="Rechercher">
+
 
                                     <div class="input-group-append">
-                                        <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                        <button class="btn btn-default"="$refresh"><i class="fas fa-search"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -30,8 +30,9 @@
                                             <th style="width:10%;">No</th>
                                             <th style="width:10%;" class="text-center">ID</th>
                                             <th style="width:10%;" class="text-center">Destinataire</th>
-                                            <th style="width:20%;" class="text-center">colis</th>
+                                            <th style="width:20%;" class="text-center">Coursier</th>
                                             <th style="width:20%;" class="text-center">Telephone</th>
+                                            {{-- <th style="width:20%;" class="text-center">Livraison de </th> --}}
                                             <th style="width:20%;" class="text-center">Action</th>
                                         </tr>
                                     </thead>
@@ -43,6 +44,7 @@
                                             <td class="text-center">{{ $item->destinataire}}</td>
                                             <td class="text-center">{{ $item->coursier->nom}}</td>
                                             <td class="text-center">{{ $item->numerodes}}</td>
+                                            {{-- <td class="text-center">{{ $item->client->nom}}</td> --}}
                                             <td class="text-center">
                                                 <button class="btn btn-primary btn-sm" wire:click="showPropE({{$item->id}})">
                                                     <i class="far fa-edit"></i>
@@ -78,4 +80,4 @@
                 <!-- /.col-12 -->
             </div>
 
-        }
+        {{-- } --}}

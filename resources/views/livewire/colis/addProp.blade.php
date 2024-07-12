@@ -1,4 +1,4 @@
-@if ($request->user()->can('add') || $request->user()->can('addc')){
+{{-- @if ($request->user()->can('add') || $request->user()->can('addc')){ --}}
     <div class="modal fade" id="modalProp" tabindex="-1" role="dialog" wire:ignore.self>
                 <div class="modal-dialog modal-lg" style="left:100px;">
                     <div class="modal-content">
@@ -30,7 +30,7 @@
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         Quantité
-                                                        <input type="decimal" wire:keydown.enter="addNewColis"
+                                                        <input type="integer" wire:keydown.enter="addNewColis"
                                                             class="form-control @error('newCilisQuan') is-invalid @enderror"
                                                             wire:model="newColisQuan" />
                                                         @error('newColisQuan')
@@ -92,4 +92,4 @@
                     </div>
                 </div>
             </div>
-        }
+

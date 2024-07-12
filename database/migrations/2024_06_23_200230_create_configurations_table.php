@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lfactures', function (Blueprint $table) {
+        Schema::create('configurations', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique();
-            $table->char('numero');
-            $table->char('quantite');
-            $table->string('statut');
-            $table->unsignedBigInteger('factures_id');
-            $table->foreign('factures_id')->references('id')->on('factures')->onDelete('cascade');
+            $table->enum('type',['payement_date','APP_NAME','ANOTHER'])->default('ANOTHER');
+            $table->string('value');
             $table->timestamps();
         });
     }
@@ -28,7 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-
-        Schema::dropIfExists('lfactures');
+        Schema::dropIfExists('configurations');
     }
 };

@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->string('nom');
-            
+
             $table->string('description');
-            $table->decimal('quantite');
+            $table->integer('quantite');
             $table->unsignedBigInteger('client_id');
             $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
             $table->unsignedBigInteger('categorie_id');

@@ -1,4 +1,4 @@
-@if ($request->user()->can('liste') || $request->user()->can('listec')){
+{{-- @if ($request->user()->can('liste') || $request->user()->can('listec')){ --}}
            <div class="row p-4 pt-5">
                 <div class="col-12">
                     <div class="card">
@@ -12,11 +12,11 @@
                                     <i class="far fa-calendar-alt"></i> Nouveau Colis
                                 </a>
                                 <div class="input-group input-group-md" style="width: 250px;">
-                                    <input type="text" name="table_search" wire:model.debounce.300ms="search"
-                                        class="form-control float-right" placeholder="Rechercher">
+                                    <input type="text" wire:model="search" class="form-control float-right" placeholder="Rechercher">
+
 
                                     <div class="input-group-append">
-                                        <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                        <button class="btn btn-default"="$refresh"><i class="fas fa-search"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -80,5 +80,5 @@
                 <!-- /.col-12 -->
             </div>
 
-        }
+
 

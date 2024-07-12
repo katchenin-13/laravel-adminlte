@@ -1,4 +1,4 @@
-@if ($request->user()->can('modifier')){
+{{-- @if ($request->user()->can('modifier')){ --}}
     <div>
 
             @include("livewire.livraison.editProp")
@@ -67,4 +67,4 @@
 
         </script>
 
-    }
+    {{-- } --}}

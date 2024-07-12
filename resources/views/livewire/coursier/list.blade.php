@@ -1,3 +1,5 @@
+<!-- resources/views/livewire/coursiers-list.blade.php -->
+
 <div class="row p-4 pt-5">
     <div class="col-12">
         <div class="card">
@@ -11,11 +13,11 @@
                         <i class="fas fa-truck"></i> Nouveau Coursier
                     </a>
                     <div class="input-group input-group-md" style="width: 250px;">
-                        <input type="text" name="table_search" wire:model.debounce.300ms="search"
-                            class="form-control float-right" placeholder="Rechercher">
+                        <input type="text" wire:model="search" class="form-control float-right" placeholder="Rechercher">
+
 
                         <div class="input-group-append">
-                            <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                            <button class="btn btn-default"="$refresh"><i class="fas fa-search"></i></button>
                         </div>
                     </div>
                 </div>
@@ -37,13 +39,13 @@
                         <tbody>
                             @foreach ($coursiers as $item)
                             <tr>
-                                <td>{{ $loop->iteration}}</td>
-                                <td class="text-center">{{ $item->uuid}}</td>
-                                <td class="text-center">{{ $item->nom}}</td>
-                                <td class="text-center">{{ $item->email}}</td>
-                                <td class="text-center">{{ $item->numero_telephone}}</td>
+                                <td>{{ $loop->iteration }}</td>
+                                <td class="text-center">{{ $item->uuid }}</td>
+                                <td class="text-center">{{ $item->nom }}</td>
+                                <td class="text-center">{{ $item->email }}</td>
+                                <td class="text-center">{{ $item->numero_telephone }}</td>
                                 <td class="text-center">
-                                    <button class="btn btn-primary btn-sm" wire:click="showPropE({{$item->id}})">
+                                    <button class="btn btn-primary btn-sm" wire:click="showPropE({{ $item->id }})">
                                         <i class="far fa-edit"></i>
                                     </button>
 
@@ -51,10 +53,9 @@
                                         <i class="far fa-eye"></i>
                                     </button>
 
-                                    <button class="btn btn-danger btn-sm" wire:click="showPropD({{$item->id}})">
+                                    <button class="btn btn-danger btn-sm" wire:click="showPropD({{ $item->id }})">
                                         <i class="far fa-trash-alt"></i>
                                     </button>
-
                                 </td>
                             </tr>
                             @endforeach

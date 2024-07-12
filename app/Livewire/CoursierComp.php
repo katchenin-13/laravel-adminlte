@@ -58,14 +58,17 @@ class CoursierComp extends Component
 
         $searchCriteria = "%" . $this->search . "%";
 
-        $coursiers = Coursier::where("nom", "like", $searchCriteria)->latest()->paginate(10);
+        $coursiers = Coursier::where('nom', 'like', '%'.$this->search.'%')
+        ->orWhere('email', 'like', '%'.$this->search.'%')
+        ->orWhere('numero_telephone', 'like', '%'.$this->search.'%')
+        ->paginate(10); // Adjust pagination limit as needed
 
-        // $coursierCount = $this->coursierCount;
         $zones = Zone::all();
         $vehicules = Vehicule::all();
-        return view('livewire.coursier.index', compact('coursiers','zones','vehicules'))
-            ->extends("layouts.app")
-            ->section("content");
+
+        return view('livewire.coursier.index', compact('coursiers', 'zones', 'vehicules'))
+                ->extends("layouts.app")
+                ->section("content");
     }
 
     public function addNewCoursier()
@@ -112,7 +115,7 @@ class CoursierComp extends Component
         ]);
 
         $uuid = Uuid::uuid4()->toString();
-        
+
         Coursier::create([
             "uuid" => $uuid,
             "nom" => $validatedData["newCoursiersName"],

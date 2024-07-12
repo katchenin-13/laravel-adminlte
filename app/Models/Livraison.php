@@ -14,6 +14,7 @@ class Livraison extends Model
         'destinataire',
         'numerodes',
         'adresse_livraison',
+        'client_id',
         'coursier_id',
         'colis_id',
         'statut_id'
@@ -31,12 +32,18 @@ class Livraison extends Model
 
     }
 
+    public function client()
+    {
+        return $this->belongsto(Client::class);
+
+    }
+
     public function statut()
     {
         return $this->belongsto(Statut::class);
 
     }
-     
+
     protected static function boot()
     {
         parent::boot();
@@ -51,4 +58,9 @@ class Livraison extends Model
         $uuid = base_convert(Uuid::uuid4()->getHex(), 16, 36);
         return substr($uuid, 0, 4);
     }
+
+//     public function client()
+// {
+//     return $this->belongsTo(\App\Models\Client::class);
+// }
 }

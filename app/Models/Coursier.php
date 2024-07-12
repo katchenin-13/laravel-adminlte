@@ -3,17 +3,20 @@
 namespace App\Models;
 
 use Ramsey\Uuid\Uuid;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Coursier extends Model
+class Coursier extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, HasApiTokens;
     protected $fillable = [
         'uuid',
         'nom',
         'prenom',
         'email',
+       ' password',
         'numero_telephone',
         'numero_telephone_2',
         'numero_permis_conduire',
@@ -27,15 +30,20 @@ class Coursier extends Model
         'vehicule_id',
     ];
 
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
     public function zone()
     {
-        return $this->belongsto(Zone::class);
+        return $this->belongsTo(Zone::class);
 
     }
 
     public function vehicule()
     {
-        return $this->belongsto(Vehicule::class);
+        return $this->belongsTo(Vehicule::class);
 
     }
 

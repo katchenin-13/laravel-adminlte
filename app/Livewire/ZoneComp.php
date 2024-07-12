@@ -36,7 +36,10 @@ class ZoneComp extends Component
 
         // $total = $Commune ::total();
 
-        $zones = Zone::where("nom", "like", $searchCriteria)->latest()->paginate(5);
+        $zones = Zone::where('nom', 'like', '%'.$this->search.'%')
+        ->orWhere('email', 'like', '%'.$this->search.'%')
+        ->orWhere('numero_telephone', 'like', '%'.$this->search.'%')
+        ->paginate(10);
 
         $communes = Commune::all();
         return view('livewire.zone.index',[

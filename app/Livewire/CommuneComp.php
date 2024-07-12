@@ -38,7 +38,10 @@ class CommuneComp extends Component
 
         $searchCriteria = "%" . $this->search . "%";
 
-        $communes = Commune::where("nom", "like", $searchCriteria)->latest()->paginate(10);
+        $communes = Commune::where('nom', 'like', '%'.$this->search.'%')
+        ->orWhere('email', 'like', '%'.$this->search.'%')
+        ->orWhere('numero_telephone', 'like', '%'.$this->search.'%')
+        ->paginate(10);
 
         return view('livewire.commune.index', ['communes' => Commune::latest()->paginate(10)])
             ->extends("layouts.app")

@@ -99,6 +99,7 @@
 @vite('resources/js/app.js')
 <!-- AdminLTE App -->
 <script src="{{ asset('js/adminlte.min.js') }}" defer></script>
+<script src="https://code.jquery.com/jquery-3.7.1.slim.js"></script>
 
 @yield('scripts')
 @livewireScripts

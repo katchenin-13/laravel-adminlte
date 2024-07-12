@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -19,5 +20,8 @@ class SuperadminSeeder extends Seeder
                 $permissions = Permission::all();
 
                 $superadminRole->syncPermissions($permissions->pluck('id')->toArray());
+
+               
+
     }
 }

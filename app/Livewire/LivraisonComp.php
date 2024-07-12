@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Colis;
 use Ramsey\Uuid\Uuid;
+use App\Models\Client;
 use App\Models\Statut;
 use Livewire\Component;
 use App\Models\Coursier;
@@ -28,7 +29,9 @@ class LivraisonComp extends Component
     public $selectedCoursiers;
     public $selectedColis;
     public $selectedStatut;
-    public $userName;
+    public $selectedClient;
+    // public $userName;
+    // public $coursierId;
     public $showDeleteModal = false;
 
     protected $paginationTheme = "bootstrap";
@@ -44,21 +47,24 @@ class LivraisonComp extends Component
         $coursiers = Coursier::all();
         $colis = Colis::all();
         $statuts = Statut::all();
+        $clients = Client::all();
 
         return view('livewire.livraison.index', [
             'livraisons' => $livraisons,
             'coursiers' => $coursiers,
             'statuts' => $statuts,
             'colis' => $colis,
+            'clients' => $clients,
                ])
             ->extends("layouts.app")
             ->section("content");
     }
 
-    public function mount()
-        {
-            $this->userName = Auth::user()->name;
-        }
+    // public function mount()
+    // {
+    //     $this->userName = Auth::user()->name;
+    //     $this->coursierId = Auth::user()->id;
+    // }
 
     public function addNewLivraison()
     {
@@ -68,7 +74,8 @@ class LivraisonComp extends Component
             "newLivraisonsAdd" => "required|max:50|unique:livraisons,adresse_livraison",
             "selectedColis" => "required",
             "selectedCoursiers" => "required",
-            // "selectedStatut" => "required",
+             "selectedStatut" => "required",
+             "selectedClient" => "required",
         ], [
             "newDestinataireName.required" => "Le champ du nom du livraison est requis.",
             "newDestinataireName.max" => "Le nom du livraison ne peut pas dépasser :max caractères.",
@@ -76,9 +83,10 @@ class LivraisonComp extends Component
             "newLivraisonsPhone.regex" => "Le champ du téléphonene peut contenir que des chiffres.",
             "newLivraisonsAdd.required" => "Le champ adresse du destinataire est requis.",
             "newLivraisonsAdd.max" => "L'adresse du destinataire ne peut pas dépasser :max caractères.",
-            // "selectedCoursier.required" => "Veuillez sélectionner un coursiers.",
+            "selectedCoursier.required" => "Veuillez sélectionner un coursiers.",
             "selectedColis.required" => "Veuillez sélectionner un colis.",
             "selectedStatut.required" => "Veuillez sélectionner un statut.",
+            "selectedClient.required" => "Veuillez sélectionner le client.",
         ]);
 
         $uuid = Uuid::uuid4()->toString();
@@ -90,12 +98,13 @@ class LivraisonComp extends Component
             "adresse_livraison" => $validatedData["newLivraisonsAdd"],
             "colis_id" => $validatedData["selectedColis"],
             "statut_id" => $validatedData["selectedStatut"],
-            "coursier_id" => $this->userName,
+            "coursier_id" => $validatedData["selectedCoursiers"],
+            "client_id" => $validatedData["selectedClient"],
         ]);
 
 
         session()->flash('message', 'Le livraison a été enregistré avec succès!');
-        $this->reset('newDestinataireName','newLivraisonsPhone','newLivraisonsAdd','selectedColis','selectedCoursiers','selectedStatut');
+        $this->reset('newDestinataireName','newLivraisonsPhone','newLivraisonsAdd','selectedColis','selectedCoursiers','selectedStatut','selectedClient');
     }
 
 
@@ -107,6 +116,7 @@ class LivraisonComp extends Component
             "editLivraisonsAdd" =>"required|max:50|unique:livraisons,adresse_livraison",
             "selectedCoursiers" => "required",
             "selectedColis" => "required",
+            "selectedClient" => "required",
 
        ], [
         "editDestinataireName.required" => "Le champ du nom du livraison est requis.",
@@ -118,6 +128,7 @@ class LivraisonComp extends Component
         "selectedCoursiers.required" => "Veuillez sélectionner un coursiers.",
         "selectedColis.required" => "Veuillez sélectionner un colis.",
         "selectedStatus.required" => "Veuillez sélectionner un Statut.",
+        "selectedClient.required" => "Veuillez sélectionner le client.",
        ]);
 
         $livraisons = Livraison::findOrFail($livraison->id);
@@ -219,7 +230,7 @@ class LivraisonComp extends Component
             $this->selectedStatut = null;
         }
 
-        $this->dispatch("showEditModal", []);
+        $this->dispatch("EditModal", []);
     }
 
     public function showPropD(Livraison $livraison)
@@ -230,8 +241,8 @@ class LivraisonComp extends Component
 
     public function deleteLivraison()
     {
-        if ($this->selectedLivraisons) {
-            $this->selectedLivraisons->delete();
+        if ($this->selectedLivraison) {
+            $this->selectedLivraison->delete();
             $this->dispatch('livraisonDeleted');
         }
     }

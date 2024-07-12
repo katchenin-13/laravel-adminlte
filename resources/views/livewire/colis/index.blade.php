@@ -22,7 +22,7 @@
        $("#modalProp").modal("hide")
     })
 
-
+//edit
 
     window.addEventListener("showEditModal", event=>{
        $("#editModalProp").modal({
@@ -35,49 +35,34 @@
     })
 
 
-//delet
-    window.addEventListener("showDeleteModal", event=>{
-       $("#DelectetModalProp").modal({
-           "show": true,
-           "backdrop": "static"
-       })
-       //console.log('soro');
-    })
-    window.addEventListener("closeDeleteModal", event=>{
-       $("#DelectetModalProp").modal("hide")
-    })
-
     //eyes
-
-    window.addEventListener("showDeleteModal", event=>{
-       $("#eyesModalProp").modal({
-           "show": true,
-           "backdrop": "static"
-       })
-       //console.log('soro');
-
-    })
-
-    //
     window.addEventListener("ReadModal", event=>{
-        $("#eyesModalProp").modal({
+        $("#readmodalProp").modal({
             "show": true,
             "backdrop": "static"
         })
-        console.log('angaman')
+
+        consol.log('mon code pardon')
     })
         window.addEventListener("closereadModal", event=>{
-        $("#eyesModalProp").modal("hide")
-    })
-    //
-    window.addEventListener('colisDeleted', function () {
-            //console.log('fermerture')
-            $('#DelectetModalProp').modal('hide');
+        $("#readmodalProp").modal("hide")
     })
 
-    window.addEventListener("closeDeleteModal", event=>{
-       $("#eyesModalProp").modal("hide")
-    })
+
+    ///
+    window.addEventListener("showDeleteModal", event=>{
+            $("#DelectetModalProp").modal({
+                "show": true,
+                "backdrop": "static"
+            })
+            //console.log('soro');
+            })
+            window.addEventListener('colisDeleted', function () {
+           // console.log('fermerture')
+            $('#DelectetModalProp').modal('hide');
+        });
+
+        //delet
 
 </script>
 

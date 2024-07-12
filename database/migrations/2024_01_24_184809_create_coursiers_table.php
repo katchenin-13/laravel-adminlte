@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('cni');
             $table->string('photo')->nullable();
             $table->string('email')->unique();
+            $table->string('password');
+            $table->rememberToken();
             $table->timestamp('email_verified_at')->nullable();
             $table->unsignedBigInteger('zone_id');
             $table->foreign('zone_id')->references('id') ->on('zones')->onDelete('cascade');

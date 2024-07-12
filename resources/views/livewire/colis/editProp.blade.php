@@ -1,5 +1,5 @@
-if ($request->user()->can('edit')) {
-    if ($request->user()->can('editc')) {
+{{-- if ($request->user()->can('edit')) {
+    if ($request->user()->can('editc')) { --}}
 
        <div class="modal fade" id="editModalProp" style="z-index: 1900;" role="dialog" wire:ignore.self>
                 <div class="modal-dialog" style="top:50px;">
@@ -36,7 +36,7 @@ if ($request->user()->can('edit')) {
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="editColisQuan">Quantité</label>
-                                                        <input type="text" wire:keydown.enter=""
+                                                        <input type="integer" wire:keydown.enter=""
                                                             class="form-control @error('editColisQuan') is-invalid @enderror"
                                                             wire:model="editColisQuan" />
                                                         @error('editColisQuan')
@@ -104,6 +104,3 @@ if ($request->user()->can('edit')) {
                     </div>
                 </div>
             </div>
-
-        }
-    }

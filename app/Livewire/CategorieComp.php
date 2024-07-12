@@ -94,8 +94,7 @@ class CategorieComp extends Component
 
     public function showPropD(Categorie $categorie)
     {
-        $this->selectedCategorie = $categorie;
-        $this->dispatch("showDeleteModal", []);
+ 
     }
 
     public function deleteCategorie()

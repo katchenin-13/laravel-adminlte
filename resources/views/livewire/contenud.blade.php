@@ -58,71 +58,66 @@
              <li><strong>Zone :</strong> {{ $contenu->zone->nom }}</li>
         </ul>
 
-        <!-- Livraison des colis -->
-        <h2>Historique des colis :</h2>
-        <table>
-            <thead>
+
+  <!-- Historique des colis livrés -->
+<h2>Historique des colis livrés :</h2>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Colis</th>
+            <th>Destinataire</th>
+            <th>Date de livraison</th>
+            <th>Livreur</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($livraisons as $livraison)
+            @if($livraison->statut->nom === 'livrer')
                 <tr>
-                    <th>ID</th>
-                    <th>Colis</th>
-                    <th>Destinataire</th>
-                    <th>Date de livraison prévue</th>
-                    <th>Livreur</th>
-                    <th></th>
+                    <td>{{ $livraison->uuid }}</td>
+                    <td>{{ $livraison->colis->nom }}</td>
+                    <td>{{ $livraison->destinataire }}</td>
+                    <td>{{ $livraison->created_at->format('d/m/Y') }}</td>
+                    <td>{{ $livraison->coursier->nom }}</td>
+                    <td>
+                        <a href="{{ route('bordereau', ['livraison' => $livraison->id]) }}">
+                            <i class="fa fa-download"></i>
+                        </a>
+                    </td>
                 </tr>
-            </thead>
-            @foreach($livraisons as $livraison)
-               {{-- @if($livraison->statut === 'livrer') --}}
-                    <tbody>
-                    <tr >
-                        <td >{{ $livraison->uuid }}</td>
-                        <td>{{ $livraison->colis->nom }}</td>
-                        <td>{{ $livraison->destinataire }}</td>
-                        <td>{{ $livraison->created_at->format('d/m/Y') }}</td>
-                        <td>{{ $livraison->coursier->nom }}</td>
-                        <td class="text-center">
-                            <a href="{{ route('bordereau', ['livraison' => $livraison->id]) }}">
-                                <i class="fa fa-download"></i>
+            @endif
+        @endforeach
+    </tbody>
+</table>
 
-                            </a>
-                        </td>
-                    </tr>
-                    <!-- Ajoutez d'autres lignes pour plus de colis si nécessaire -->
-                    </tbody>
-                {{-- @endif --}}
-            @endforeach
-        </table>
-
-        <!-- Informations sur les colis en cours -->
-        <h2>Colis en transit :</h2>
-        <table>
-            <thead>
+<!-- Colis en transit -->
+<h2>Colis en transit :</h2>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Colis</th>
+            <th>Livreur</th>
+            <th>Adresse</th>
+            <th>Téléphone</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($livraisons as $livraison)
+            @if($livraison->statut->nom === 'en cours')
                 <tr>
-                    <th>ID</th>
-                    <th>Colis</th>
-                    <th>Livreur</th>
-                    <th>Adresse</th>
-                    <th>Telephone</th>
+                    <td>{{ $livraison->uuid }}</td>
+                    <td>{{ $livraison->colis->nom }}</td>
+                    <td>{{ $livraison->coursier->nom }}</td>
+                    <td>{{ $livraison->adresse_livraison }}</td>
+                    <td>{{ $livraison->numerodes }}</td>
                 </tr>
-            </thead>
-
-
-            @foreach($livraisons as $livraison)
-               @if($livraison->statut === 'en cour')
-                <tbody>
-                    <tr>
-                        <td>{{ $livraison->uuid }}</td>
-                        <td>{{ $livraison->nom }}</td>
-                        <td>{{ $livraison->coursier->nom }}</td>
-                        <td>{{ $livraison->adresse_livraison}}</td>
-                        <td>{{ $livraison->numerodes}}</td>
-                    </tr>
-                    <!-- Ajoutez d'autres lignes pour plus de colis en transit si nécessaire -->
-                </tbody>
-
-                @endif
-             @endforeach
-        </table>
+            @endif
+        @endforeach
+    </tbody>
+</table>
 
 </div>
 

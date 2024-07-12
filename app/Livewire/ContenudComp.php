@@ -15,22 +15,19 @@ class ContenudComp extends Component
     public function mount($id)
     {
         $this->contenuId = $id;
+
     }
+
 
     public function render()
     {
         $contenu = Client::find($this->contenuId);
-        $livraisons = Livraison::all();
-  return view('livewire.contenud', [
-         'contenu' => $contenu,
-         'livraisons' => $livraisons,
-        ])
-            ->extends("layouts.app")
-            ->section("content");
-            // dd(Client::find("id"));
+        $livraisons = Livraison::where('client_id', $this->contenuId)->get();
 
-
-
+        return view('livewire.contenud', [
+            'contenu' => $contenu,
+            'livraisons' => $livraisons,
+        ])->extends("layouts.app")->section("content");
     }
 
 
