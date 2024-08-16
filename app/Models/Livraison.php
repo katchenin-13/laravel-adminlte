@@ -14,9 +14,10 @@ class Livraison extends Model
         'destinataire',
         'numerodes',
         'adresse_livraison',
+        'colis_id',
         'client_id',
         'coursier_id',
-        'colis_id',
+        'livraison_id',
         'statut_id'
     ];
 
@@ -26,9 +27,15 @@ class Livraison extends Model
 
     }
 
-    public function colis()
+
+    public function payement()
     {
-        return $this->belongsto(Colis::class);
+        return $this->hasMany(Payement::class);
+    }
+
+    public function livraison()
+    {
+        return $this->belongsto(Livraison::class);
 
     }
 

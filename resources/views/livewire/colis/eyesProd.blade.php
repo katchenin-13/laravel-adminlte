@@ -1,4 +1,4 @@
-<div class="modal fade" id="readmodalProp" tabindex="-1" role="dialog" wire:ignore.self>
+<div class="modal fade" id="eyesmodal" tabindex="-1" role="dialog" wire:ignore.self>
     <div class="modal-dialog" style="top:50px;">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #15a1e2; color: white;">
@@ -42,7 +42,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" wire:click="closeReadModal"><i class="fas fa-times"></i> Fermer</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times"></i> Fermer</button>
             </div>
         </div>
     </div>

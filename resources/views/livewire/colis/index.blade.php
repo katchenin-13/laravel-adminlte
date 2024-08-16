@@ -18,9 +18,9 @@
            "backdrop": "static"
        })
     })
-    window.addEventListener("closeModal", event=>{
-       $("#modalProp").modal("hide")
-    })
+    // window.addEventListener("closeModal", event=>{
+    //    $("#modalProp").modal("hide")
+    // })
 
 //edit
 
@@ -30,23 +30,21 @@
            "backdrop": "static"
        })
     })
-    window.addEventListener("closeEditModal", event=>{
-       $("#editModalProp").modal("hide")
-    })
+    // window.addEventListener("closeEditModal", event=>{
+    //    $("#editModalProp").modal("hide")
+    // })
 
 
     //eyes
-    window.addEventListener("ReadModal", event=>{
-        $("#readmodalProp").modal({
-            "show": true,
-            "backdrop": "static"
-        })
-
-        consol.log('mon code pardon')
+    window.addEventListener("readModal", event=>{
+       $("#eyesmodal").modal({
+           "show": true,
+           "backdrop": "static"
+       })
     })
-        window.addEventListener("closereadModal", event=>{
-        $("#readmodalProp").modal("hide")
-    })
+    // window.addEventListener("closereadModal", event=>{
+    //    $("#readmodalProp").modal("hide")
+    // })
 
 
     ///
@@ -57,10 +55,10 @@
             })
             //console.log('soro');
             })
-            window.addEventListener('colisDeleted', function () {
-           // console.log('fermerture')
-            $('#DelectetModalProp').modal('hide');
-        });
+        //     window.addEventListener('colisDeleted', function () {
+        //    // console.log('fermerture')
+        //     $('#DelectetModalProp').modal('hide');
+        // });
 
         //delet
 

@@ -10,7 +10,7 @@
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <tbody>
-                                            @if($selectedLivraison && $selectedLivraison instanceof App\Models\Livraison && $selectedLivraison->coursier && $selectedLivraison->colis && $selectedLivraison->statut)
+                                            @if($selectedLivraison && $selectedLivraison && $selectedLivraison->coursier && $selectedLivraison->colis && $selectedLivraison->statut)
                                             <tr>
                                                 <td><strong>Destinataire:</strong></td>
                                                 <td>{{ $selectedLivraison->destinataire }}</td>
@@ -46,7 +46,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" wire:click="closeModal"><i class="fas fa-times"></i> Fermer</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times"></i> Fermer</button>
                         </div>
                     </div>
                 </div>

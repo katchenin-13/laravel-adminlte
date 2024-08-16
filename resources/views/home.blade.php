@@ -40,7 +40,11 @@
                                 <div class="col-12 col-sm-6 col-md-3">
                                 <div class="info-box">
                                     <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
-
+                                    {{-- @foreach (auth()->user()->notifications as $notification)
+                                        <div>
+                                            <p>{{ $notification->data['message'] }}</p>
+                                        </div>
+                                     @endforeach --}}
                                     <div class="info-box-content">
                                     <span class="info-box-text">Users</span>
                                     <span class="info-box-number">
@@ -107,68 +111,45 @@
                         <!-- /.col-md-6 -->
                         <div >
                             <div class="card">
-                                    <div class="card-header border-transparent">
-                                    <h3 class="card-title">LIVRAISONS</h3>
-                                    </div>
-                                    <!-- /.card-header -->
-                                    <div class="card-body p-0">
-                                    <div class="table-responsive">
-                                        <table class="table m-0">
-                                        <thead>
-                                        <tr>
-                                            <th>Order ID</th>
-                                            <th>Colis</th>
-                                            <th >Nom</th>
-                                            <th>Commune</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-
-                                                <tr >
-                                                    <td style="color:rgb(0, 195, 255);">OR9842</td>
-                                                    <td>Call of Duty IV</td>
-                                                    <td><span>Angaman</span></td>
-                                                    <td ><span >Yopougon</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="color:rgb(0, 195, 255);">OR1843</td>
-                                                    <td>Samsung Smart TV</td>
-                                                    <td><span >Itachi</span></td>
-                                                    <td><span >Abobo</span></td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td style="color:rgb(0, 195, 255);">OR1844</td>
-                                                    <td>Samsung Smart</td>
-                                                    <td><span >Koffi</span></td>
-                                                    <td><span>Abobo</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="color:rgb(0, 195, 255);">OR1845</td>
-                                                    <td>Teckno </td>
-                                                    <td><span >dibi</span></td>
-                                                    <td><span>Yopougon</span></td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td style="color:rgb(0, 195, 255);">OR1848</td>
-                                                    <td>Iphone </td>
-                                                    <td><span >Konan</span></td>
-                                                    <td><span>Cocody</span></td>
-                                                </tr>
-                                        </tbody>
-                                        </table>
-                                    </div>
-                                    <!-- /.table-responsive -->
-                                    </div>
-
-                                </div>
+                                        <div class="card-header border-transparent">
+                                            <h3 class="card-title">LIVRAISONS</h3>
+                                        </div>
+                                        <!-- /.card-header -->
+                                        <div class="card-body p-0">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width:10%;">No</th>
+                                                            <th style="width:10%;" class="text-center">ID</th>
+                                                            <th style="width:10%;" class="text-center">Destinataire</th>
+                                                            <th style="width:20%;" class="text-center">Coursier</th>
+                                                            <th style="width:20%;" class="text-center">Telephone</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($livraisons as $item)
+                                                        <tr>
+                                                            <td>{{ $loop->iteration }}</td>
+                                                            <td class="text-center">{{ $item->uuid }}</td>
+                                                            <td class="text-center">{{ $item->destinataire }}</td>
+                                                            <td class="text-center">{{ $item->coursier->nom }}</td>
+                                                            <td class="text-center">{{ $item->numerodes }}</td>
+                                                        </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <!-- /.table-responsive -->
+                                        </div>
                             <!-- /.d-flex -->
 
 
-                        </div>
+                         </div>
 
-                    </div>
+                      </div>
+
+                  </div>
                 </div>
 
             @endsection

@@ -9,7 +9,7 @@
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <tbody>
-                                @if($selectedCoursiers && $selectedCoursiers->vehicule && $selectedCoursiers->zone)
+                                @if($selectedCoursiers && $selectedCoursiers->vehicule && $selectedCoursiers->zone && $selectedCoursiers->employer && $selectedCoursiers->user)
                                 <tr>
                                     <td><strong>Nom:</strong></td>
                                     <td>{{ $selectedCoursiers ->nom }}</td>
@@ -21,13 +21,8 @@
                                 </tr>
 
                                 <tr>
-                                    <td><strong>Telephone 1:</strong></td>
+                                    <td><strong>Telephone:</strong></td>
                                     <td>{{ $selectedCoursiers->numero_telephone }}</td>
-                                </tr>
-
-                                <tr>
-                                    <td><strong>Telephone 2:</strong></td>
-                                    <td>{{ $selectedCoursiers->numero_telephone_2 }}</td>
                                 </tr>
 
                                 <tr>
@@ -41,19 +36,10 @@
                                 </tr>
 
                                 <tr>
-                                    <td><strong>Salaire:</strong></td>
-                                    <td>{{ $selectedCoursiers->salaire }}</td>
-                                </tr>
-
-                                <tr>
                                     <td><strong>Cni:</strong></td>
                                     <td>{{ $selectedCoursiers->cni }}</td>
                                 </tr>
 
-                                <tr>
-                                    <td><strong>Photo:</strong></td>
-                                    <td>{{ $selectedCoursiers->photo }}</td>
-                                </tr>
 
                                 <tr>
                                     <td><strong>Email:</strong></td>
@@ -63,12 +49,22 @@
                                  <tr>
                                     <td><strong>Vehicule:</strong></td>
                                     <td>{{ $selectedCoursiers->vehicule->nom }}</td>
-                                </tr> 
+                                </tr>
 
                                 <tr>
                                     <td><strong>Zone:</strong></td>
                                     <td>{{ $selectedCoursiers->zone->nom }}</td>
-                                </tr> 
+                                </tr>
+
+                                <tr>
+                                    <td><strong>Poste:</strong></td>
+                                    <td>{{ $selectedCoursiers->employer->poste }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td><strong>Compte:</strong></td>
+                                    <td>{{ $selectedCoursiers->user->name }}</td>
+                                </tr>
 
                                 @endif
                             </tbody>
@@ -77,7 +73,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" wire:click="closereadModal"><i class="fas fa-times"></i> Fermer</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times"></i> Fermer</button>
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-@can('modifier')
+
     <div>
         @include("livewire.users.deletProp")
         @include("livewire.users.readProd")
@@ -16,7 +16,7 @@
                 "backdrop": "static"
             })
         })
-        window.addEventListener("closeModal", event=>{
+        window.addEventListener("closeModal", event=>{ss
             $("#modalProp").modal("hide")
         })
 
@@ -53,4 +53,3 @@
             $('#DelectetModalProp').modal('hide');
         });
     </script>
-@endcan

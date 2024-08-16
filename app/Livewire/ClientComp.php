@@ -10,6 +10,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Livewire\WithPagination;
 use Illuminate\Support\Carbon;
 use App\Events\NewclientCreated;
+use App\Notifications\ClientCreated;
+use Illuminate\Support\Facades\Notification;
 
 
 class ClientComp extends Component
@@ -17,6 +19,7 @@ class ClientComp extends Component
     use WithPagination;
 
     public $search = "";
+    public $client;
     public $newClientName = "";
     public $newClientPrenom = "";
     public $newClientPhone = "";
@@ -33,6 +36,8 @@ class ClientComp extends Component
     public $clientCount;
     public $showDeleteModal="false";
     public $clientToDelete;
+    public $loading = false; // Propriété pour gérer l'état de chargement
+
 
 
 
@@ -50,12 +55,16 @@ class ClientComp extends Component
 
         $searchCriteria = "%" . $this->search . "%";
 
-        $clients = Client::where("nom", "like", $searchCriteria)->latest()->paginate(10);
+        $client = Client::where('nom', 'like', '%'.$this->search.'%')
+        ->orWhere('uuid', 'like', '%'.$this->search.'%')
+        ->orWhere('prenom', 'like', '%'.$this->search.'%')
+        ->orWhere('email', 'like', '%'.$this->search.'%')
+        ->paginate(10);
 
         $zones = Zone::all();
 
         return view('livewire.client.index',[
-            'clients' => $clients,
+            'clients' => $client,
             'zones' => $zones,
         ])
             ->extends("layouts.app")
@@ -69,6 +78,7 @@ class ClientComp extends Component
 
     public function addNewClient()
     {
+        $this->loading = true; // Début du chargement
         $validatedData = $this->validate([
             "newClientName" => "required|max:20",
             "newClientPrenom" => "required|max:50",
@@ -94,7 +104,7 @@ class ClientComp extends Component
 
         $uuid = Uuid::uuid4()->toString();
 
-        $newClient=Client::create([
+        $newClient = Client::create([
             "uuid" => $uuid,
             "nom" => $validatedData["newClientName"],
             "prenom" => $validatedData["newClientPrenom"],
@@ -104,11 +114,15 @@ class ClientComp extends Component
             "zone_id" => $validatedData["selectedZone"],
         ]);
 
+        // Envoyer la notification
+        Notification::route('mail', $newClient->email)
+                    ->notify(new ClientCreated($newClient));
+
         event(new NewclientCreated($newClient));
         session()->flash('message', 'Le client a été enregistré avec succès!');
 
-
         $this->reset('newClientName','newClientPrenom','newClientPhone','newClientEmail','newClientSecteur','selectedZone');
+        $this->loading = false;
     }
 
 

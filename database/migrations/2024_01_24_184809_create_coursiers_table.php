@@ -17,20 +17,16 @@ return new class extends Migration
             $table->string('nom');
             $table->string('prenom');
             $table->string('numero_telephone');
-            $table->string('numero_telephone_2')->nullable();
             $table->string('numero_permis_conduire')->nullable();
             $table->string('plaque_immatriculation')->nullable();
-            $table->decimal('salaire', 10, 2); // Utilisez decimal pour les champs de salaire avec deux chiffres après la virgul
             $table->string('cni');
-            $table->string('photo')->nullable();
             $table->string('email')->unique();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamp('email_verified_at')->nullable();
             $table->unsignedBigInteger('zone_id');
             $table->foreign('zone_id')->references('id') ->on('zones')->onDelete('cascade');
             $table->unsignedBigInteger('vehicule_id');
             $table->foreign('vehicule_id')->references('id') ->on('vehicules')->onDelete('cascade');
+            $table->unsignedBigInteger('employer_id');
+            $table->foreign('employer_id')->references('id') ->on('employers')->onDelete('cascade');
             $table->timestamps();
         });
 

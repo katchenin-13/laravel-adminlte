@@ -6,6 +6,7 @@ use App\Models\Zone;
 use Ramsey\Uuid\Uuid;
 use Livewire\Component;
 use App\Models\Coursier;
+use App\Models\Employer;
 use App\Models\Vehicule;
 use Livewire\WithPagination;
 use Illuminate\Support\Carbon;
@@ -16,30 +17,26 @@ class CoursierComp extends Component
 
 
     public $search = "";
+    public $coursier;
     public $newCoursiersName = "";
     public $newCoursiersPrenom = "";
     public $newCoursiersPhone = "";
-    public $newCoursiersPhone2 = "";
     public $newCoursiersNump = "";
     public $newCoursiersPlaq = "";
-    public $newCoursiersSal = "";
     public $newCoursiersCni = "";
-    public $newCoursiersPhoto = "";
     public $newCoursiersEmail = "";
     public $editCoursiersName = "";
     public $editCoursiersPrenom = "";
     public $editCoursiersPhone1 = "";
-    public $editCoursiersPhone2 = "";
     public $editCoursiersNump = "";
     public $editCoursiersPlaq = "";
-    public $editCoursiersSal = "";
     public $editCoursiersCni = "";
-    public $editCoursiersPhoto = "";
     public $editCoursiersEmail = "";
     public $editCoursiersid ="";
     public $selectedCoursiers;
     public $selectedZone;
     public $selectedVehicule;
+    public $selectedEmployer;
     public $coursierCount;
     public $showDeleteModal="false";
 
@@ -58,15 +55,24 @@ class CoursierComp extends Component
 
         $searchCriteria = "%" . $this->search . "%";
 
-        $coursiers = Coursier::where('nom', 'like', '%'.$this->search.'%')
+        $coursier = Coursier::where('nom', 'like', '%'.$this->search.'%')
         ->orWhere('email', 'like', '%'.$this->search.'%')
         ->orWhere('numero_telephone', 'like', '%'.$this->search.'%')
-        ->paginate(10); // Adjust pagination limit as needed
-
+        ->orWhere('cni', 'like', '%'.$this->search.'%')
+        ->orWhere('plaque_immatriculation', 'like', '%'.$this->search.'%')
+        ->orWhere('uuid', 'like', '%'.$this->search.'%')
+        ->paginate(10);
+        // dd("all");
         $zones = Zone::all();
+        $employers = Employer::all();
         $vehicules = Vehicule::all();
 
-        return view('livewire.coursier.index', compact('coursiers', 'zones', 'vehicules'))
+        return view('livewire.coursier.index', [
+            'coursiers'=> $coursier,
+            'zones'=> $zones,
+            'employers'=>$employers,
+            'vehicules'=> $vehicules,
+            ])
                 ->extends("layouts.app")
                 ->section("content");
     }
@@ -77,15 +83,13 @@ class CoursierComp extends Component
              "newCoursiersName" =>"required|max:20",
              "newCoursiersPrenom" =>"required|max:50",
              "newCoursiersPhone"=>"required|max:10|unique:coursiers,numero_telephone",
-             "newCoursiersPhone2" =>"max:10",
              "newCoursiersNump" =>"required|max:20|unique:coursiers,numero_permis_conduire",
-             "newCoursiersSal" =>"required|max:9|regex:/^\d+$/",
              "newCoursiersCni" =>"required|max:9|unique:coursiers,cni",
-             "newCoursiersPhoto" =>"max:100",
              "newCoursiersPlaq" =>"required|max:20",
              "newCoursiersEmail" =>"required|max:50|unique:coursiers,email",
              "selectedVehicule" => "required",
              "selectedZone" => "required",
+             "selectedEmployer" => "required",
         ], [
             "newCoursiersName.required" => "Le champ du nom du coursier est requis.",
             "newCoursiersName.max" => "Le nom du coursier ne peut pas dépasser :max caractères.",
@@ -99,7 +103,6 @@ class CoursierComp extends Component
             "newCoursiersNump.required" => "Le champ du numero de permis du coursier est requis.",
             "newCoursiersNump.max" => "Le numero de permis du coursier ne peut pas dépasser :max caractères.",
             "newCoursiersNump.unique" => "numero de permis est déjà utilisé.",
-            "newCoursiersSal.required" => "Le champ du salaire du coursier est requis.",
             "newCoursiersSal.max" => "Le salaire du coursier ne peut pas dépasser :max caractères.",
             "newCoursiersSal.regex" => "Le champ du salaire peut contenir que des chiffres.",
             "newCoursiersEmail.required" => "Le champ email du coursier est requis.",
@@ -112,6 +115,7 @@ class CoursierComp extends Component
             "newCoursiersPlaq.max" => "La palque du vehicule ne peut pas dépasser :max caractères.",
             "selectedZone.required" => "Veuillez sélectionner une zone.",
             "selectedVehicule.required" => "Veuillez sélectionner un vehicule.",
+            "selectedEmployer.required" => "Veuillez sélectionner le type d'employer.",
         ]);
 
         $uuid = Uuid::uuid4()->toString();
@@ -121,18 +125,16 @@ class CoursierComp extends Component
             "nom" => $validatedData["newCoursiersName"],
             "prenom" => $validatedData["newCoursiersPrenom"],
             "numero_telephone" => $validatedData["newCoursiersPhone"],
-            "numero_telephone_2" => $validatedData["newCoursiersPhone2"],
             "numero_numero_permis_conduire" => $validatedData["newCoursiersNump"],
             "plaque_immatriculation" => $validatedData["newCoursiersPlaq"],
-            "salaire" => $validatedData["newCoursiersSal"],
             "cni" => $validatedData["newCoursiersCni"],
-            "photo" => $validatedData["newCoursiersPhoto"],
             "email" => $validatedData["newCoursiersEmail"],
             "vehicule_id" => $validatedData["selectedVehicule"],
             "zone_id" => $validatedData["selectedZone"],
+            "employer_id" => $validatedData["selectedEmployer"],
         ]);
         session()->flash('message', 'Le coursier a été enregistré avec succès!');
-        $this->reset('newCoursiersCni','selectedVehicule','selectedZone','newCoursiersEmail','newCoursiersPhoto','newCoursiersName','newCoursiersPrenom','newCoursiersPhone','newCoursiersPhone2','newCoursiersNump','newCoursiersPlaq','newCoursiersSal');
+        $this->reset('newCoursiersCni','selectedVehicule','selectedZone','newCoursiersEmail','newCoursiersName','newCoursiersPrenom','newCoursiersPhone','newCoursiersNump','selectedEmployer','newCoursiersPlaq');
     }
 
 
@@ -154,15 +156,13 @@ class CoursierComp extends Component
             "editCoursiersName" =>"required|max:20",
             "editCoursiersPrenom" =>"required|max:50",
             "editCoursiersPhone1 "=>"required|max:10|unique:coursiers,numero_telephone",
-            "editCoursiersPhone2" =>"max:10",
             "editCoursiersNump" =>"required|max:20|unique:coursiers,numero_permis_conduire",
-            "editCoursiersSal" =>"required|max:9|regex:/^\d+$/",
             "editCoursiersCni" =>"required|max:9|unique:coursiers,cni",
-            "newCoursiersPhoto" =>"max:100",
             "editCoursiersEmail" =>"required|max:10|unique:coursiers,email",
             "editCoursiersPlaq" =>"required|max:20",
             "selectedZone" => "required",
             "selectedVehicule" => "required",
+            "selectedEmployer" => "required",
 
        ], [
            "editCoursiersName.required" => "Le champ du nom du coursier est requis.",
@@ -172,14 +172,11 @@ class CoursierComp extends Component
            "editCoursiersPhone1.required" => "Le champ du téléphone du coursier est requis.",
            "editCoursiersPhone1.max" => "Le téléphone du coursier ne peut pas dépasser :max caractères.",
            "editCoursiersPhone1.regex" => "Le champ du téléphonene peut contenir que des chiffres.",
-           "editCoursiersPhone2.max" => "Le téléphone du coursier ne peut pas dépasser :max caractères.",
-           "editCoursiersPhone2.regex" => "Le champ du téléphonene peut contenir que des chiffres.",
            "editCoursiersNump.required" => "Le champ du numero de permis du coursier est requis.",
            "editCoursiersNump.max" => "Le numero de permis du coursier ne peut pas dépasser :max caractères.",
            "editCoursiersNump.unique" => "numero de permis est déjà utilisé.",
            "editCoursiersSal.required" => "Le champ du salaire du coursier est requis.",
            "editCoursiersSal.max" => "Le salaire du coursier ne peut pas dépasser :max caractères.",
-           "editCoursiersSal.regex" => "Le champ du salaire peut contenir que des chiffres.",
            "editCoursiersEmail.required" => "Le champ email du coursier est requis.",
            "editCoursiersEmail.max" => "L'email du coursier ne peut pas dépasser :max caractères.",
            "newCoursiersEmail.unique" => "Email est déjà utilisé.",
@@ -189,6 +186,7 @@ class CoursierComp extends Component
            "editCoursiersPlaq.required" => "Le champ plaque du coursier est requis.",
            "editCoursiersPlaq.max" => "La palque du vehicule ne peut pas dépasser :max caractères.",
            "selectedZone.required" => "Veuillez sélectionner une zone.",
+           "selectedEmployer.required" => "Veuillez sélectionner le type d'employer.",
             "selectedVehicule.required" => "Veuillez sélectionner un vehicule.",
        ]);
 
@@ -196,23 +194,18 @@ class CoursierComp extends Component
         $coursiers->nom = $this->editCoursiersName;
         $coursiers->prenom = $this->editCoursierPrenom;
         $coursiers->numero_telephone = $this->editCoursierPhone1;
-        $coursiers->numero_telephone_2 = $this->editCoursierPhone2;
         $coursiers->numero_permis_conduire = $this->editCoursiersNump;
         $coursiers->plaque_immatriculation = $this->editCoursierPlaq;
-        $coursiers->salaire = $this->editCoursierSal;
         $coursiers->cni = $this->editCoursierCni;
-        $coursiers->photo = $this->editCoursierPhoto;
         $coursiers->email= $this->editCoursierEmail;
         $result = $coursiers->save();
         $coursiers->nom = "";
         $coursiers->prenom = "";
         $coursiers->numero_telephone = "";
-        $coursiers->numero_telephone_2 = "";
         $coursiers->numero_permis_conduire = "";
         $coursiers->plaque_immatriculation = "";
         $coursiers->salaire = "";
         $coursiers->cni = "";
-        $coursiers->photo= "";
         $coursiers->email = "";
 
     }
@@ -228,6 +221,14 @@ class CoursierComp extends Component
     {
         $coursier = Coursier::findOrFail($coursierId);
         $coursier->vehicule_id = $vehiculeId;
+        $coursier->save();
+
+    }
+
+    public function updateEmployer($coursierId, $employerId)
+    {
+        $coursier = Coursier::findOrFail($coursierId);
+        $coursier->employer_id = $employerId;
         $coursier->save();
 
     }
@@ -253,32 +254,19 @@ class CoursierComp extends Component
         $this->editCoursiersName= $editCoursier->nom;
         $this->editCoursiersPrenom = $editCoursier->prenom;
         $this->editCoursiersPhone1 = $editCoursier->numero_telephone;
-        $this->editCoursiersPhone2 = $editCoursier->numero_telephone_2;
         $this->editCoursiersNump = $editCoursier->numero_permis_conduire;
         $this->editCoursiersPlaq= $editCoursier->plaque_immatriculation;
-        $this->editCoursiersSal = $editCoursier->salaire;
         $this->editCoursiersCni= $editCoursier->cni;
-        $this->editCoursiersPhoto = $editCoursier->photo;
         $this->editCoursiersEmail = $editCoursier->email;
 
-        $selectedZone = Zone::find($editCoursier->zone_id);
-
-        if ($selectedZone) {
-
-            $this->selectedZone = $selectedZone->id;
-        } else {
-
-            $this->selectedZone = null;
+        function getModelId($model, $id) {
+            $instance = $model::find($id);
+            return $instance ? $instance->id : null;
         }
 
-        $selectedVehicule = Vehicule::find($editCoursier->vehicule_id);
-
-        if ($selectedVehicule) {
-            $this->selectedVehicule = $selectedVehicule->id;
-        } else {
-
-            $this->selectedVehicule = null;
-        }
+        $this->selectedZone = getModelId(Zone::class, $editCoursier->zone_id);
+        $this->selectedVehicule = getModelId(Vehicule::class, $editCoursier->vehicule_id);
+        $this->selectedEmployer = getModelId(Employer::class, $editCoursier->employer_id);
 
         $this->dispatch("showEditModal", [$coursier->nom,$coursier->prenom,$coursier->numero_telephone,$coursier->numero_telephone_2,$coursier->numero_permis_conduire,$coursier->email,$coursier->cni,$coursier->photo,$coursier->numero_plaque_immatriculation,$coursier->numero_salaire]);
     }

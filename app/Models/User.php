@@ -39,6 +39,22 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    // public function coursuser()
+    // {
+    //     return $this->hasOne(Coursuser::class);
+    // }
+
+    public function coursier()
+    {
+        return $this->belongsToMany(Coursier::class, 'coursuser');
+    }
+
+    public function manager()
+    {
+        return $this->hasmany(Manager::class , 'manuser');
+    }
+
+
 
     protected static function boot()
     {

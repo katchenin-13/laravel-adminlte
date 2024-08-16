@@ -22,9 +22,9 @@
            "backdrop": "static"
        })
     })
-    window.addEventListener("closeModal", event=>{
-       $("#modalProp").modal("hide")
-    })
+    // window.addEventListener("closeModal", event=>{
+    //    $("#modalProp").modal("hide")
+    // })
 
     //edit
     window.addEventListener("showEditModal", event=>{
@@ -33,9 +33,9 @@
            "backdrop": "static"
        })
     })
-    window.addEventListener("closeEditModal", event=>{
-       $("#editModalProp").modal("hide")
-    })
+    // window.addEventListener("closeEditModal", event=>{
+    //    $("#editModalProp").modal("hide")
+    // })
 //show
     window.addEventListener("ReadModal", event=>{
         $("#readmodalProp").modal({
@@ -43,9 +43,9 @@
             "backdrop": "static"
         })
     })
-        window.addEventListener("closereadModal", event=>{
-        $("#readmodalProp").modal("hide")
-    })
+    //     window.addEventListener("closereadModal", event=>{
+    //     $("#readmodalProp").modal("hide")
+    // })
 
  //delet
  window.addEventListener("showDeleteModal", event=>{
@@ -56,9 +56,9 @@
             //console.log('soro');
             })
             window.addEventListener('categorieDeleted', function () {
-           // console.log('fermerture')
-            $('#DelectetModalProp').modal('hide');
-        });
+          // console.log('fermerture')
+          $('#DelectetModalProp').modal('hide');
+         });
 
 </script>
 

@@ -22,6 +22,7 @@ class ZoneComp extends Component
     public $editZoneid ="";
     public $selectedZone;
     public $selectedCommune ="";
+    public $zone;
     // public $communeCount;
     public $showDeleteModal="false";
 //    public $counter = 0;
@@ -36,14 +37,12 @@ class ZoneComp extends Component
 
         // $total = $Commune ::total();
 
-        $zones = Zone::where('nom', 'like', '%'.$this->search.'%')
-        ->orWhere('email', 'like', '%'.$this->search.'%')
-        ->orWhere('numero_telephone', 'like', '%'.$this->search.'%')
+        $zone = Zone::where('nom', 'like', '%'.$this->search.'%')
         ->paginate(10);
 
         $communes = Commune::all();
         return view('livewire.zone.index',[
-            'zones' => $zones,
+            'zones' => $zone,
             'communes' => $communes,
         ])
             ->extends("layouts.app")

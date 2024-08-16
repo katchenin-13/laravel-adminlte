@@ -44,8 +44,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" wire:click="closeEditModal"><i
-                            class="fas fa-times"></i> Fermer</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times"></i> Fermer</button>
 
                     <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Valider</button>
                 </div>

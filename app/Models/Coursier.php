@@ -10,29 +10,19 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Coursier extends Authenticatable
 {
-    use HasFactory, HasApiTokens;
+    use HasFactory ;
     protected $fillable = [
         'uuid',
         'nom',
         'prenom',
         'email',
-       ' password',
         'numero_telephone',
-        'numero_telephone_2',
         'numero_permis_conduire',
         'plaque_immatriculation',
-        'statut',
-        'date_embauche',
-        'salaire',
         'cni',
-        'photo',
         'zone_id',
         'vehicule_id',
-    ];
-
-    protected $hidden = [
-        'password',
-        'remember_token',
+        'employer_id'
     ];
 
     public function zone()
@@ -41,17 +31,41 @@ class Coursier extends Authenticatable
 
     }
 
+    public function user()
+    {
+        return $this->belongsToMany(User::class,'coursuser');
+
+    }
+
+    public function employer()
+    {
+        return $this->belongsTo(Employer::class);
+
+    }
+
+
+
     public function vehicule()
     {
         return $this->belongsTo(Vehicule::class);
 
     }
 
+    // public function users()
+    // {
+    //     return $this->belongsToMany(User::class);
+    // }
+
     // public function sinistre()
     // {
     //     return $this->belongsto(sinsitre::class);
 
     // }
+
+    public function payement()
+    {
+        return $this->hasMany(Payement::class);
+    }
 
     public function colis()
     {

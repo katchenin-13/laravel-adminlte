@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Ramsey\Uuid\Uuid;
 use App\Models\Dossier;
+use Laravel\Cashier\Billable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Client extends Model
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, Billable;
     protected $fillable = [
         'uuid',
         'nom',
@@ -24,6 +25,11 @@ class Client extends Model
     public function zone()
     {
         return $this->belongsto(Zone::class);
+    }
+
+    public function payement()
+    {
+        return $this->hasMany(Payement::class);
     }
 
     public function dossier()

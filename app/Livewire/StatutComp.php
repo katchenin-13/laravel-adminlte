@@ -12,6 +12,7 @@ class StatutComp extends Component
 {
 
     public $search = "";
+    public $statut;
     public $newStatutName = "";
     public $editStatutName = "";
     public $editStatutid ="";
@@ -30,12 +31,13 @@ class StatutComp extends Component
 
         $searchCriteria = "%" . $this->search . "%";
 
-        $statuts = Statut::where('nom', 'like', '%'.$this->search.'%')
-        ->orWhere('email', 'like', '%'.$this->search.'%')
-        ->orWhere('numero_telephone', 'like', '%'.$this->search.'%')
+        $statut = Statut::where('nom', 'like', '%'.$this->search.'%')
+        ->orWhere('uuid', 'like', '%'.$this->search.'%')
         ->paginate(10);
 
-        return view('livewire.statut.index', ['statuts' => Statut::latest()->paginate(10)])
+        return view('livewire.statut.index', [
+            'statuts' => $statut,
+            ])
             ->extends("layouts.app")
             ->section("content");
     }

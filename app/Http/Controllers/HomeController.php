@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+// use App\Models\Colis;
 use App\Models\Client;
 use App\Models\Commune;
 use App\Models\Coursier;
+use App\Models\Livraison;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -31,6 +33,9 @@ class HomeController extends Controller
         $communeCount = Commune::count();
         $coursierCount = Coursier::count();
         $clientCount = Client::count();
-        return view('/home', compact('userCount','communeCount','coursierCount','clientCount'));
+        $livraisons = Livraison::all();
+        return view('/home', compact('userCount','communeCount','coursierCount','clientCount','livraisons'));
     }
+
+
 }

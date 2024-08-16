@@ -37,7 +37,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" wire:click="closeModal"><i class="fas fa-times"></i> Fermer</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times"></i> Fermer</button>
                 <button class="btn btn-success" wire:click="addNewStatut"> <i class="fa fa-check"></i> Valider</button>
             </div>
         </div>

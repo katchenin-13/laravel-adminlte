@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Configcontroller;
 use App\Models\User;
 use App\Models\Commune;
 use App\Livewire\Counter;
@@ -12,11 +11,16 @@ use App\Livewire\ClientComp;
 use App\Livewire\StatutComp;
 use App\Livewire\CommuneComp;
 use App\Livewire\DossierComp;
+use App\Livewire\ManagerComp;
+use App\Livewire\ManuserComp;
 use App\Livewire\ContenudComp;
 use App\Livewire\CoursierComp;
+use App\Livewire\EmployerComp;
+use App\Livewire\PayementComp;
 use App\Livewire\VehiculeComp;
 use App\Livewire\BordereauComp;
 use App\Livewire\CategorieComp;
+use App\Livewire\CoursuserComp;
 use App\Livewire\LivraisonComp;
 use App\Livewire\TarificationComp;
 use Spatie\Permission\Models\Role;
@@ -25,9 +29,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\UserController;
 use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\StatsController;
+use App\Http\Controllers\Configcontroller;
 use App\Http\Controllers\EspaceController;
 
 /*
@@ -93,7 +97,6 @@ Route::middleware('auth')->group(function () {
     // Route::get('/categorie', CategorieComp ::class)->name('categories');
     // Route::get('/zone', ZoneComp::class)->name('zones');
     Route::get('/bordereau', BordereauComp::class)->name('pdf');
-    // Route::get('/user', UserComp::class)->name('users');
     Route::get('/pdf/{livraison}', [PDFController::class, 'generatePDF'])->name('bordereau');
     Route::get('/dossier', DossierComp::class)->name('dossiers');
     Route::get('/contenu/{id}', ContenudComp::class)->name('contenu');
@@ -120,13 +123,19 @@ Route::group(['middleware' => ['role:superadmin']], function () {
     Route::get('config', [Configcontroller::class, 'index'])->name('config');
     Route::get('/commune', CommuneComp::class)->name('communes');
     Route::get('/colis', ColisComp::class)->name('colis');
+    Route::get('/payer', PayementComp::class)->name('payer');
     Route::get('/coursier', CoursierComp ::class)->name('coursiers');
     Route::get('/tarification', TarificationComp::class)->name('tarifications');
     Route::get('/client', ClientComp ::class)->name('clients');
+    Route::get('/Manager', ManagerComp ::class)->name('managers');
+    Route::get('/employer', EmployerComp ::class)->name('employers');
     Route::get('/categorie', CategorieComp ::class)->name('categories');
     Route::get('/zone', ZoneComp::class)->name('zones');
+    Route::get('/coursuser', CoursuserComp::class)->name('comptes');
+    Route::get('/manuser', ManuserComp::class)->name('comptesm');
     Route::get('/bordereau', BordereauComp::class)->name('pdf');
     Route::get('/user', UserComp::class)->name('users');
+    Route::get('/user/available/{excludedId}', [CoursuserComp::class, 'availableUsers']);
     Route::get('/pdf/{livraison}', [PDFController::class, 'generatePDF'])->name('bordereau');
     // Route::get('/dossier', DossierComp::class)->name('dossiers');
     // Route::get('/contenu/{id}', ContenudComp::class)->name('contenu');

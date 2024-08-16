@@ -6,29 +6,23 @@ use Ramsey\Uuid\Uuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Facture extends Model
+class Employer extends Model
 {
     use HasFactory;
-    protected $fillable=[
-        'uuid',
-    'montantT',
-    'statut',
-    'date',
-    'facture'
+    protected $fillable = [
+    'uuid',
+    'poste',
+    'salaire',
     ];
 
 
-    public function lfacture()
-    {
-        return $this->hasMany(Lfacture::class);
 
+
+    public function coursier()
+    {
+        return $this->hasmany(Coursier::class);
     }
 
-    public function dossier()
-    {
-        return $this->belongsto(Dossier::class);
-
-    }
 
     protected static function boot()
     {

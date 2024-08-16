@@ -18,6 +18,7 @@ class LivraisonComp extends Component
     use WithPagination;
 
     public $search = "";
+    public $livraison;
     public $newDestinataireName = "";
     public $newLivraisonsPhone = "";
     public $newLivraisonsAdd = "";
@@ -42,15 +43,17 @@ class LivraisonComp extends Component
 
         $searchCriteria = "%" . $this->search . "%";
 
-        $livraisons = Livraison::where("destinataire", "like", $searchCriteria)->latest()->paginate(10);
-
+        $livraison = Livraison::where('numerodes', 'like', '%'.$this->search.'%')
+        ->orWhere('destinataire', 'like', '%'.$this->search.'%')
+        ->orWhere('uuid', 'like', '%'.$this->search.'%')
+        ->paginate(10);
         $coursiers = Coursier::all();
         $colis = Colis::all();
         $statuts = Statut::all();
         $clients = Client::all();
 
         return view('livewire.livraison.index', [
-            'livraisons' => $livraisons,
+            'livraisons' => $livraison,
             'coursiers' => $coursiers,
             'statuts' => $statuts,
             'colis' => $colis,

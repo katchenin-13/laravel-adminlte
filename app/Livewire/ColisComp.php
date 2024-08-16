@@ -14,6 +14,7 @@ class ColisComp extends Component
 {
     use WithPagination;
 
+    public $colisse;
     public $search = "";
     public $newColisName = "";
     public $newColisDes = "";
@@ -26,7 +27,7 @@ class ColisComp extends Component
     public $selectedCategorie;
     public $selectedClient;
     // public $colisCount;
-    public $showDeleteModal="false";
+    public $showDeleteModal=false;
 
 
 
@@ -44,9 +45,8 @@ class ColisComp extends Component
 
         $searchCriteria = "%" . $this->search . "%";
 
-        $colis = Colis::where('nom', 'like', '%'.$this->search.'%')
-        ->orWhere('email', 'like', '%'.$this->search.'%')
-        ->orWhere('numero_telephone', 'like', '%'.$this->search.'%')
+        $colisse = Colis::where('nom', 'like', '%'.$this->search.'%')
+        ->orWhere('uuid', 'like', '%'.$this->search.'%')
         ->paginate(10);
 
         // $colisCount = $this->colisCount;
@@ -57,7 +57,7 @@ class ColisComp extends Component
         return view('livewire.colis.index', [
             'categories' => $categories,
             'clients' => $clients,
-            'colis' => $colis,
+            'colis' => $colisse,
         ])
             ->extends("layouts.app")
             ->section("content");
@@ -186,8 +186,7 @@ class ColisComp extends Component
     public function showPropC(Colis $colis)
     {
         $this->selectedColis = $colis;
-
-        $this->dispatch("ReadModal", []);
+        $this->dispatch("readModal", []);
     }
 
     public function closeReadModal()
@@ -209,7 +208,7 @@ class ColisComp extends Component
     {
         if ($this->selectedColis) {
             $this->selectedColis->delete();
-            $this->dispatch('colisDeleted');
+            $this->dispatch('colisDeleted'); // Déclenche l'événement après la suppression
         }
     }
 

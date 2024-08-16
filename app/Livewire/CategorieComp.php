@@ -18,6 +18,7 @@ class CategorieComp extends Component
     public $editCategorieName = "";
     public $editCategorieid ="";
     public $selectedCategorie;
+    public $categorie;
     // public $communeCount;
     public $showDeleteModal="false";
 
@@ -37,10 +38,12 @@ class CategorieComp extends Component
 
         $searchCriteria = "%" . $this->search . "%";
 
-        $categories = Categorie::where("nom", "like", $searchCriteria)->latest()->paginate(10);
+        $categorie = Categorie::where('nom', 'like', '%'.$this->search.'%')
+        ->paginate(10);
 
-        return view('livewire.categorie.index', ['categories' => Categorie::latest()->paginate(10)])
-            ->extends("layouts.app")
+        return view('livewire.categorie.index', [
+            'categories' => $categorie,
+            ])->extends("layouts.app")
             ->section("content");
     }
 
@@ -94,7 +97,10 @@ class CategorieComp extends Component
 
     public function showPropD(Categorie $categorie)
     {
- 
+
+        $this->selectedCategorie = $categorie;
+        $this->dispatch("showDeleteModal", []);
+
     }
 
     public function deleteCategorie()

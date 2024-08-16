@@ -10,7 +10,7 @@
                 Êtes-vous sûr de vouloir supprimer cette user?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times"></i> Fermer</button>
                 <button type="button" class="btn btn-danger" wire:click="deleteUser">Supprimer</button>
             </div>
         </div>

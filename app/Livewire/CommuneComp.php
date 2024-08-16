@@ -15,11 +15,12 @@ class CommuneComp extends Component
     use WithPagination;
 
     public $search = "";
+    public $commune;
     public $newCommuneName = "";
     public $editCommuneName = "";
     public $editCommuneid ="";
     public $selectedCommune;
-    // public $communeCount;
+    public $loading = false;
     public $showDeleteModal="false";
 
 
@@ -37,15 +38,23 @@ class CommuneComp extends Component
         Carbon::setLocale("fr");
 
         $searchCriteria = "%" . $this->search . "%";
+        $this->loading = true;
 
-        $communes = Commune::where('nom', 'like', '%'.$this->search.'%')
-        ->orWhere('email', 'like', '%'.$this->search.'%')
-        ->orWhere('numero_telephone', 'like', '%'.$this->search.'%')
+        $commune = Commune::where('nom', 'like', '%'.$this->search.'%')
+        ->orWhere('uuid', 'like', '%'.$this->search.'%')
         ->paginate(10);
 
-        return view('livewire.commune.index', ['communes' => Commune::latest()->paginate(10)])
-            ->extends("layouts.app")
+        $this->loading = false;
+        return view('livewire.commune.index', [
+            'communes' => $commune,
+
+        ]) ->extends("layouts.app")
             ->section("content");
+    }
+
+    public function searchCommune()
+    {
+        $this->resetPage();
     }
 
 

@@ -15,6 +15,7 @@ class TarificationComp extends Component
     use WithPagination;
 
     public $search = "";
+    public $tarification;
     public $newTarificationPrix = "";
     public $editTarificationPrix = "";
     public $editTarificationId = "";
@@ -30,15 +31,15 @@ class TarificationComp extends Component
 
         $searchCriteria = "%" . $this->search . "%";
 
-        $tarifications = Tarification::where('nom', 'like', '%'.$this->search.'%')
-        ->orWhere('email', 'like', '%'.$this->search.'%')
-        ->orWhere('numero_telephone', 'like', '%'.$this->search.'%')
+        $tarification = Tarification::where('prix', 'like', '%'.$this->search.'%')
+        ->orWhere('uuid', 'like', '%'.$this->search.'%')
         ->paginate(10);
+
         $categories = Categorie::all();
 
         return view('livewire.tarification.index', [
             'categories' => $categories,
-            'tarifications' => $tarifications,
+            'tarifications' => $tarification,
           ])
             ->extends("layouts.app")
             ->section("content");

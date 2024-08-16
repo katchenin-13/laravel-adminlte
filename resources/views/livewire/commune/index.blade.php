@@ -24,9 +24,9 @@
            "backdrop": "static"
         })
     })
-       window.addEventListener("closeshowModal", event=>{
-       $("#ShowModalProp").modal("hide")
-    })
+    //    window.addEventListener("closeshowModal", event=>{
+    //    $("#ShowModalProp").modal("hide")
+    // })
 
     //edit
     window.addEventListener("EditModal", event=>{
@@ -35,9 +35,9 @@
            "backdrop": "static"
        })
     })
-    window.addEventListener("closeEditModal", event=>{
-       $("#editModalProp").modal("hide")
-    })
+    // window.addEventListener("closeEditModal", event=>{
+    //    $("#editModalProp").modal("hide")
+    // })
 
     //reade
 
@@ -48,9 +48,9 @@
             "backdrop": "static"
         })
         })
-        window.addEventListener("closeModal", event=>{
-        $("#createProp").modal("hide")
-        })
+        // window.addEventListener("closeModal", event=>{
+        // $("#createProp").modal("hide")
+        // })
     //delete
 
     window.addEventListener("showDeleteModal", event=>{
@@ -60,10 +60,10 @@
             })
             //console.log('soro');
             })
-            window.addEventListener('communeDeleted', function () {
-            console.log('fermerture')
-            $('#DelectetModalProp').modal('hide');
-        });
+        //     window.addEventListener('communeDeleted', function () {
+        //     console.log('fermerture')
+        //     $('#DelectetModalProp').modal('hide');
+        // });
 
     // function hideMessageDiv() {
     //    setTimeout(function() {

@@ -11,6 +11,7 @@ use Illuminate\Validation\Rule;
 class VehiculeComp extends Component
 {
     public $search = "";
+    public $vehicule;
     public $newVehiculeName = "";
     public $editVehiculeName = "";
     public $editVehiculeid ="";
@@ -28,12 +29,13 @@ class VehiculeComp extends Component
 
         $searchCriteria = "%" . $this->search . "%";
 
-        $vehicules = Vehicule::where('nom', 'like', '%'.$this->search.'%')
-        ->orWhere('email', 'like', '%'.$this->search.'%')
-        ->orWhere('numero_telephone', 'like', '%'.$this->search.'%')
+        $vehicule = Vehicule::where('nom', 'like', '%'.$this->search.'%')
+        ->orWhere('uuid', 'like', '%'.$this->search.'%')
         ->paginate(10);
 
-        return view('livewire.vehicule.index', ['vehicules' => Vehicule::latest()->paginate(10)])
+        return view('livewire.vehicule.index', [
+            'vehicules' => $vehicule,
+            ])
             ->extends("layouts.app")
             ->section("content");
     }

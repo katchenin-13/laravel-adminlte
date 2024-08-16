@@ -11,18 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('factures', function (Blueprint $table) {
+        Schema::create('employers', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
-            $table->char('montantT');
-            $table->string('statut');
-            $table->date('date');
-            $table->unsignedBigInteger('dossiers_id');
-            $table->foreign('dossiers_id')->references('id')->on('dossiers')->onDelete('cascade');
+            $table->string('poste');
+            $table->decimal('salaire', 10, 2);
             $table->timestamps();
         });
-
-        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -30,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('factures');
+        Schema::dropIfExists('employers');
     }
 };

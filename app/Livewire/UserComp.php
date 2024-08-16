@@ -2,11 +2,11 @@
 
 namespace App\Livewire;
 
+use Carbon\Carbon;
 use App\Models\User;
 use Ramsey\Uuid\Uuid;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Illuminate\Support\Carbon;
 use Spatie\Permission\Models\Role;
 
 class UserComp extends Component
@@ -18,21 +18,24 @@ class UserComp extends Component
     public $newUserEmail = "";
     public $newUserPassword = "";
     public $editUserName = "";
-    public $editUserGmail = "";
+    public $editUserEmail = ""; // Changement de 'editUserGmail' à 'editUserEmail'
     public $editUserPassword = "";
     public $editRole = "";
     public $editUserid = "";
     public $selectedUser;
     public $userCount;
-    public $role;
+    public $roles;
+    public $permissions;
+    public $selectedRole;
 
     protected $paginationTheme = "bootstrap";
 
     public function mount()
     {
-        // Utilisation de la méthode statique count() du modèle User pour compter les utilisateurs
         $this->userCount = User::count();
+        $this->roles = Role::all();
     }
+
 
     public function render()
     {
@@ -40,15 +43,13 @@ class UserComp extends Component
 
         $searchCriteria = "%" . $this->search . "%";
 
-        // Utilisation de $searchCriteria pour filtrer les utilisateurs par ID ou autre critère
-        $users = User::where('nom', 'like', '%'.$this->search.'%')
-        ->orWhere('email', 'like', '%'.$this->search.'%')
-        ->orWhere('numero_telephone', 'like', '%'.$this->search.'%')
-        ->paginate(10);
-        // $roles = Role::pluck('name');
+        $users = User::where('name', 'like', $searchCriteria)
+            ->orWhere('email', 'like', $searchCriteria)
+            ->orWhere('uuid', 'like', $searchCriteria)
+            ->paginate(10);
+
         return view('livewire.users.index', [
-        'users' => $users,
-        // 'roles' => $roles,
+            'users' => $users,
         ])
             ->extends("layouts.app")
             ->section("content");
@@ -59,8 +60,8 @@ class UserComp extends Component
         $validated = $this->validate([
             "newUserName" => "required|max:20",
             "newUserEmail" => "required|max:50|unique:users,email",
-            "newUserPassword" => "required|max:6",
-            "role" => "required|exists:roles,name"
+            "newUserPassword" => "required|min:6", // Changement de 'max:6' à 'min:6'
+            'selectedRole' => 'required',
         ], [
             "newUserName.required" => "Le champ du nom de l'utilisateur est requis.",
             "newUserName.max" => "Le nom de l'utilisateur ne peut pas dépasser :max caractères.",
@@ -68,8 +69,7 @@ class UserComp extends Component
             "newUserEmail.max" => "L'email de l'utilisateur ne peut pas dépasser :max caractères.",
             "newUserEmail.unique" => "L'email est déjà utilisé.",
             "newUserPassword.required" => "Le mot de passe de l'utilisateur est requis.",
-            "newUserPassword.max" => "Le mot de passe de l'utilisateur ne peut pas dépasser :max caractères.",
-            "role.required" => "Veuillez attribuer un rôle à l'utilisateur."
+            "newUserPassword.min" => "Le mot de passe de l'utilisateur doit avoir au moins :min caractères.",
         ]);
 
         $uuid = Uuid::uuid4()->toString();
@@ -78,48 +78,54 @@ class UserComp extends Component
             "uuid" => $uuid,
             "name" => $validated["newUserName"],
             "email" => $validated["newUserEmail"],
-            "password" => bcrypt($validated["newUserPassword"]) // Utilisation de bcrypt pour hasher le mot de passe
+            "password" => bcrypt($validated["newUserPassword"])
         ]);
 
-        $role = Role::where('name', $validated['role'])->first();
-        $newUser->assignRole($role);
+        $newUser->assignRole($this->selectedRole); // Changement de $user à $newUser
 
         session()->flash('message', "L'utilisateur a été créé avec succès !");
-        $this->reset(['newUserName', 'newUserEmail', 'newUserPassword', 'role']);
+        $this->reset(['newUserName', 'newUserEmail', 'newUserPassword', 'selectedRole']);
     }
-
 
     public function updateUser(User $user)
     {
         $validated = $this->validate([
             "editUserName" => "required|max:20",
-            "editUserGmail" => "required|max:50|unique:users,email," . $user->id,
-            "editUserPassword" => "required|max:6",
+            "editUserEmail" => "required|max:50|unique:users,email," . $user->id, // Changement de 'editUserGmail' à 'editUserEmail'
+            "editUserPassword" => "required|min:6", // Changement de 'max:6' à 'min:6'
             "editRole" => "required|exists:roles,name"
         ], [
             "editUserName.required" => "Le champ du nom de l'utilisateur est requis.",
             "editUserName.max" => "Le nom de l'utilisateur ne peut pas dépasser :max caractères.",
-            "editUserGmail.required" => "Le champ email de l'utilisateur est requis.",
-            "editUserGmail.max" => "L'email de l'utilisateur ne peut pas dépasser :max caractères.",
-            "editUserGmail.unique" => "L'email est déjà utilisé.",
+            "editUserEmail.required" => "Le champ email de l'utilisateur est requis.",
+            "editUserEmail.max" => "L'email de l'utilisateur ne peut pas dépasser :max caractères.",
+            "editUserEmail.unique" => "L'email est déjà utilisé.",
             "editUserPassword.required" => "Le mot de passe de l'utilisateur est requis.",
-            "editUserPassword.max" => "Le mot de passe de l'utilisateur ne peut pas dépasser :max caractères.",
+            "editUserPassword.min" => "Le mot de passe de l'utilisateur doit avoir au moins :min caractères.",
             "editRole.required" => "Veuillez attribuer un rôle à l'utilisateur."
         ]);
 
-        $user = User::findOrFail($user->id);
-        $user->name = $validated['editUserName'];
-        $user->email = $validated['editUserGmail'];
-        $user->password = bcrypt($validated['editUserPassword']);
-        $user->save();
-
-        $role = Role::where('name', $validated['editRole'])->first();
-        $user->syncRoles([$role->name]);
+        $user->update([
+            'name' => $validated['editUserName'],
+            'email' => $validated['editUserEmail'],
+            'password' => bcrypt($validated['editUserPassword']),
+        ]);
 
         session()->flash('message', "L'utilisateur a été mis à jour avec succès !");
-        $this->reset(['editUserName', 'editUserGmail', 'editUserPassword', 'editRole']);
+        $this->reset(['editUserName', 'editUserEmail', 'editUserPassword', 'editRole']);
     }
 
+    public function updatedSelectedRole($role)
+    {
+        if ($role) {
+            $roleModel = Role::findByName($role);
+            $this->permissions = $roleModel ? $roleModel->permissions : collect();
+        } else {
+            $this->permissions = collect();
+        }
+    }
+
+    // Méthodes de gestion des modals et suppression de l'utilisateur
     public function showCreatedProp(User $user)
     {
         $this->selectedUser = $user;
@@ -136,7 +142,7 @@ class UserComp extends Component
     {
         $this->editUserid = $user->id;
         $this->editUserName = $user->name;
-        $this->editUserGmail = $user->email;
+        $this->editUserEmail = $user->email;
 
         $this->dispatch("EditModal", [$user->name]);
     }
