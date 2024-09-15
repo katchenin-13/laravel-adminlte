@@ -40,11 +40,6 @@
                                 <div class="col-12 col-sm-6 col-md-3">
                                 <div class="info-box">
                                     <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
-                                    {{-- @foreach (auth()->user()->notifications as $notification)
-                                        <div>
-                                            <p>{{ $notification->data['message'] }}</p>
-                                        </div>
-                                     @endforeach --}}
                                     <div class="info-box-content">
                                     <span class="info-box-text">Users</span>
                                     <span class="info-box-number">

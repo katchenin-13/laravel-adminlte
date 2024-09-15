@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->string('nom');
+            $table->string('statut_type');
             $table->timestamps();
         });
     }

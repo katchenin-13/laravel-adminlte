@@ -26,6 +26,14 @@
                                             <span class="text-danger animate__animated animate__fadeInDown">{{ $message }}</span>
                                         @enderror
                                     </div>
+                                    <div class="form-group">statut type
+                                        <input type="text" wire:keydown.enter="addNewStatut"
+                                        class="form-control @error('statutType') is-invalid @enderror"
+                                        wire:model="statutType" />
+                                    @error('statutType')
+                                        <span class="text-danger animate__animated animate__fadeInDown">{{ $message }}</span>
+                                    @enderror
+                                </div>
 
 
 

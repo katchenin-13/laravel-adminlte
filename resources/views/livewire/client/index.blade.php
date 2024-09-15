@@ -15,11 +15,12 @@
 
 <script>
 //create
-    window.addEventListener("ModalCreate", event=>{
+    window.onload("ModalCreate", event=>{
        $("#modalProp").modal({
            "show": true,
            "backdrop": "static"
        })
+       console.log('bonjours')
     })
     // window.addEventListener("closeModal", event=>{
     //    $("#modalProp").modal("hide")

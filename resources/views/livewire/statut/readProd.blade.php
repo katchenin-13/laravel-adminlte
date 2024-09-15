@@ -15,6 +15,11 @@
                                         <td>{{ $selectedStatut->nom }}</td>
                                     </tr>
 
+                                    <tr>
+                                        <td><strong>Statut :</strong></td>
+                                        <td>{{ $selectedStatut->statut_type }}</td>
+                                    </tr>
+
                                 @endif
                             </tbody>
                         </table>

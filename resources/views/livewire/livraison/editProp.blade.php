@@ -8,7 +8,7 @@
 
                         </div>
 
-                        <form role="form" wire:submit.prevent="updateCoursier({{$editLivraisonsid}})">
+                        <form role="form" wire:submit.prevent="updateLivraison({{$editLivraisonsId}})">
                             @csrf
                             <div class="modal-body">
                                 <div class="d-flex my-1 bg-gray-light p-1">

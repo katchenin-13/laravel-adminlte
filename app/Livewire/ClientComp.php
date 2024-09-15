@@ -10,8 +10,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Livewire\WithPagination;
 use Illuminate\Support\Carbon;
 use App\Events\NewclientCreated;
-use App\Notifications\ClientCreated;
-use Illuminate\Support\Facades\Notification;
+use App\Mail\ClientMail;
+use Illuminate\Support\Facades\Mail;
 
 
 class ClientComp extends Component
@@ -76,9 +76,12 @@ class ClientComp extends Component
         $this->render();
     }
 
+
+
     public function addNewClient()
     {
         $this->loading = true; // Début du chargement
+
         $validatedData = $this->validate([
             "newClientName" => "required|max:20",
             "newClientPrenom" => "required|max:50",
@@ -114,14 +117,13 @@ class ClientComp extends Component
             "zone_id" => $validatedData["selectedZone"],
         ]);
 
-        // Envoyer la notification
-        Notification::route('mail', $newClient->email)
-                    ->notify(new ClientCreated($newClient));
+        // Envoyer l'e-mail de bienvenue
+        Mail::to($newClient->email)->send(new ClientMail($newClient));
 
         event(new NewclientCreated($newClient));
-        session()->flash('message', 'Le client a été enregistré avec succès!');
+        session()->flash('message', 'Le client a été enregistré avec succès !');
 
-        $this->reset('newClientName','newClientPrenom','newClientPhone','newClientEmail','newClientSecteur','selectedZone');
+        $this->reset('newClientName', 'newClientPrenom', 'newClientPhone', 'newClientEmail', 'newClientSecteur', 'selectedZone');
         $this->loading = false;
     }
 

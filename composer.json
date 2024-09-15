@@ -10,17 +10,18 @@
         "consoletvs/charts": "6.*",
         "guzzlehttp/guzzle": "^7.2",
         "laravel-notification-channels/webpush": "^9.0",
-        "laravel/cashier": "^15.4",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "laravel/ui": "4.2.2",
         "livewire/livewire": "^3.4",
         "ramsey/uuid": "^4.7",
-        "spatie/laravel-permission": "^6.7"
+        "spatie/laravel-permission": "^6.7",
+        "twbs/bootstrap": "5.3.3"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
+        "laravel/breeze": "*",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",
         "laraveldaily/larastarters": "^2.3",

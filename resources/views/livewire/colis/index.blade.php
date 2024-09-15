@@ -17,6 +17,7 @@
            "show": true,
            "backdrop": "static"
        })
+       console.log('bonjours')
     })
     // window.addEventListener("closeModal", event=>{
     //    $("#modalProp").modal("hide")

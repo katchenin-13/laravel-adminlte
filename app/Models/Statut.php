@@ -12,7 +12,8 @@ class Statut extends Model
 
     protected $fillable = [
         'uuid',
-        'nom'
+        'nom',
+        'statut_type'
     ];
 
 

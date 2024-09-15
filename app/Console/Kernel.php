@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Models\Livraison;
+// use App\consols\Livraison;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -12,10 +14,18 @@ class Kernel extends ConsoleKernel
      */
 
 
-    protected function schedule(Schedule $schedule)
-        {
-            // $schedule->command('notification:envoyer')->delay(now()->addMinutes(30));
-        }
+     protected function schedule(Schedule $schedule)
+     {
+         $schedule->call(function () {
+             $livraisons = Livraison::where('status_updated', false)
+                 ->where('created_at', '<=', now()->subMinutes(30))
+                 ->get();
+
+             foreach ($livraisons as $livraison) {
+                 dispatch(new SendStatutajour($livraison));
+             }
+         })->everyThirtyMinutes();
+     }
 
 
     /**
