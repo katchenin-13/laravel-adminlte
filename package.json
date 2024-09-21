@@ -13,7 +13,6 @@
         "axios": "^1.6.7",
         "big.js": "^5.2.2",
         "binary-extensions": "^2.2.0",
-        "bootstrap": "^5.3.3",
         "braces": "^3.0.2",
         "chokidar": "^3.6.0",
         "combined-stream": "^1.0.8",

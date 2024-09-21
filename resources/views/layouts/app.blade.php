@@ -6,12 +6,17 @@
     <title>{{ config('app.name', 'BoxLogin') }}</title>
 
     <!-- Google Font: Source Sans Pro -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{ asset('css/fontawesome.min.css') }}">
-    <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/fontawesome.min.css') }}">
+    <script src="{{ asset('js/adminlte.min.js') }}"></script>
+    <!-- Theme style -->
+
     @yield('styles')
     @livewireStyles
 </head>
@@ -91,8 +96,7 @@
 
 <!-- REQUIRED SCRIPTS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('js/adminlte.min.js') }}" defer></script>
 @vite('resources/js/app.js')
 @yield('scripts')
