@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : dim. 22 sep. 2024 à 21:52
+-- Généré le : mar. 24 sep. 2024 à 07:11
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -173,22 +173,6 @@ CREATE TABLE `employers` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `failed_jobs`
---
-
-CREATE TABLE `failed_jobs` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(191) NOT NULL,
-  `connection` text NOT NULL,
-  `queue` text NOT NULL,
-  `payload` longtext NOT NULL,
-  `exception` longtext NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `historiqueps`
 --
 
@@ -273,28 +257,26 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (1, '2014_10_12_000000_create_users_table', 1),
 (2, '2014_10_12_100000_create_password_reset_tokens_table', 1),
 (3, '2014_10_12_100000_create_password_resets_table', 1),
-(4, '2019_05_03_000001_create_customer_columns', 1),
-(5, '2019_08_19_000000_create_failed_jobs_table', 1),
-(6, '2019_12_14_000001_create_personal_access_tokens_table', 1),
-(7, '2024_01_24_184423_create_communes_table', 1),
-(8, '2024_01_24_184425_create_zones_table', 1),
-(9, '2024_01_24_184808_create_employers_table', 1),
-(10, '2024_01_24_184808_create_vehicules_table', 1),
-(11, '2024_01_24_184809_create_coursiers_table', 1),
-(12, '2024_01_24_184809_create_managers_table', 1),
-(13, '2024_01_24_184908_create_clients_table', 1),
-(14, '2024_01_24_184909_create_dossiers_table', 1),
-(15, '2024_01_24_185037_create_statuts_table', 1),
-(16, '2024_01_24_185038_create_categories_table', 1),
-(17, '2024_01_24_185038_create_colis_table', 1),
-(18, '2024_01_24_185038_create_livraisons_table', 1),
-(19, '2024_01_24_185040_create_tarifications_table', 1),
-(20, '2024_01_24_185116_create_bordereaus_table', 1),
-(21, '2024_08_02_150344_create_paiements_table', 1),
-(22, '2024_08_02_150345_create_coursusers_table', 1),
-(23, '2024_08_02_150345_create_historiqueps_table', 1),
-(24, '2024_08_02_150345_create_manusers_table', 1),
-(25, '2024_08_02_150345_create_notifications_table', 1);
+(4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
+(5, '2024_01_24_184423_create_communes_table', 1),
+(6, '2024_01_24_184425_create_zones_table', 1),
+(7, '2024_01_24_184808_create_employers_table', 1),
+(8, '2024_01_24_184808_create_vehicules_table', 1),
+(9, '2024_01_24_184809_create_coursiers_table', 1),
+(10, '2024_01_24_184809_create_managers_table', 1),
+(11, '2024_01_24_184908_create_clients_table', 1),
+(12, '2024_01_24_184909_create_dossiers_table', 1),
+(13, '2024_01_24_185037_create_statuts_table', 1),
+(14, '2024_01_24_185038_create_categories_table', 1),
+(15, '2024_01_24_185038_create_colis_table', 1),
+(16, '2024_01_24_185038_create_livraisons_table', 1),
+(17, '2024_01_24_185040_create_tarifications_table', 1),
+(18, '2024_01_24_185116_create_bordereaus_table', 1),
+(19, '2024_08_02_150344_create_paiements_table', 1),
+(20, '2024_08_02_150345_create_coursusers_table', 1),
+(21, '2024_08_02_150345_create_historiqueps_table', 1),
+(22, '2024_08_02_150345_create_manusers_table', 1),
+(23, '2024_08_02_150345_create_notifications_table', 1);
 
 -- --------------------------------------------------------
 
@@ -319,6 +301,13 @@ CREATE TABLE `model_has_roles` (
   `model_type` varchar(191) NOT NULL,
   `model_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `model_has_roles`
+--
+
+INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
+(3, 'App\\Models\\User', 1);
 
 -- --------------------------------------------------------
 
@@ -393,6 +382,17 @@ CREATE TABLE `permissions` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Déchargement des données de la table `permissions`
+--
+
+INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
+(1, 'add', 'web', '2024-09-23 22:59:19', '2024-09-23 22:59:19'),
+(2, 'delet', 'web', '2024-09-23 22:59:19', '2024-09-23 22:59:19'),
+(3, 'edit', 'web', '2024-09-23 22:59:20', '2024-09-23 22:59:20'),
+(4, 'read', 'web', '2024-09-23 22:59:20', '2024-09-23 22:59:20'),
+(5, 'modifier', 'web', '2024-09-23 22:59:20', '2024-09-23 22:59:20');
+
 -- --------------------------------------------------------
 
 --
@@ -426,6 +426,15 @@ CREATE TABLE `roles` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Déchargement des données de la table `roles`
+--
+
+INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
+(1, 'admin', 'web', '2024-09-23 22:59:18', '2024-09-23 22:59:18'),
+(2, 'coursier', 'web', '2024-09-23 22:59:18', '2024-09-23 22:59:18'),
+(3, 'superadmin', 'web', '2024-09-23 22:59:42', '2024-09-23 22:59:42');
+
 -- --------------------------------------------------------
 
 --
@@ -436,6 +445,25 @@ CREATE TABLE `role_has_permissions` (
   `permission_id` bigint(20) UNSIGNED NOT NULL,
   `role_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `role_has_permissions`
+--
+
+INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(2, 1),
+(2, 3),
+(3, 1),
+(3, 2),
+(3, 3),
+(4, 1),
+(4, 2),
+(4, 3),
+(5, 1),
+(5, 3);
 
 -- --------------------------------------------------------
 
@@ -482,12 +510,15 @@ CREATE TABLE `users` (
   `password` varchar(191) NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `stripe_id` varchar(191) DEFAULT NULL,
-  `pm_type` varchar(191) DEFAULT NULL,
-  `pm_last_four` varchar(4) DEFAULT NULL,
-  `trial_ends_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `users`
+--
+
+INSERT INTO `users` (`id`, `uuid`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'c1p2', 'iwa', 'iwa@gmail.com', NULL, '$2y$12$THih64AbMWF0sUriIhQEuOkj/uazx.Pd3R3zYe5kgA/NJurc0MZjW', NULL, '2024-09-23 23:00:41', '2024-09-23 23:00:41');
 
 -- --------------------------------------------------------
 
@@ -596,13 +627,6 @@ ALTER TABLE `dossiers`
 ALTER TABLE `employers`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `employers_uuid_unique` (`uuid`);
-
---
--- Index pour la table `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
 -- Index pour la table `historiqueps`
@@ -742,8 +766,7 @@ ALTER TABLE `tarifications`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_uuid_unique` (`uuid`),
-  ADD UNIQUE KEY `users_email_unique` (`email`),
-  ADD KEY `users_stripe_id_index` (`stripe_id`);
+  ADD UNIQUE KEY `users_email_unique` (`email`);
 
 --
 -- Index pour la table `vehicules`
@@ -819,12 +842,6 @@ ALTER TABLE `employers`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT pour la table `historiqueps`
 --
 ALTER TABLE `historiqueps`
@@ -852,7 +869,7 @@ ALTER TABLE `manusers`
 -- AUTO_INCREMENT pour la table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT pour la table `paiements`
@@ -864,7 +881,7 @@ ALTER TABLE `paiements`
 -- AUTO_INCREMENT pour la table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `personal_access_tokens`
@@ -876,7 +893,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT pour la table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `statuts`
@@ -894,7 +911,7 @@ ALTER TABLE `tarifications`
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `vehicules`
