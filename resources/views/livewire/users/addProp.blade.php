@@ -44,11 +44,9 @@
                         <label for="role">Sélectionner un rôle</label>
                         <select id="role" wire:model.defer="selectedRole" class="form-control">
                             <option value="">Sélectionner un rôle</option>
-                            @if($roles && $roles->count())
                                 @foreach($roles as $role)
                                     <option value="{{ $role->name }}">{{ $role->name }}</option>
                                 @endforeach
-                             @endif
                         </select>
                         @error('selectedRole')
                             <span class="text-danger animate__animated animate__fadeInDown">{{ $message }}</span>
@@ -66,18 +64,3 @@
 </div>
 {{-- @endcan --}}
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#permissions').select2();
-        $('#role').select2();
-
-        $('#role').on('change', function() {
-            @this.set('selectedRole', $(this).val());
-        });
-
-        $('#permissions').on('change', function() {
-            @this.set('selectedPermissions', $(this).val());
-        });
-    });
-</script>
