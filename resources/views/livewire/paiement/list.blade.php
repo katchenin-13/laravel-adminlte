@@ -24,27 +24,22 @@
                                 <th style="width:10%;">No</th>
                                 <th style="width:20%;" class="text-center">ID</th>
                                 <th style="width:20%;" class="text-center">Client</th>
-                                {{-- <th style="width:20%;" class="text-center">Colis</th> --}}
-                                <th style="width:30%;" class="text-center">Action</th>
+                                <th style="width:20%;" class="text-center">Facture restante</th>
+                                <th style="width:30%;" class="text-center">Total Factures</th>
+                                <th style="width:50%;" class="text-center">payer</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($clients as $item)
+                            @foreach ($clientsData as $client)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td class="text-center">{{ $item->uuid }}</td>
-                                <td class="text-center">{{ $item->nom}}</td> <!-- Assurez-vous que vous avez une relation 'client' définie et qu'elle a un attribut 'name' -->
-                                {{-- <td class="text-center">{{ $item->livraison->colis }}</td> <!-- Assurez-vous que vous avez une relation 'livraison' définie et qu'elle a un attribut 'colis' --> --}}
+                                <td class="text-center">{{ $client->uuid }}</td>
+                                <td class="text-center">{{ $client->nom }}</td>
+                                <td class="text-center">{{ $client->nombre_livraisons }}</td>
+                                <td class="text-center">{{ number_format($client->tarification_total, 2) }} XOF</td>
                                 <td class="text-center">
-                                    <button class="btn btn-danger btn-sm" wire:click="showClientLivraisons({{ $item->id }})">
-                                        <div class="">Payer</div>
-                                    </button>
-
-                                    <button class="btn btn-primary btn-sm" wire:click="showPropD({{ $item->id }})">
-                                        <div class="">Detail</div>
-                                    </button>
-                                    <button class="btn btn-primary btn-sm" wire:click="showPropD({{ $item->id }})">
-                                        <div class="">?</div>
+                                    <button class="btn btn-primary btn-sm" wire:click="cinetpay({{$client->id}})">
+                                        <i class="fas fa-file-invoice-dollar"></i>
                                     </button>
 
                                 </td>
@@ -58,7 +53,7 @@
             <!-- /.card-body -->
             <div class="card-footer">
                 <div class="float-right">
-                    {{ $payements->links() }}
+                    {{ $paiements->links() }}
                 </div>
             </div>
             <!-- /.card-footer -->
@@ -67,3 +62,4 @@
     </div>
     <!-- /.col-12 -->
 </div>
+<!-- /.row -->

@@ -9,16 +9,21 @@
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <tbody>
-                                @if($selectedManusers && $selectedManusers->manager && $selectedManusers->user)
+                                @if($selectedManusers)
 
                                 <tr>
-                                    <td><strong>Manager:</strong></td>
-                                    <td>{{ $selectedManusers->manager->nom }}</td>
+                                  @if ($selectedManusers->manager)
+                                  <td><strong>Manager:</strong></td>
+                                  <td>{{ $selectedManusers->manager->nom }}</td>
+                                  @endif
                                 </tr>
 
                                 <tr>
+                                    @if ($selectedManusers->user)
                                     <td><strong>User:</strong></td>
                                     <td>{{ $selectedManusers->user->name }}</td>
+                                    @endif
+
                                 </tr>
                                 @endif
                             </tbody>

@@ -7,7 +7,6 @@ use App\Models\User;
 use Ramsey\Uuid\Uuid;
 use Livewire\Component;
 use App\Models\Coursier;
-
 use App\Models\Coursuser;
 use Livewire\WithPagination;
 
@@ -15,24 +14,20 @@ class CoursuserComp extends Component
 {
     use WithPagination;
 
-
     public $search = "";
     public $coursuser;
-    public $editCoursusersid="";
+    public $editCoursusersid = "";
     public $selectedCoursiers;
     public $selectedUser;
     public $selectedCoursusers;
-    public $coursuserCount
-;
-    public $showDeleteModal="false";
-
-
+    public $coursuserCount;
+    public $showDeleteModal = false;
 
     protected $paginationTheme = "bootstrap";
 
     public function mount()
     {
-        $this->coursuserCount= Coursuser::count();
+        $this->coursuserCount = Coursuser::count();
     }
 
     public function render()
@@ -41,28 +36,37 @@ class CoursuserComp extends Component
 
         $searchCriteria = "%" . $this->search . "%";
 
-        $coursuser = Coursuser::where('uuid', 'like', '%'.$this->search.'%')
-        ->paginate(10);
-        // dd("all");
+        $coursuser = Coursuser::with(['user', 'coursier'])
+            ->where('uuid', 'like', $searchCriteria)
+            ->paginate(10);
+
+        // Vérifiez si les utilisateurs et les coursiers sont bien chargés
+        // foreach ($coursuser as $cu) {
+        //     dd($cu->user, $cu->coursier);
+        // }
+        foreach ($coursuser as $cu) {
+            // Pour voir les informations de chaque utilisateur et coursier
+            dd($cu->user->name, $cu->coursier->name);
+        }
+
         $coursiers = Coursier::all();
         $users = User::all();
 
         return view('livewire.coursuser.index', [
-            'coursiers'=> $coursiers,
-            'users'=>$users,
-            'coursusers'=>$coursuser
-            ])
-                ->extends("layouts.app")
-                ->section("content");
+            'coursiers' => $coursiers,
+            'users' => $users,
+            'coursusers' => $coursuser
+        ])
+            ->extends("layouts.app")
+            ->section("content");
     }
 
     public function addNewCoursuser()
     {
         $validatedData = $this->validate([
-             "selectedCoursiers" => "required",
-             "selectedUser" => "required",
+            "selectedCoursiers" => "required",
+            "selectedUser" => "required",
         ], [
-
             "selectedCoursiers.required" => "Veuillez sélectionner le coursier.",
             "selectedUser.required" => "Veuillez sélectionner le compte du client.",
         ]);
@@ -74,26 +78,12 @@ class CoursuserComp extends Component
             "coursier_id" => $validatedData["selectedCoursiers"],
             "user_id" => $validatedData["selectedUser"],
         ]);
+
+
+
         session()->flash('message', 'Le coursier a été enregistré avec succès!');
-        $this->reset('selectedUser','selectedCoursiers');
+        $this->reset(['selectedUser', 'selectedCoursiers']);
     }
-
-    public function availableUsers($excludedId)
-    {
-        // Validation de l'entrée
-        if (!is_numeric($excludedId)) {
-            return response()->json(['error' => 'Invalid ID'], 400);
-        }
-
-        // Récupérer les utilisateurs sauf celui avec l'ID exclu
-        $users = User::where('id', '!=', $excludedId)
-                     ->select('id', 'name')
-                     ->get();
-
-        return response()->json($users);
-    }
-
-
 
     public function showProp(Coursuser $coursuser)
     {
@@ -111,13 +101,19 @@ class CoursuserComp extends Component
         $validated = $this->validate([
             "selectedCoursiers" => "required",
             "selectedUser" => "required",
-
-       ], [
-
+        ], [
             "selectedCoursiers.required" => "Veuillez sélectionner le coursier.",
             "selectedUser.required" => "Veuillez sélectionner le compte.",
-       ]);
+        ]);
 
+        // Update the coursuser properties
+        $coursuser->update([
+            "coursier_id" => $validated["selectedCoursiers"],
+            "user_id" => $validated["selectedUser"],
+        ]);
+
+        session()->flash('message', 'Le coursier a été mis à jour avec succès!');
+        $this->closeEditModal();
     }
 
     public function selectedCoursiers($coursuserId, $coursierId)
@@ -125,7 +121,6 @@ class CoursuserComp extends Component
         $coursuser = Coursuser::findOrFail($coursuserId);
         $coursuser->coursier_id = $coursierId;
         $coursuser->save();
-
     }
 
     public function updateUser($coursuserId, $userId)
@@ -133,13 +128,11 @@ class CoursuserComp extends Component
         $coursuser = Coursuser::findOrFail($coursuserId);
         $coursuser->user_id = $userId;
         $coursuser->save();
-
     }
 
     public function showPropC(Coursuser $coursuser)
     {
         $this->selectedCoursusers = $coursuser;
-
         $this->dispatch("readModal", []);
     }
 
@@ -149,19 +142,11 @@ class CoursuserComp extends Component
         $this->dispatch("closereadModal", []);
     }
 
-
     public function showPropE(Coursuser $coursuser)
-
     {
-
-        $editCoursuser = $coursuser;
-        function getModelId($model, $id) {
-            $instance = $model::find($id);
-            return $instance ? $instance->id : null;
-        }
-
-        $this->selectedCoursiers = getModelId(Coursier::class, $editCoursuser->coursier_id);
-        $this->selectedUser = getModelId(User::class, $editCoursuser->User_id);
+        $this->selectedCoursusers = $coursuser;
+        $this->selectedCoursiers = $coursuser->coursier_id;
+        $this->selectedUser = $coursuser->user_id;
 
         $this->dispatch("showEditModal");
     }
@@ -176,6 +161,7 @@ class CoursuserComp extends Component
     {
         if ($this->selectedCoursusers) {
             $this->selectedCoursusers->delete();
+            session()->flash('message', 'Le coursier a été supprimé avec succès!');
             $this->dispatch('coursuserDeleted');
         }
     }
@@ -184,12 +170,3 @@ class CoursuserComp extends Component
     {
         $this->resetErrorBag();
         $this->dispatch("closeEditModal", []);
-    }
-
-
-    public function closeDeleteModal()
-    {
-        $this->resetErrorBag();
-        $this->dispatch("closeDeleteModal", []);
-    }
-}

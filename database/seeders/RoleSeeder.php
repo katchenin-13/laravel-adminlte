@@ -19,7 +19,7 @@ class RoleSeeder extends Seeder
         try {
             // Création des rôles
 
-            $adminRole = Role::create(['name' => 'admin']);
+            $adminRole = Role::create(['name' => 'manager']);
             $coursierRole = Role::create(['name' => 'coursier']);
 
             // Création des permissions

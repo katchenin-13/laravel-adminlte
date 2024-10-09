@@ -3,15 +3,14 @@
 namespace App\Livewire;
 
 use App\Models\Colis;
-use Ramsey\Uuid\Uuid;
 use App\Models\Client;
 use App\Models\Statut;
-use Livewire\Component;
 use App\Models\Coursier;
 use App\Models\Livraison;
+use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
+use Ramsey\Uuid\Uuid;
 
 class LivraisonComp extends Component
 {
@@ -31,8 +30,7 @@ class LivraisonComp extends Component
     public $selectedColis;
     public $selectedStatut;
     public $selectedClient;
-    // public $userName;
-    // public $coursierId;
+    public $statutType = 'livraison';
     public $showDeleteModal = false;
 
     protected $paginationTheme = "bootstrap";
@@ -43,31 +41,57 @@ class LivraisonComp extends Component
 
         $searchCriteria = "%" . $this->search . "%";
 
-        $livraison = Livraison::where('numerodes', 'like', '%'.$this->search.'%')
-        ->orWhere('destinataire', 'like', '%'.$this->search.'%')
-        ->orWhere('uuid', 'like', '%'.$this->search.'%')
-        ->paginate(10);
+        // Obtenir l'utilisateur connecté
+        $user = auth()->user();
+
+        $livraisonsQuery = Livraison::query();
+
+        if ($user->hasRole('superadmin') || $user->hasRole('manager')) {
+            // Afficher toutes les livraisons
+            $livraisonsQuery->where(function($query) use ($searchCriteria) {
+                $query->where('destinataire', 'like', $searchCriteria)
+                    ->orWhere('uuid', 'like', $searchCriteria)
+                    ->orWhere('numerodes', 'like', $searchCriteria)
+                    ->orWhere('adresse_livraison', 'like', $searchCriteria);
+            });
+        } elseif ($user->HasRole('coursier')) {
+            if($user->coursier){
+            $livraisonsQuery->where('coursier_id', $user->coursier->id) // Utiliser l'objet Coursier
+                ->where(function($query) use ($searchCriteria) {
+                    $query->where('destinataire', 'like', $searchCriteria)
+                        ->orWhere('uuid', 'like', $searchCriteria)
+                        ->orWhere('numerodes', 'like', $searchCriteria)
+                        ->orWhere('adresse_livraison', 'like', $searchCriteria);
+                });
+            }else{
+                dd('ya pas de coursier associé');
+            }
+        }
+
+        $livraisons = $livraisonsQuery->paginate(10);
+
+        // Filtrer les colis en fonction du rôle de l'utilisateur
+        $colisQuery = Colis::query();
+        if ($user->role === 'coursier') {
+            $colisQuery->where('coursier_id', $user->coursier->id); // Associer les colis au coursier
+        }
+
+        $colis = $colisQuery->get(); // Récupérer les colis filtrés
+
+        $statuts = Statut::where('statut_type', $this->statutType)->get();
         $coursiers = Coursier::all();
-        $colis = Colis::all();
-        $statuts = Statut::all();
         $clients = Client::all();
 
         return view('livewire.livraison.index', [
-            'livraisons' => $livraison,
+            'livraisons' => $livraisons,
             'coursiers' => $coursiers,
             'statuts' => $statuts,
             'colis' => $colis,
             'clients' => $clients,
-               ])
-            ->extends("layouts.app")
-            ->section("content");
+        ])
+        ->extends("layouts.app")
+        ->section("content");
     }
-
-    // public function mount()
-    // {
-    //     $this->userName = Auth::user()->name;
-    //     $this->coursierId = Auth::user()->id;
-    // }
 
     public function addNewLivraison()
     {
@@ -77,16 +101,16 @@ class LivraisonComp extends Component
             "newLivraisonsAdd" => "required|max:50|unique:livraisons,adresse_livraison",
             "selectedColis" => "required",
             "selectedCoursiers" => "required",
-             "selectedStatut" => "required",
-             "selectedClient" => "required",
+            "selectedStatut" => "required",
+            "selectedClient" => "required",
         ], [
-            "newDestinataireName.required" => "Le champ du nom du livraison est requis.",
-            "newDestinataireName.max" => "Le nom du livraison ne peut pas dépasser :max caractères.",
-            "newLivraisonsPhone.max" => "Le téléphone du livraison ne peut pas dépasser :max caractères.",
-            "newLivraisonsPhone.regex" => "Le champ du téléphonene peut contenir que des chiffres.",
+            "newDestinataireName.required" => "Le champ du nom du destinataire est requis.",
+            "newDestinataireName.max" => "Le nom du destinataire ne peut pas dépasser :max caractères.",
+            "newLivraisonsPhone.max" => "Le téléphone du destinataire ne peut pas dépasser :max caractères.",
+            "newLivraisonsPhone.regex" => "Le champ du téléphone ne peut contenir que des chiffres.",
             "newLivraisonsAdd.required" => "Le champ adresse du destinataire est requis.",
             "newLivraisonsAdd.max" => "L'adresse du destinataire ne peut pas dépasser :max caractères.",
-            "selectedCoursier.required" => "Veuillez sélectionner un coursiers.",
+            "selectedCoursiers.required" => "Veuillez sélectionner un coursier.",
             "selectedColis.required" => "Veuillez sélectionner un colis.",
             "selectedStatut.required" => "Veuillez sélectionner un statut.",
             "selectedClient.required" => "Veuillez sélectionner le client.",
@@ -95,6 +119,7 @@ class LivraisonComp extends Component
         $uuid = Uuid::uuid4()->toString();
 
         Livraison::create([
+            'status_updated' => false,
             "uuid" => $uuid,
             "destinataire" => $validatedData["newDestinataireName"],
             "numerodes" => $validatedData["newLivraisonsPhone"],
@@ -105,11 +130,17 @@ class LivraisonComp extends Component
             "client_id" => $validatedData["selectedClient"],
         ]);
 
-
-        session()->flash('message', 'Le livraison a été enregistré avec succès!');
-        $this->reset('newDestinataireName','newLivraisonsPhone','newLivraisonsAdd','selectedColis','selectedCoursiers','selectedStatut','selectedClient');
+        session()->flash('message', 'La livraison a été enregistrée avec succès!');
+        $this->reset([
+            'newDestinataireName',
+            'newLivraisonsPhone',
+            'newLivraisonsAdd',
+            'selectedColis',
+            'selectedCoursiers',
+            'selectedStatut',
+            'selectedClient'
+        ]);
     }
-
 
     public function updateLivraison(Livraison $livraison)
     {

@@ -7,6 +7,7 @@ use App\Models\User;
 use Ramsey\Uuid\Uuid;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Spatie\Permission\Contracts\Permission;
 use Spatie\Permission\Models\Role;
 
 class UserComp extends Component
@@ -34,6 +35,7 @@ class UserComp extends Component
     {
         $this->userCount = User::count();
         $this->roles = Role::all();
+        // $this->permissions = Permission::all();
     }
 
 
@@ -46,6 +48,7 @@ class UserComp extends Component
         $users = User::where('name', 'like', $searchCriteria)
             ->orWhere('email', 'like', $searchCriteria)
             ->orWhere('uuid', 'like', $searchCriteria)
+            ->with(['roles', 'permissions'])
             ->paginate(10);
 
         return view('livewire.users.index', [
@@ -60,7 +63,7 @@ class UserComp extends Component
         $validated = $this->validate([
             "newUserName" => "required|max:20",
             "newUserEmail" => "required|max:50|unique:users,email",
-            "newUserPassword" => "required|min:6", // Changement de 'max:6' à 'min:6'
+            "newUserPassword" => "nullable|min:6", // Changement de 'max:6' à 'min:6'
             'selectedRole' => 'required',
         ], [
             "newUserName.required" => "Le champ du nom de l'utilisateur est requis.",
@@ -87,6 +90,12 @@ class UserComp extends Component
         $this->reset(['newUserName', 'newUserEmail', 'newUserPassword', 'selectedRole']);
     }
 
+            public function getPermissionsForRole($roleName)
+        {
+            $role = Role::findByName($roleName);
+            return $role ? $role->permissions : collect();
+        }
+
     public function updateUser(User $user)
     {
         $validated = $this->validate([
@@ -108,9 +117,11 @@ class UserComp extends Component
         $user->update([
             'name' => $validated['editUserName'],
             'email' => $validated['editUserEmail'],
-            'password' => bcrypt($validated['editUserPassword']),
+            'password' => !empty($validated['editUserPassword']) ? bcrypt($validated['editUserPassword']) : $user->password,
+
         ]);
 
+        $user->syncRoles($validated['editRole']);
         session()->flash('message', "L'utilisateur a été mis à jour avec succès !");
         $this->reset(['editUserName', 'editUserEmail', 'editUserPassword', 'editRole']);
     }
@@ -143,6 +154,7 @@ class UserComp extends Component
         $this->editUserid = $user->id;
         $this->editUserName = $user->name;
         $this->editUserEmail = $user->email;
+        $this->editRole = $user->getRoleNames()->first();
 
         $this->dispatch("EditModal", [$user->name]);
     }

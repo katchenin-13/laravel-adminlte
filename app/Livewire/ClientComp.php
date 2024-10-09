@@ -10,8 +10,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Livewire\WithPagination;
 use Illuminate\Support\Carbon;
 use App\Events\NewclientCreated;
-use App\Notifications\ClientCreated;
-use Illuminate\Support\Facades\Notification;
+use App\Mail\ClientMail;
+use Illuminate\Support\Facades\Mail;
 
 
 class ClientComp extends Component
@@ -34,7 +34,7 @@ class ClientComp extends Component
     public $selectedClient;
     public $selectedZone;
     public $clientCount;
-    public $showDeleteModal="false";
+    public $showDeleteModal=false;
     public $clientToDelete;
     public $loading = false; // Propriété pour gérer l'état de chargement
 
@@ -76,14 +76,17 @@ class ClientComp extends Component
         $this->render();
     }
 
+
+
     public function addNewClient()
     {
         $this->loading = true; // Début du chargement
+
         $validatedData = $this->validate([
             "newClientName" => "required|max:20",
             "newClientPrenom" => "required|max:50",
-            "newClientPhone" => "required|max:10|unique:clients,telephone",
-            "newClientEmail" => "required|max:30|unique:clients,email",
+            "newClientPhone" => "required|max:10|regex:/^[0-9]{10}$/|unique:clients,telephone",
+            "newClientEmail" => "required|email|max:30|unique:clients,email",
             "newClientSecteur" => "required|max:20",
             "selectedZone" => "required",
         ], [
@@ -94,9 +97,11 @@ class ClientComp extends Component
             "newClientPhone.required" => "Le champ du téléphone du client est requis.",
             "newClientPhone.max" => "Le téléphone du client ne peut pas dépasser :max caractères.",
             "newClientPhone.regex" => "Le champ du téléphonene peut contenir que des chiffres.",
+            'newClientPhone.unique' => "Ce numéro de téléphone est déjà utilisé.",
             "newClientEmail.required" => "Le champ email du client est requis.",
             "newClientEmail.max" => "L'email du client ne peut pas dépasser :max caractères.",
             "newClientEmail.unique" => "Email est déjà utilisé.",
+            "newClientEmail.email" => "Veuillez entrer une adresse email valide.",
             "newClientSecteur.required" => "Le champ du seacteur d'activité du client est requis.",
             "newClientSecteur.max" => "Le secteur d'activité du client ne peut pas dépasser :max caractères.",
             "selectedZone.required" => "Veuillez sélectionner une client.",
@@ -114,14 +119,13 @@ class ClientComp extends Component
             "zone_id" => $validatedData["selectedZone"],
         ]);
 
-        // Envoyer la notification
-        Notification::route('mail', $newClient->email)
-                    ->notify(new ClientCreated($newClient));
+        // Envoyer l'e-mail de bienvenue
+        Mail::to($newClient->email)->send(new ClientMail($newClient));
 
         event(new NewclientCreated($newClient));
-        session()->flash('message', 'Le client a été enregistré avec succès!');
+        session()->flash('message', 'Le client a été enregistré avec succès !');
 
-        $this->reset('newClientName','newClientPrenom','newClientPhone','newClientEmail','newClientSecteur','selectedZone');
+        $this->reset('newClientName', 'newClientPrenom', 'newClientPhone', 'newClientEmail', 'newClientSecteur', 'selectedZone');
         $this->loading = false;
     }
 
@@ -145,8 +149,8 @@ class ClientComp extends Component
         $validated = $this->validate([
             "editClientName" => ["required", "max:20"],
             "editClientPrenom" => ["required", "max:50"],
-            "editClientPhone" => ["required", "max:10"],
-            "editClientEmail" => ["required", "max:30"],
+            "editClientPhone" => "required|max:10|regex:/^[0-9]{10}$/|unique:clients,telephone".$client->id,
+            "editClientEmail" => "required|email|max:30|unique:clients,email".$client->id,
 
         ], [
             "editClientName.required" => "Le champ du nom du client est requis.",
@@ -156,9 +160,11 @@ class ClientComp extends Component
             "editClientPhone.required" => "Le champ du téléphone du client est requis.",
             "editClientPhone.max" => "Le téléphone du client ne peut pas dépasser :max caractères.",
             "editClientPhone.regex" => "Le champ du téléphonene peut contenir que des chiffres.",
+            'editClientPhone.unique' => "Ce numéro de téléphone est déjà utilisé.",
             "editClientEmail.required" => "Le champ email du client est requis.",
             "editClientEmail.max" => "L'email du client ne peut pas dépasser :max caractères.",
             "editClientEmail.unique" => "Email est déjà utilisé.",
+            "editClientEmail.email" => "Veuillez entrer une adresse email valide.",
             "editClientSecteur.required" => "Le champ du seacteur d'activité du client est requis.",
             "editClientSecteur.max" => "Le secteur d'activité du client ne peut pas dépasser :max caractères.",
         ]);

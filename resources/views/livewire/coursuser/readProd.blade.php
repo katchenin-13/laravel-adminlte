@@ -1,3 +1,4 @@
+
 <div class="modal fade" id="readmodalProp" tabindex="-1" role="dialog" wire:ignore.self>
     <div class="modal-dialog" style="top:50px;">
         <div class="modal-content">
@@ -9,17 +10,22 @@
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <tbody>
-                                @if($selectedCoursusers && $selectedCoursusers->coursier && $selectedCoursusers->user)
+                                @if($selectedCoursusers)
+                                    <tr>
+                                        @if($selectedCoursusers->coursier)
+                                            <td><strong>Coursier:</strong></td>
+                                            <td>{{ $selectedCoursusers->coursier->nom }}</td>
+                                        @endif
 
-                                <tr>
-                                    <td><strong>Coursier:</strong></td>
-                                    <td>{{ $selectedCoursusers->coursier->nom }}</td>
-                                </tr>
+                                    </tr>
+                                    <tr>
+                                        @if ($selectedCoursusers->user)
+                                        <td><strong>User:</strong></td>
+                                        <td>{{ $selectedCoursusers->user->name }}</td>
+                                        @endif
 
-                                <tr>
-                                    <td><strong>User:</strong></td>
-                                    <td>{{ $selectedCoursusers->user->name }}</td>
-                                </tr>
+                                    </tr>
+
                                 @endif
                             </tbody>
                         </table>
@@ -32,3 +38,4 @@
         </div>
     </div>
 </div>
+

@@ -32,5 +32,15 @@ class Coursuser extends Model
         return substr($uuid, 0, 4);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function coursier()
+    {
+        return $this->belongsTo(Coursier::class);
+    }
+
 
 }

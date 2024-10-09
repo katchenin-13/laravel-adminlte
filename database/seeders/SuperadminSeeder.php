@@ -21,7 +21,7 @@ class SuperadminSeeder extends Seeder
 
                 $superadminRole->syncPermissions($permissions->pluck('id')->toArray());
 
-               
+
 
     }
 }

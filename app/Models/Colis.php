@@ -15,12 +15,18 @@ class Colis extends Model
         'description',
         'quantite',
         'categorie_id',
+        'coursier_id',
         'client_id',
     ];
 
     public function categorie()
     {
         return $this->belongsTo(Categorie::class);
+    }
+
+    public function coursier()
+    {
+        return $this->belongsTo(Coursier::class);
     }
 
     public function clients()

@@ -2,7 +2,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title _msttexthash="1142141" _msthash="0">AdministrateurLTE 3 | ChartJS (en anglais)</title>
-  
+
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
     <!-- Font Awesome -->
@@ -27,7 +27,7 @@
           <a href="#" class="nav-link" _msttexthash="94510" _msthash="2">Contact</a>
         </li>
       </ul>
-  
+
       <!-- Right navbar links -->
       <ul class="navbar-nav ml-auto">
         <!-- Navbar Search -->
@@ -51,7 +51,7 @@
             </form>
           </div>
         </li>
-  
+
         <!-- Messages Dropdown Menu -->
         <li class="nav-item dropdown">
           <a class="nav-link" data-toggle="dropdown" href="#">
@@ -150,7 +150,7 @@
       </ul>
     </nav>
     <!-- /.navbar -->
-  
+
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
@@ -158,7 +158,7 @@
         <img src="../../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8" _mstalt="183703" _msthash="27">
         <span class="brand-text font-weight-light" _msttexthash="346905" _msthash="28">AdministrateurLTE 3</span>
       </a>
-  
+
       <!-- Sidebar -->
       <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
@@ -170,7 +170,7 @@
             <a href="#" class="d-block" _msttexthash="277888" _msthash="30">Alexandre Pierce</a>
           </div>
         </div>
-  
+
         <!-- SidebarSearch Form -->
         <div class="form-inline">
           <div class="input-group" data-widget="sidebar-search">
@@ -182,7 +182,7 @@
             </div>
           </div><div class="sidebar-search-results" _msthidden="1"><div class="list-group" _msthidden="1"><a href="#" class="list-group-item" _msthidden="1"><div class="search-title" _msthidden="1"><strong class="text-light"></strong><font _mstmutation="1" _msttexthash="270959" _msthidden="1" _msthash="32">N<strong class="text-light" _mstmutation="1"></strong>o<strong class="text-light" _mstmutation="1"></strong> <strong class="text-light" _mstmutation="1"></strong>e<strong class="text-light" _mstmutation="1"></strong>l<strong class="text-light" _mstmutation="1"></strong>e<strong class="text-light" _mstmutation="1"></strong>m<strong class="text-light" _mstmutation="1"></strong>e<strong class="text-light" _mstmutation="1"></strong>n<strong class="text-light" _mstmutation="1"></strong>t<strong class="text-light" _mstmutation="1"></strong> <strong class="text-light" _mstmutation="1"></strong>f<strong class="text-light" _mstmutation="1"></strong>o<strong class="text-light" _mstmutation="1"></strong>u<strong class="text-light" _mstmutation="1"></strong>n<strong class="text-light" _mstmutation="1"></strong>d<strong class="text-light" _mstmutation="1"></strong>!</font><strong class="text-light"></strong></div><div class="search-path"></div></a></div></div>
         </div>
-  
+
         <!-- Sidebar Menu -->
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -803,7 +803,7 @@
       </div>
       <!-- /.sidebar -->
     </aside>
-  
+
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper" style="min-height: 1369.31px;">
       <!-- Content Header (Page header) -->
@@ -822,7 +822,7 @@
           </div>
         </div><!-- /.container-fluid -->
       </section>
-  
+
       <!-- Main content -->
       <section class="content">
         <div class="container-fluid">
@@ -832,7 +832,7 @@
               <div class="card card-primary">
                 <div class="card-header">
                   <h3 class="card-title" _msttexthash="319618" _msthash="134">Graphique en aires</h3>
-  
+
                   <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                       <i class="fas fa-minus"></i>
@@ -850,12 +850,12 @@
                 <!-- /.card-body -->
               </div>
               <!-- /.card -->
-  
+
               <!-- DONUT CHART -->
               <div class="card card-danger">
                 <div class="card-header">
                   <h3 class="card-title" _msttexthash="349648" _msthash="135">Graphique en anneau</h3>
-  
+
                   <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                       <i class="fas fa-minus"></i>
@@ -871,12 +871,12 @@
                 <!-- /.card-body -->
               </div>
               <!-- /.card -->
-  
+
               <!-- PIE CHART -->
               <div class="card card-danger">
                 <div class="card-header">
                   <h3 class="card-title" _msttexthash="133380" _msthash="136">Camembert</h3>
-  
+
                   <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                       <i class="fas fa-minus"></i>
@@ -892,7 +892,7 @@
                 <!-- /.card-body -->
               </div>
               <!-- /.card -->
-  
+
             </div>
             <!-- /.col (LEFT) -->
             <div class="col-md-6">
@@ -900,7 +900,7 @@
               <div class="card card-info">
                 <div class="card-header">
                   <h3 class="card-title" _msttexthash="381212" _msthash="137">Graphique linéaire</h3>
-  
+
                   <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                       <i class="fas fa-minus"></i>
@@ -918,12 +918,12 @@
                 <!-- /.card-body -->
               </div>
               <!-- /.card -->
-  
+
               <!-- BAR CHART -->
               <div class="card card-success">
                 <div class="card-header">
                   <h3 class="card-title" _msttexthash="344773" _msthash="138">Graphique à barres</h3>
-  
+
                   <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                       <i class="fas fa-minus"></i>
@@ -941,12 +941,12 @@
                 <!-- /.card-body -->
               </div>
               <!-- /.card -->
-  
+
               <!-- STACKED BAR CHART -->
               <div class="card card-success">
                 <div class="card-header">
                   <h3 class="card-title" _msttexthash="686517" _msthash="139">Graphique à barres empilées</h3>
-  
+
                   <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                       <i class="fas fa-minus"></i>
@@ -964,7 +964,7 @@
                 <!-- /.card-body -->
               </div>
               <!-- /.card -->
-  
+
             </div>
             <!-- /.col (RIGHT) -->
           </div>
@@ -978,7 +978,7 @@
       <div class="float-right d-none d-sm-block">
         <font _mstmutation="1" _msttexthash="157027" _msthash="140"><b _mstmutation="1" _istranslated="1">Édition</b> 3.2.0 </font></div>
       <font _mstmutation="1" _msttexthash="3970811" _msthash="141"><strong _mstmutation="1" _istranslated="1">Droits d’auteur © 2014-2021 <a href="https://adminlte.io" _istranslated="1">AdminLTE.io</a>.</strong> Tous droits réservés. </font></footer>
-  
+
     <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark" _msthidden="122" style="display: none;">
       <!-- Add Content Here -->
@@ -986,7 +986,7 @@
     <!-- /.control-sidebar -->
   <div id="sidebar-overlay"></div></div>
   <!-- ./wrapper -->
-  
+
   <!-- jQuery -->
   <script src="../../plugins/jquery/jquery.min.js"></script>
   <!-- Bootstrap 4 -->
@@ -1004,14 +1004,14 @@
        * -------
        * Here we will create a few charts using ChartJS
        */
-  
+
       //--------------
       //- AREA CHART -
       //--------------
-  
+
       // Get context with jQuery - using jQuery's .get() method.
       var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
-  
+
       var areaChartData = {
         labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
         datasets: [
@@ -1039,7 +1039,7 @@
           },
         ]
       }
-  
+
       var areaChartOptions = {
         maintainAspectRatio : false,
         responsive : true,
@@ -1059,14 +1059,14 @@
           }]
         }
       }
-  
+
       // This will get the first returned node in the jQuery collection.
       new Chart(areaChartCanvas, {
         type: 'line',
         data: areaChartData,
         options: areaChartOptions
       })
-  
+
       //-------------
       //- LINE CHART -
       //--------------
@@ -1076,13 +1076,13 @@
       lineChartData.datasets[0].fill = false;
       lineChartData.datasets[1].fill = false;
       lineChartOptions.datasetFill = false
-  
+
       var lineChart = new Chart(lineChartCanvas, {
         type: 'line',
         data: lineChartData,
         options: lineChartOptions
       })
-  
+
       //-------------
       //- DONUT CHART -
       //-------------
@@ -1115,7 +1115,7 @@
         data: donutData,
         options: donutOptions
       })
-  
+
       //-------------
       //- PIE CHART -
       //-------------
@@ -1133,7 +1133,7 @@
         data: pieData,
         options: pieOptions
       })
-  
+
       //-------------
       //- BAR CHART -
       //-------------
@@ -1143,25 +1143,25 @@
       var temp1 = areaChartData.datasets[1]
       barChartData.datasets[0] = temp1
       barChartData.datasets[1] = temp0
-  
+
       var barChartOptions = {
         responsive              : true,
         maintainAspectRatio     : false,
         datasetFill             : false
       }
-  
+
       new Chart(barChartCanvas, {
         type: 'bar',
         data: barChartData,
         options: barChartOptions
       })
-  
+
       //---------------------
       //- STACKED BAR CHART -
       //---------------------
       var stackedBarChartCanvas = $('#stackedBarChart').get(0).getContext('2d')
       var stackedBarChartData = $.extend(true, {}, barChartData)
-  
+
       var stackedBarChartOptions = {
         responsive              : true,
         maintainAspectRatio     : false,
@@ -1174,7 +1174,7 @@
           }]
         }
       }
-  
+
       new Chart(stackedBarChartCanvas, {
         type: 'bar',
         data: stackedBarChartData,
@@ -1182,6 +1182,6 @@
       })
     })
   </script>
-  
-  
+
+
   </body></html> --}}

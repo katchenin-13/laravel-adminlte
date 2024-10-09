@@ -8,23 +8,29 @@
                 </button>
             </div>
             <div class="modal-body">
-                @if (session()->has('message'))
-                    <div class="alert alert-success">
-                        {{ session('message') }}
-                    </div>
-                @endif
+                    <div class="d-flex my-4 bg-gray-light p-3">
+                        <div class="d-flex flex-grow-1 mr-2">
+                            <div class="flex-grow-1 mr-2">
+                                @if (session()->has('message'))
+                                    <div class="alert alert-success">
+                                        {{ session('message') }}
+                                    </div>
+                                @endif
 
-                <!-- Champ de saisie pour le nom de la Catégorie -->
-                <div class="form-group">
-                    <label for="categorieName">Catégorie</label>
-                    <input type="text" id="categorieName" wire:keydown.enter="addNewCategorie"
-                           class="form-control @error('newCategorieName') is-invalid @enderror"
-                           wire:model="newCategorieName" />
-                    @error('newCategorieName')
-                        <div class="invalid-feedback animate__animated animate__fadeInDown">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
+                                <!-- Champ de saisie pour le nom de la Catégorie -->
+                                <div class="form-group">
+                                    <label for="categorieName">Catégorie</label>
+                                    <input type="text" id="categorieName" wire:keydown.enter="addNewCategorie"
+                                        class="form-control @error('newCategorieName') is-invalid @enderror"
+                                        wire:model="newCategorieName" />
+                                    @error('newCategorieName')
+                                        <div class="invalid-feedback animate__animated animate__fadeInDown">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                        </div>
+                    </div>
+                 </div>
+             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">
                     <i class="fas fa-times"></i> Fermer

@@ -46,6 +46,28 @@
                                             <td class="text-center">{{ $item->numerodes}}</td>
                                             {{-- <td class="text-center">{{ $item->client->nom}}</td> --}}
                                             <td class="text-center">
+                                                @if($user->hasRole('superadmin'))
+                                                    <button class="btn btn-primary btn-sm" wire:click="showPropE({{$item->id}})">
+                                                        <i class="far fa-edit"></i>
+                                                    </button>
+
+                                                    <button class="btn btn-info btn-sm" wire:click="showProp({{ $item->id }})">
+                                                        <i class="far fa-eye"></i>
+                                                    </button>
+
+                                                    <button class="btn btn-danger btn-sm" wire:click="showPropD({{$item->id}})">
+                                                        <i class="far fa-trash-alt"></i>
+                                                    </button>
+                                                @endif
+
+                                                @if($user->hasRole('manager'))
+
+                                                <button class="btn btn-info btn-sm" wire:click="showProp({{ $item->id }})">
+                                                    <i class="far fa-eye"></i>
+                                                </button>
+                                                @endif
+
+                                                @if($user->hasRole('coursier'))
                                                 <button class="btn btn-primary btn-sm" wire:click="showPropE({{$item->id}})">
                                                     <i class="far fa-edit"></i>
                                                 </button>
@@ -57,6 +79,7 @@
                                                 <button class="btn btn-danger btn-sm" wire:click="showPropD({{$item->id}})">
                                                     <i class="far fa-trash-alt"></i>
                                                 </button>
+                                                @endif
 
 
                                             </td>

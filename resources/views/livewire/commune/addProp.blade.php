@@ -8,21 +8,27 @@
                 </button>
             </div>
             <div class="modal-body">
-                @if (session()->has('message'))
-                    <div class="alert alert-success">
-                        {{ session('message') }}
-                    </div>
-                @endif
+                 <div class="d-flex my-4 bg-gray-light p-3">
+                     <div class="d-flex flex-grow-1 mr-2">
+                        <div class="flex-grow-1 mr-2">
+                            @if (session()->has('message'))
+                                <div class="alert alert-success">
+                                    {{ session('message') }}
+                                </div>
+                            @endif
 
-                <!-- Champ de saisie pour le nom de la commune -->
-                <div class="form-group">
-                    <label for="communeName">Nom de la commune</label>
-                    <input type="text" id="communeName" wire:keydown.enter="addNewCommune"
-                           class="form-control @error('newCommuneName') is-invalid @enderror"
-                           wire:model="newCommuneName" />
-                    @error('newCommuneName')
-                        <div class="invalid-feedback animate__animated animate__fadeInDown">{{ $message }}</div>
-                    @enderror
+                            <!-- Champ de saisie pour le nom de la commune -->
+                            <div class="form-group">
+                                <label for="communeName">Nom de la commune</label>
+                                <input type="text" id="communeName" wire:keydown.enter="addNewCommune"
+                                    class="form-control @error('newCommuneName') is-invalid @enderror"
+                                    wire:model="newCommuneName" />
+                                @error('newCommuneName')
+                                    <div class="invalid-feedback animate__animated animate__fadeInDown">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">

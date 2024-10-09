@@ -16,6 +16,7 @@ use App\Livewire\ManuserComp;
 use App\Livewire\ContenudComp;
 use App\Livewire\CoursierComp;
 use App\Livewire\EmployerComp;
+use App\Livewire\PaiementComp;
 use App\Livewire\PayementComp;
 use App\Livewire\VehiculeComp;
 use App\Livewire\BordereauComp;
@@ -26,13 +27,19 @@ use App\Livewire\TarificationComp;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserRequette;
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\Youcontroller;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use Spatie\Permission\Models\Permission;
+use App\Http\Controllers\NotificationCon;
 use App\Http\Controllers\StatsController;
 use App\Http\Controllers\Configcontroller;
 use App\Http\Controllers\EspaceController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CinetpayController;
+use App\Http\Controllers\CoursuserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,109 +58,64 @@ use App\Http\Controllers\EspaceController;
 
 Auth::routes();
 
-
-
-
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// $createSuperadmin = Role::create(['name'=> 'Super Administrateur']);
-// $createAdmin = Role::create(['name'=> 'Administrateur']);
-// $createCour = Role::create(['name'=> 'Coursier']);
-
-// $PermHelloword = Permission ::create(['name'=>'See Hello word']);
-// $PermGoodbye = Permission ::create(['name'=>'See Good bye']);
-
-// dump($PermHelloword);
-// dump($PermGoodbye);
-
-// $roleSuperadmin = Role::find(1);
-// $roleSuperadmin->givePermissionTo('See Hello word','See Good bye');
-
-// $roleAdmin = Role::find(2);
-// $roleAdmin->givePermissionTo('See Hello word');
-
-// $roleCour = Role::find(3);
-// $roleCour->givePermissionTo('See Hello word');
-
-// dump($roleSuperadmin);
-// dump($roleAdmin);
-// dump($roleCour);
-
-
-// Route::get("/posts", PostComp::class)->name("posts");
-
+// Routes Authentifiées
 Route::middleware('auth')->group(function () {
-
-     Route::view('about', 'about')->name('about');
-
-    // Route::get('espace', [EspaceController::class, 'index'])->name('espace.index');
-    Route::get('stat', [StatsController::class, 'index'])->name('stat.index');
-    // Route::get('config', [Configcontroller::class, 'index'])->name('config');
-    // Route::get('/commune', CommuneComp::class)->name('communes');
+    Route::view('about', 'about')->name('about');
     Route::get('/colis', ColisComp::class)->name('colis');
-    // Route::get('/coursier', CoursierComp ::class)->name('coursiers');
-    // Route::get('/tarification', TarificationComp::class)->name('tarifications');
-    // Route::get('/client', ClientComp ::class)->name('clients');
-    // Route::get('/categorie', CategorieComp ::class)->name('categories');
-    // Route::get('/zone', ZoneComp::class)->name('zones');
-    Route::get('/bordereau', BordereauComp::class)->name('pdf');
-    Route::get('/pdf/{livraison}', [PDFController::class, 'generatePDF'])->name('bordereau');
-    Route::get('/dossier', DossierComp::class)->name('dossiers');
-    Route::get('/contenu/{id}', ContenudComp::class)->name('contenu');
-    Route::get('/userInfo', 'UserRequette@userInfo')->name('userInfo');
-    Route::post('/send', 'FactureController@send');
-
-
-
-    // Route::get('/statut', StatutComp::class)->name('statuts');
-    // Route::get('/vehicule', VehiculeComp::class)->name('vehicules');
     Route::get('/livraison', LivraisonComp::class)->name('livraison');
+    Route::get('/contenu/{id}', ContenudComp::class)->name('contenu');
+    Route::get('/userInfo', [UserRequette::class, 'userInfo'])->name('userInfo');
+    Route::post('/send', 'FactureController@send');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
-    Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
-    Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+
+
+    // Route::get('/notifications/{id}/mark-as-read', [NotificationCon::class, 'markAsRead'])->name('notification.read');
+    // Route::get('/notifications/fetch', [NotificationCon::class, 'fetchNotifications'])->name('notifications.fetch');
+
 });
 
-
-//route pour mes superadmin
-Route::group(['middleware' => ['role:superadmin']], function () {
-    Route::view('about', 'about')->name('about');
-
+// Routes pour Super Administrateurs
+Route::middleware(['auth', 'role:superadmin'])->group(function () {
     Route::get('espace', [EspaceController::class, 'index'])->name('espace.index');
-    Route::get('stat', [StatsController::class, 'index'])->name('stat.index');
     Route::get('config', [Configcontroller::class, 'index'])->name('config');
     Route::get('/commune', CommuneComp::class)->name('communes');
-    Route::get('/colis', ColisComp::class)->name('colis');
-    Route::get('/payer', PayementComp::class)->name('payer');
-    Route::get('/coursier', CoursierComp ::class)->name('coursiers');
-    Route::get('/tarification', TarificationComp::class)->name('tarifications');
-    Route::get('/client', ClientComp ::class)->name('clients');
-    Route::get('/Manager', ManagerComp ::class)->name('managers');
-    Route::get('/employer', EmployerComp ::class)->name('employers');
-    Route::get('/categorie', CategorieComp ::class)->name('categories');
-    Route::get('/zone', ZoneComp::class)->name('zones');
-    Route::get('/coursuser', CoursuserComp::class)->name('comptes');
     Route::get('/manuser', ManuserComp::class)->name('comptesm');
-    Route::get('/bordereau', BordereauComp::class)->name('pdf');
+    Route::get('/tarification', TarificationComp::class)->name('tarifications');
+    Route::get('/employer', EmployerComp::class)->name('employers');
+    Route::get('/categorie', CategorieComp::class)->name('categories');
+    Route::get('/zone', ZoneComp::class)->name('zones');
+    Route::get('/coursier', CoursierComp::class)->name('coursiers');
+    Route::get('/coursier_user', CoursuserComp::class)->name('comptes');
+    Route::get('/Manager', ManagerComp::class)->name('managers');
     Route::get('/user', UserComp::class)->name('users');
-    Route::get('/user/available/{excludedId}', [CoursuserComp::class, 'availableUsers']);
-    Route::get('/pdf/{livraison}', [PDFController::class, 'generatePDF'])->name('bordereau');
-    // Route::get('/dossier', DossierComp::class)->name('dossiers');
-    // Route::get('/contenu/{id}', ContenudComp::class)->name('contenu');
-    Route::get('/userInfo', 'UserRequette@userInfo')->name('userInfo');
-
-
-
     Route::get('/statut', StatutComp::class)->name('statuts');
+    Route::get('/bordereau/{livraison}', [BordereauComp::class, 'generatePDF'])->name('bordereau');
     Route::get('/vehicule', VehiculeComp::class)->name('vehicules');
-    Route::get('/livraison', LivraisonComp::class)->name('livraison');
-
-    Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
-    Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/dossier', DossierComp::class)->name('dossiers');
+    Route::get('/client', ClientComp::class)->name('clients');
+    Route::get('stat', [StatsController::class, 'index'])->name('stat.index');
+    Route::get('/payer', PaiementComp::class)->name('payer');
+    Route::post('/cinetpay/notify', [CinetpayController::class, 'notify'])->name('cinetpay.notify');
 });
 
 
-// Route::middleware('role:admin')->group(function () {
-//         Route::get('/home', function () {
-//             return view('home');
-//         })->name('admin.home');
-// });
+Route::middleware(['auth', 'role:manager'])->group(function () {
+    // Toutes les routes accessibles par les managers
+    Route::get('espace', [EspaceController::class, 'index'])->name('espace.index');
+    //  Route::get('stat', [StatsController::class, 'index'])->name('stat.index');
+    Route::get('config', [Configcontroller::class, 'index'])->name('config');
+    Route::get('/payer', PaiementComp::class)->name('payer');
+
+    // Route::get('/client', ClientComp::class)->name('clients');
+    Route::get('stat', [StatsController::class, 'index'])->name('stat.index');
+    // Route::get('/Manager', ManagerComp::class)->name('managers');
+    // Route::get('/dossier', DossierComp::class)->name('dossiers');
+    Route::get('/bordereau/{livraison}', [BordereauComp::class, 'generatePDF'])->name('bordereau');
+        Route::get('/payer', PaiementComp::class)->name('payer');
+    Route::post('/cinetpay/notify', [CinetpayController::class, 'notify'])->name('cinetpay.notify');
+
+
+});

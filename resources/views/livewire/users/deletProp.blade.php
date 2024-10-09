@@ -1,4 +1,4 @@
-{{-- @if ($request->user()->can('delet')) --}}
+
 @can('delet')
 <div class="modal fade" id="DelectetModalProp" style="z-index: 1900;" role="dialog" wire:ignore.self>
     <div class="modal-dialog" style="top:10px;">

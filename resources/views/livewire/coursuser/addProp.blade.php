@@ -2,46 +2,50 @@
     <div class="modal-dialog" style="margin-top: 50px;">
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title">Créer le Compte</h5>
+                <h5 class="modal-title">Compte Utilisateur Coursier </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                @if (session()->has('message'))
-                    <div class="alert alert-success">
-                        {{ session('message') }}
+                <div class="d-flex my-4 bg-gray-light p-3">
+                    <div class="d-flex flex-grow-1 mr-2">
+                        <div class="flex-grow-1 mr-2">
+                            @if (session()->has('message'))
+                                <div class="alert alert-success">
+                                    {{ session('message') }}
+                                </div>
+                            @endif
+
+                            <!-- Champ de saisie pour le nom de la commune -->
+                            <div class="form-group">
+                                <label for="selectedCoursiers">Coursier</label>
+                                <select id="selectedCoursiers" wire:model="selectedCoursiers" class="form-control">
+                                    <option value="">Sélectionner le coursier</option>
+                                    @foreach($coursiers as $coursier)
+                                        <option value="{{ $coursier->id }}">{{ $coursier->nom }}</option>
+                                    @endforeach
+                                </select>
+                                @error('selectedCoursiers')
+                                 <span class="text-danger animate__animated animate__fadeInDown">{{ $message }}</span>
+                                 @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="selectedUser">Sélectionner un utilisateur</label>
+                                <select id="selectedUser" wire:model="selectedUser" class="form-control">
+                                    <option value="">Sélectionner un utilisateur</option>
+                                    @foreach($users as $user)
+                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('selectedUser')
+                                <span class="text-danger animate__animated animate__fadeInDown">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
                     </div>
-                @endif
-
-                <!-- Champ de saisie pour le nom de la Zone -->
-                <div class="form-group">
-                    <label for="selectedCoursiers">Coursier</label>
-                    <select id="selectedCoursiers" wire:model="selectedCoursiers" class="form-control">
-                        <option value="">Sélectionner le coursier</option>
-                        @foreach($coursiers as $coursier)
-                            <option value="{{ $coursier->id }}">{{ $coursier->nom }}</option>
-                        @endforeach
-                    </select>
-                    @error('selectedCoursiers')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
                 </div>
-
-                <!-- Sélecteur de commune -->
-                <div class="form-group">
-                    <label for="selectedUser">Sélectionner un utilisateur</label>
-                    <select id="users" wire:model="selectedUser" class="form-control">
-                        <option value="">Sélectionner un utilisateur</option>
-                        @foreach($users as $user)
-                            <option value="{{ $user->id }}">{{ $user->name }}</option>
-                        @endforeach
-                    </select>
-                    @error('selectedUser')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">
@@ -55,32 +59,3 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-$(document).ready(function() {
-    $('#users').change(function() {
-        var selectedUserId = $(this).val(); // Récupère l'ID de l'utilisateur sélectionné
-
-        // Envoie une requête AJAX au serveur pour obtenir les autres utilisateurs disponibles
-        $.ajax({
-            url: '/user/available/' + selectedUserId,
-            method: 'GET',
-            success: function(data) {
-                // Vider la liste déroulante pour la mettre à jour
-                $('#users').empty();
-                $('#users').append('<option value="">Sélectionner un utilisateur</option>');
-
-                // Ajouter les autres utilisateurs disponibles à la liste
-                $.each(data, function(index, user) {
-                    $('#users').append(
-                        $('<option></option>').val(user.id).text(user.name)
-                    );
-                });
-            },
-            error: function(xhr, statut, error) {
-                console.error('je trpouve pas la route de la maison:', error);
-            }
-        });
-    });
-});
-</script>

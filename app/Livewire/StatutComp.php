@@ -17,6 +17,7 @@ class StatutComp extends Component
     public $editStatutName = "";
     public $editStatutid ="";
     public $selectedStatut;
+    public $statutType = '';
     // public $statutCount;
     public $showDeleteModal="false";
 
@@ -45,38 +46,47 @@ class StatutComp extends Component
 
     public function addNewStatut()
     {
-        $validated = $this->validate([
-            "newStatutName" => "required|max:20|unique:statuts,nom"], [
-            "newStatutName.required" => "Le champ du nom de la statut est requis.",
-            "newStatutName.max" => "Le nom de la statut ne peut pas dépasser :max caractères.",
-            "newStatutName.unique" => "Ce nom de statut est déjà utilisé.",
-        ]);
+      $validated = $this->validate([
+        "newStatutName" => "required|max:20|unique:statuts,nom",
+        "statutType" => "required|in:paiement,livraison", // Validation pour le type de statut
+    ], [
+        "newStatutName.required" => "Le champ du nom de la statut est requis.",
+        "newStatutName.max" => "Le nom de la statut ne peut pas dépasser :max caractères.",
+        "newStatutName.unique" => "Ce nom de statut est déjà utilisé.",
+        "statutType.required" => "Le type de statut est requis.",
+        "statutType.in" => "Le type de statut doit être soit 'paiement' soit 'livraison'.",
+    ]);
 
-        $uuid = Uuid::uuid4()->toString();
-        Statut::create(["uuid" => $uuid,
-            "nom" => $validated["newStatutName"]]);
-        session()->flash('message', 'Le nom de la statut a été enregistré avec succès!');
-        $this->reset('newStatutName');
-    }
+    $uuid = Uuid::uuid4()->toString();
+    Statut::create([
+        "uuid" => $uuid,
+        "nom" => $validated["newStatutName"],
+        "statut_type" => $validated["statutType"],
+    ]);
 
 
+            session()->flash('message', 'Le nom de la statut a été enregistré avec succès!');
+            $this->reset('newStatutName', 'statutType');
+        }
 
     public function updateStatut(Statut $statut)
     {
-        $validated = $this->validate([
-            "editStatutName" => ["required", "max:50", Rule::unique("statuts", "nom")->ignore($statut->id)],
-        ], [
-            "editStatutName.required" => "Le champ du nom de la statut est requis.",
-            "editStatutName.max" => "Le nom du statut ne peut pas dépasser :max caractères.",
-            "editStatutName.unique" => "Ce nom de statut est déjà utilisé.",
-        ]);
+   $validated = $this->validate([
+        "editStatutName" => ["required", "max:50", Rule::unique("statuts", "nom")->ignore($statut->id)],
+        "statutType" => "required|in:paiement,livraison",
+    ], [
+        "editStatutName.required" => "Le champ du nom de la statut est requis.",
+        "editStatutName.max" => "Le nom du statut ne peut pas dépasser :max caractères.",
+        "editStatutName.unique" => "Ce nom de statut est déjà utilisé.",
+        "statutType.required" => "Le type de statut est requis.",
+        "statutType.in" => "Le type de statut doit être soit 'paiement' soit 'livraison'.",
+    ]);
 
-        $statuts = Statut::findOrFail($statut->id);
-        $statuts->nom = $this->editStatutName;
-        $result = $statuts->save();
-        $statuts->nom = "";
-        session()->flash('message', 'Le nom du statut a été modifié avec succès!');
+    $statut->nom = $this->editStatutName;
+    $statut->statut_type = $this->statutType;
+    $statut->save();
 
+    session()->flash('message', 'Le nom du statut a été modifié avec succès!');
     }
 
 

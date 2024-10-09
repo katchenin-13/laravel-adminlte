@@ -21,16 +21,27 @@
                                     </div>
                                 @endif
 
-                                <div class="form-group">Catégorie
+                                <div class="form-group">Statut
                                         {{-- <div class="col-md-12" wire:ignore> --}}
-                                                    <input type="text" placeholder="Nom" wire:keypress.enter=""
-                                                    wire:model="editStatutName" class="form-control @error(" editStatutName")
+                                                    <input type="text" placeholder="Statut" wire:keypress.enter=""
+                                                    wire:model="editStatutName" class="form-control @error("editStatutName")
                                                     is-invalid @enderror" name ="editStatutName">
                                                 @error("editStatutName")
                                                 <span class="text-danger">{{$message}}</span>
                                                 @enderror
                                           {{-- </div> --}}
+                                </div>
 
+
+                                <div class="form-group">statut type
+                                    {{-- <div class="col-md-12" wire:ignore> --}}
+                                                <input type="text" placeholder="Statut" wire:keypress.enter=""
+                                                wire:model="statutType" class="form-control @error("statutType")
+                                                is-invalid @enderror" name ="statutType">
+                                            @error("statutType")
+                                            <span class="text-danger">{{$message}}</span>
+                                            @enderror
+                                      {{-- </div> --}}
                                 </div>
 
                             </div>

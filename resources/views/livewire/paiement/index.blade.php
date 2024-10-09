@@ -1,23 +1,24 @@
 <div>
 
-    @include("livewire.payement.liquide")
-    @include("livewire.payement.list")
+    @include("livewire.paiement.liquide")
+    @include("livewire.paiement.list")
+    @include("livewire.paiement.cinetpay")
 
 
 
 </div>
 
 <script>
-//create
+// create
 // document.addEventListener('livewire:load', function () {
 //     Livewire.on('openModal', () => {
 //         var modal = new bootstrap.Modal(document.getElementById('clientLivraisonsModal'));
 //         modal.show();
 //        })
 //     })
-    // window.addEventListener("closeModal", event=>{
-    //    $("#modalProp").modal("hide")
-    // })
+//     window.addEventListener("closeModal", event=>{
+//        $("#modalProp").modal("hide")
+//     })
 
     window.addEventListener("openModal", event=>{
        $("#clientLivraisonsModal").modal({

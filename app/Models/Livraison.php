@@ -28,9 +28,9 @@ class Livraison extends Model
     }
 
 
-    public function payement()
+    public function paiement()
     {
-        return $this->hasMany(Payement::class);
+        return $this->hasMany(Paiement::class);
     }
 
     public function livraison()

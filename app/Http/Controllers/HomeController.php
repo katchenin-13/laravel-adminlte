@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-// use App\Models\Colis;
 use App\Models\Client;
 use App\Models\Commune;
 use App\Models\Coursier;
 use App\Models\Livraison;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -33,9 +33,30 @@ class HomeController extends Controller
         $communeCount = Commune::count();
         $coursierCount = Coursier::count();
         $clientCount = Client::count();
-        $livraisons = Livraison::all();
-        return view('/home', compact('userCount','communeCount','coursierCount','clientCount','livraisons'));
+
+        $user = Auth::user();
+
+        // Initialiser les livraisons en fonction du rôle de l'utilisateur
+        $livraisons = $this->getLivraisonsForUser($user);
+
+        return view('home', compact('userCount', 'communeCount', 'coursierCount', 'clientCount', 'livraisons'));
     }
 
+    /**
+     * Get livraisons based on the user's role.
+     *
+     * @param User $user
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    protected function getLivraisonsForUser($user)
+    {
+        if ($user->hasRole('superadmin') || $user->hasRole('manager')) {
+            return Livraison::all(); // Tous les livraisons
+        } elseif ($user->hasRole('coursier')) {
+            $coursier = $user->coursiers()->first(); // Obtenir le coursier associé
+            return $coursier ? Livraison::where('coursier_id', $coursier->id)->get() : collect();
+        }
 
+        return collect(); // Pour les autres utilisateurs
+    }
 }

@@ -31,6 +31,7 @@
                                 <th style="width:10%;">No</th>
                                 <th style="width:20%;" class="text-center">ID</th>
                                 <th style="width:20%;" class="text-center">Statut</th>
+                                <th style="width:20%;" class="text-center">Type de statut</th>
                                 <th style="width:30%;" class="text-center">Action</th>
                             </tr>
                         </thead>
@@ -41,6 +42,7 @@
                                 <td>{{ $loop->iteration}}</td>
                                 <td class="text-center">{{ $item->uuid}}</td>
                                 <td class="text-center">{{ $item->nom}}</td>
+                                <td class="text-center">{{ $item->statut_type}}</td>
                                 <td class="text-center">
                                     <button class="btn btn-primary btn-sm" wire:click="showPropE({{$item->id}})">
                                         <i class="far fa-edit"></i>

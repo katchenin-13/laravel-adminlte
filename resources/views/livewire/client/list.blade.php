@@ -27,7 +27,7 @@
                                     <th style="width:15%;" class="text-center">Nom</th>
                                     <th style="width:15%;" class="text-center">Prenom</th>
                                     <th style="width:15%;" class="text-center">Téléphone</th>
-                                    <th style="width:15%;" class="text-center">Gmail</th>
+                                    {{-- <th style="width:15%;" class="text-center">Gmail</th> --}}
                                     <th style="width:30%;" class="text-center">Action</th>
                                 </tr>
                             </thead>
@@ -39,7 +39,7 @@
                                         <td class="text-center">{{ $item->nom }}</td>
                                         <td class="text-center">{{ $item->prenom }}</td>
                                         <td class="text-center">{{ $item->telephone }}</td>
-                                        <td class="text-center">{{ $item->email }}</td>
+                                        {{-- <td class="text-center">{{ $item->email }}</td> --}}
                                         <td class="text-center"> <button class="btn btn-primary btn-sm"
                                                 wire:click="showPropE({{ $item->id }})"> <i class="far fa-edit"></i>
                                             </button> <button class="btn btn-info btn-sm"

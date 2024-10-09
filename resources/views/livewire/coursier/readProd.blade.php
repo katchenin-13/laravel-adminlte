@@ -1,5 +1,5 @@
 <div class="modal fade" id="readmodalProp" tabindex="-1" role="dialog" wire:ignore.self>
-    <div class="modal-dialog" style="top:50px;">
+    <div class="modal-dialog" style="top:5px;">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #15a1e2; color: white;">
                 <h5 class="modal-title">Détails Coursiers</h5>
@@ -9,7 +9,7 @@
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <tbody>
-                                @if($selectedCoursiers && $selectedCoursiers->vehicule && $selectedCoursiers->zone && $selectedCoursiers->employer && $selectedCoursiers->user)
+                                @if($selectedCoursiers)
                                 <tr>
                                     <td><strong>Nom:</strong></td>
                                     <td>{{ $selectedCoursiers ->nom }}</td>
@@ -47,23 +47,27 @@
                                 </tr>
 
                                  <tr>
-                                    <td><strong>Vehicule:</strong></td>
-                                    <td>{{ $selectedCoursiers->vehicule->nom }}</td>
+                                    @if ($selectedCoursiers->vehicule)
+                                        <td><strong>Vehicule:</strong></td>
+                                        <td>{{ $selectedCoursiers->vehicule->nom }}</td>
+                                    @endif
+
                                 </tr>
 
                                 <tr>
-                                    <td><strong>Zone:</strong></td>
-                                    <td>{{ $selectedCoursiers->zone->nom }}</td>
+                                    @if ($selectedCoursiers->zone)
+                                        <td><strong>Zone:</strong></td>
+                                        <td>{{ $selectedCoursiers->zone->nom }}</td>
+                                    @endif
+
                                 </tr>
 
                                 <tr>
-                                    <td><strong>Poste:</strong></td>
-                                    <td>{{ $selectedCoursiers->employer->poste }}</td>
-                                </tr>
+                                    @if ($selectedCoursiers->employer)
+                                        <td><strong>Poste:</strong></td>
+                                        <td>{{ $selectedCoursiers->employer->poste }}</td>
+                                    @endif
 
-                                <tr>
-                                    <td><strong>Compte:</strong></td>
-                                    <td>{{ $selectedCoursiers->user->name }}</td>
                                 </tr>
 
                                 @endif

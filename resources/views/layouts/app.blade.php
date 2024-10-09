@@ -34,9 +34,9 @@
                     {{ Auth::user()->name }}
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" style="left: inherit; right: 0px;">
-                    <a href="{{ route('profile.show') }}" class="dropdown-item">
+                    <a href="{{"#" }}" class="dropdown-item">
                         <i class="mr-2 fas fa-file"></i>
-                        {{ __('My profile') }}
+                        {{ __('#') }}
                     </a>
                     <div class="dropdown-divider"></div>
                     <form method="POST" action="{{ route('logout') }}">

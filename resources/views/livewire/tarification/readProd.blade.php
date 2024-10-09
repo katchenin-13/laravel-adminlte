@@ -9,15 +9,17 @@
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <tbody>
-                                @if($selectedTarification && $selectedTarification->categorie)
+                                @if($selectedTarification)
                                     <tr>
                                         <td><strong>Prix :</strong></td>
                                         <td>{{ $selectedTarification->prix }}</td>
 
                                     </tr>
                                     <tr>
-                                        <td><strong>Catégorie :</strong></td>
-                                        <td>{{ $selectedTarification->categorie->nom }}</td>
+                                        @if ($selectedTarification->categorie)
+                                            <td><strong>Catégorie :</strong></td>
+                                            <td>{{ $selectedTarification->categorie->nom }}</td>
+                                        @endif
 
                                     </tr>
 

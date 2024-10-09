@@ -20,6 +20,7 @@
            "show": true,
            "backdrop": "static"
        })
+       console.log('bonjours')
     })
     // window.addEventListener("closeModal", event=>{
     //    $("#modalProp").modal("hide")
@@ -50,7 +51,7 @@
     window.addEventListener("showDeleteModal", event=>{
             $("#DelectetModalProp").modal({
                 "show": true,
-                "backdrop": "static"
+                "backdrop": "hide"
             })
             //console.log('soro');
             })
