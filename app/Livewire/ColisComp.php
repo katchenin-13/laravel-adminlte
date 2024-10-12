@@ -47,34 +47,32 @@ class ColisComp extends Component
 
         $searchCriteria = "%" . $this->search . "%";
 
-        // Obtenir l'utilisateur connecté
-        $user = auth()->user();
-        // dd($user->coursier);
-
         // Construire la requête pour les colis
         $colisQuery = Colis::query();
 
-        // Filtrer les colis en fonction du rôle de l'utilisateur
-        if ($user->hasRole('superadmin') || $user->hasRole('manager')) {
-            // Afficher tous les colis
-            $colisQuery->where(function($query) use ($searchCriteria) {
-                $query->where('nom', 'like', $searchCriteria)
-                      ->orWhere('uuid', 'like', $searchCriteria);
-            });
-        } elseif ($user->hasRole('coursier')) {
-            // Vérifie si le coursier existe
-            $coursier = $user->user; // Utilise la relation pour obtenir le coursier
+        if ($user = auth()->user()) {
+            // Vérification du coursier directement via la relation
+            $coursier = $user->coursier;
 
-            // dd($coursier);
-            if ($coursier) {
-                // Afficher seulement les colis qui concernent le coursier
-                $colisQuery->where('coursier_id', $coursier->id)
-                           ->where(function($query) use ($searchCriteria) {
-                               $query->where('nom', 'like', $searchCriteria)
-                                     ->orWhere('uuid', 'like', $searchCriteria);
-                           });
+            if ($user->hasRole('superadmin') || $user->hasRole('manager')) {
+                // Afficher tous les colis
+                $colisQuery->where(function($query) use ($searchCriteria) {
+                    $query->where('nom', 'like', $searchCriteria)
+                          ->orWhere('uuid', 'like', $searchCriteria);
+                });
+            } elseif ($user->hasRole('coursier')) {
+                if ($coursier) {
+                    // Afficher seulement les colis qui concernent le coursier
+                    $colisQuery->where('coursier_id', $coursier->id)
+                               ->where(function($query) use ($searchCriteria) {
+                                   $query->where('nom', 'like', $searchCriteria)
+                                         ->orWhere('uuid', 'like', $searchCriteria);
+                               });
+                } else {
+                    dd('Pas de coursier associé à cet utilisateur.', $user); // Debug pour voir l'utilisateur
+                }
             } else {
-                dd('Pas de coursier associé à cet utilisateur.', $user); // Debug pour voir l'utilisateur
+                dd('Problème de rôle d\'utilisateur');
             }
         }
 
@@ -96,8 +94,8 @@ class ColisComp extends Component
     {
         $validatedData = $this->validate([
             "newColisName" => "required|max:20",
-            "newColisDes" => "required|max:550",
-            "newColisQuan" => "required|max:100",
+            "newColisDes" => "required|max:100",
+            "newColisQuan" => "required|regex|max:9",
             "selectedClient" => "required",
             "selectedCategorie" => "required",
             "selectedCoursier" => "required"
@@ -107,6 +105,7 @@ class ColisComp extends Component
             "newColisDes.required" => "Le champ description du colis est requis.",
             "newColisDes.max" => "Le description du colis ne peut pas dépasser :max caractères.",
             "newColisQuan.required" => "Le champ quantité du colis est requis.",
+            "newColisQuan.regex" => "Le champ quantité peut contenir que des chiffres.",
             "newColisQuan.max" => "La quantité du colis ne peut pas dépasser :max caractères.",
             "selectedClient.required" => "Veuillez sélectionner le client.",
             "selectedCategorie.required" => "Veuillez sélectionner une catégorie.",
@@ -145,8 +144,8 @@ class ColisComp extends Component
     {
         $validated = $this->validate([
             "editColisName" => ["required", "max:20"],
-            "editColisDes" => ["required", "max:550"],
-            "editColisQuan" => ["required", "max:100"],
+            "editColisDes" => ["required", "max:100"],
+            "editColisQuan" => "required|regex|max:9",
 
 
         ], [
@@ -156,6 +155,7 @@ class ColisComp extends Component
             "editColisDes.max" => "Le description du colis ne peut pas dépasser :max caractères.",
             "editColisQuan.required" => "Le champ quantité du colis est requis.",
             "editColisQuan.max" => "La quantité du colis ne peut pas dépasser :max caractères.",
+            "editColisQuan.regex" => "Le champ quantité peut contenir que des chiffres.",
             "selectedClient.required" => "Veuillez sélectionner le client.",
             "selectedCategorie.required" => "Veuillez sélectionner une catégorie.",
             "selectedCoursier.required" => "Veuillez sélectionner une catégorie.",
@@ -170,6 +170,9 @@ class ColisComp extends Component
         $colis->nom = "";
         $colis->description = "";
         $colis->quantite = "";
+
+        session()->flash('message', "Le colis a été mis à jour avec succès !");
+        $this->closeEditModal();
 
     }
     public function updateCategorie($colisId,$clientId, $categorieId,$coursierId)

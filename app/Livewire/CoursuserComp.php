@@ -5,10 +5,13 @@ namespace App\Livewire;
 use Carbon\Carbon;
 use App\Models\User;
 use Ramsey\Uuid\Uuid;
+use App\Models\Manuser;
 use Livewire\Component;
 use App\Models\Coursier;
 use App\Models\Coursuser;
+use App\Mail\InfoCoursier;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Mail;
 
 class CoursuserComp extends Component
 {
@@ -36,26 +39,29 @@ class CoursuserComp extends Component
 
         $searchCriteria = "%" . $this->search . "%";
 
+        // Récupérer les IDs des coursiers et utilisateurs déjà associés
+        $usedCoursiersIds = Coursuser::pluck('coursier_id')->toArray();
+        $usedUserIdsInCoursuser = Coursuser::pluck('user_id')->toArray();
+
+        // Récupérer les utilisateurs déjà associés dans Manuser
+        $usedUserIdsInManuser = Manuser::pluck('user_id')->toArray();
+
+        // Fusionner les IDs d'utilisateurs utilisés
+        $usedUserIds = array_merge($usedUserIdsInCoursuser, $usedUserIdsInManuser);
+
+        // Filtrer les coursiers et utilisateurs disponibles
+        $coursiers = Coursier::whereNotIn('id', $usedCoursiersIds)->get();
+        $users = User::whereNotIn('id', $usedUserIds)->get();
+
+        // Récupérer les Coursuser avec possibilité de recherche
         $coursuser = Coursuser::with(['user', 'coursier'])
             ->where('uuid', 'like', $searchCriteria)
             ->paginate(10);
 
-        // Vérifiez si les utilisateurs et les coursiers sont bien chargés
-        // foreach ($coursuser as $cu) {
-        //     dd($cu->user, $cu->coursier);
-        // }
-        foreach ($coursuser as $cu) {
-            // Pour voir les informations de chaque utilisateur et coursier
-            dd($cu->user->name, $cu->coursier->name);
-        }
-
-        $coursiers = Coursier::all();
-        $users = User::all();
-
         return view('livewire.coursuser.index', [
             'coursiers' => $coursiers,
             'users' => $users,
-            'coursusers' => $coursuser
+            'coursusers' => $coursuser,
         ])
             ->extends("layouts.app")
             ->section("content");
@@ -73,19 +79,34 @@ class CoursuserComp extends Component
 
         $uuid = Uuid::uuid4()->toString();
 
-        Coursuser::create([
+        $NewCoursier = Coursuser::create([
             "uuid" => $uuid,
             "coursier_id" => $validatedData["selectedCoursiers"],
             "user_id" => $validatedData["selectedUser"],
         ]);
 
-
-
         session()->flash('message', 'Le coursier a été enregistré avec succès!');
         $this->reset(['selectedUser', 'selectedCoursiers']);
+        // Mail::to($NewCoursier->email)->send(new InfoCoursier($NewCoursier));
+
     }
 
-    public function showProp(Coursuser $coursuser)
+    // public function getAvailableOptions()
+
+        // {
+        //     $usedCoursiersIds = Coursuser::pluck('coursier_id')->toArray();
+        //     $usedUserIds = Coursuser::pluck('user_id')->toArray();
+        //     $availableCoursiers = Coursier::whereNotIn('id', $usedCoursiersIds)->get();
+        //     $availableUsers = User::whereNotIn('id', $usedUserIds)->get();
+
+        //     return response()->json([
+        //         'coursiers' => $availableCoursiers,
+        //         'users' => $availableUsers,
+        //     ]);
+        // }
+
+
+        public function showProp(Coursuser $coursuser)
     {
         $this->selectedCoursusers = $coursuser;
         $this->dispatch("ModalCreate", []);
@@ -170,3 +191,11 @@ class CoursuserComp extends Component
     {
         $this->resetErrorBag();
         $this->dispatch("closeEditModal", []);
+    }
+
+    public function closeDeleteModal()
+    {
+        $this->resetErrorBag();
+        $this->dispatch("closeDeleteModal", []);
+    }
+}

@@ -42,6 +42,7 @@
                                 </select>
                                 @error('selectedUser')
                                 <span class="text-danger animate__animated animate__fadeInDown">{{ $message }}</span>
+
                                 @enderror
                             </div>
                         </div>

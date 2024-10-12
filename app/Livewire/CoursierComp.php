@@ -10,6 +10,7 @@ use App\Models\Employer;
 use App\Models\Vehicule;
 use Livewire\WithPagination;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 class CoursierComp extends Component
 {
@@ -26,7 +27,7 @@ class CoursierComp extends Component
     public $newCoursiersCni = "";
     public $newCoursiersEmail = "";
     public $editCoursiersName = "";
-    public $editCoursiersPrenom = "";
+    public $editCoursierPrenom = "";
     public $editCoursiersPhone1 = "";
     public $editCoursiersNump = "";
     public $editCoursiersPlaq = "";
@@ -117,7 +118,7 @@ class CoursierComp extends Component
 
         $uuid = Uuid::uuid4()->toString();
 
-        Coursier::create([
+        $newCoursier = Coursier::create([
             "uuid" => $uuid,
             "nom" => $validatedData["newCoursiersName"],
             "prenom" => $validatedData["newCoursiersPrenom"],
@@ -130,8 +131,12 @@ class CoursierComp extends Component
             "zone_id" => $validatedData["selectedZone"],
             "employer_id" => $validatedData["selectedEmployer"],
         ]);
+
+
+
         session()->flash('message', 'Le coursier a été enregistré avec succès!');
         $this->reset('newCoursiersCni','selectedVehicule','selectedZone','newCoursiersEmail','newCoursiersName','newCoursiersPrenom','newCoursiersPhone','newCoursiersNump','selectedEmployer','newCoursiersPlaq');
+
     }
 
 
@@ -151,7 +156,7 @@ class CoursierComp extends Component
     {
         $validated = $this->validate([
             "editCoursiersName" => "required|max:20",
-            "editCoursiersPrenom" => "required|max:50",
+            "editCoursierPrenom" => "required|max:50",
             "editCoursiersPhone1" => "required|max:10|regex:/^[0-9]{10}$/|unique:coursiers,numero_telephone," . $coursier->id,
             "editCoursiersNump" => "required|max:20|unique:coursiers,numero_permis_conduire," . $coursier->id,
             "editCoursiersCni" => "required|max:11|unique:coursiers,cni," . $coursier->id,
@@ -164,8 +169,8 @@ class CoursierComp extends Component
        ], [
         "editCoursiersName.required" => "Le champ du nom du coursier est requis.",
         "editCoursiersName.max" => "Le nom du coursier ne peut pas dépasser :max caractères.",
-        "editCoursiersPrenom.required" => "Le champ du prénom du coursier est requis.",
-        "editCoursiersPrenom.max" => "Le prénom du coursier ne peut pas dépasser :max caractères.",
+        "editCoursierPrenom.required" => "Le champ du prénom du coursier est requis.",
+        "editCoursierPrenom.max" => "Le prénom du coursier ne peut pas dépasser :max caractères.",
         'editCoursiersPhone1.required' => "Le champ du téléphone du coursier est requis.",
         'editCoursiersPhone1.max' => "Le téléphone du coursier ne peut pas dépasser :max caractères.",
         'editCoursiersPhone1.regex' => "Le champ du téléphone ne peut contenir que des chiffres.",
@@ -190,11 +195,11 @@ class CoursierComp extends Component
         $coursiers = Coursier::findOrFail($coursier->id);
         $coursiers->nom = $this->editCoursiersName;
         $coursiers->prenom = $this->editCoursierPrenom;
-        $coursiers->numero_telephone = $this->editCoursierPhone1;
+        $coursiers->numero_telephone = $this->editCoursiersPhone1;
         $coursiers->numero_permis_conduire = $this->editCoursiersNump;
-        $coursiers->plaque_immatriculation = $this->editCoursierPlaq;
-        $coursiers->cni = $this->editCoursierCni;
-        $coursiers->email= $this->editCoursierEmail;
+        $coursiers->plaque_immatriculation = $this->editCoursiersPlaq;
+        $coursiers->cni = $this->editCoursiersCni;
+        $coursiers->email= $this->editCoursiersEmail;
         $result = $coursiers->save();
         $coursiers->nom = "";
         $coursiers->prenom = "";
@@ -205,6 +210,8 @@ class CoursierComp extends Component
         $coursiers->cni = "";
         $coursiers->email = "";
 
+        session()->flash('message', "Le coursier a été mis à jour avec succès !");
+        $this->closeEditModal();
     }
     public function updateZone($coursierId, $zoneId)
     {
@@ -249,7 +256,7 @@ class CoursierComp extends Component
         $editCoursier = $coursier;
         $this->editCoursiersid = $editCoursier->id;
         $this->editCoursiersName= $editCoursier->nom;
-        $this->editCoursiersPrenom = $editCoursier->prenom;
+        $this->editCoursierPrenom = $editCoursier->prenom;
         $this->editCoursiersPhone1 = $editCoursier->numero_telephone;
         $this->editCoursiersNump = $editCoursier->numero_permis_conduire;
         $this->editCoursiersPlaq= $editCoursier->plaque_immatriculation;
@@ -265,7 +272,7 @@ class CoursierComp extends Component
         $this->selectedVehicule = getModelId(Vehicule::class, $editCoursier->vehicule_id);
         $this->selectedEmployer = getModelId(Employer::class, $editCoursier->employer_id);
 
-        $this->dispatch("showEditModal", [$coursier->nom,$coursier->prenom,$coursier->numero_telephone,$coursier->numero_telephone_2,$coursier->numero_permis_conduire,$coursier->email,$coursier->cni,$coursier->photo,$coursier->numero_plaque_immatriculation,$coursier->numero_salaire]);
+        $this->dispatch("showEditModal", [$coursier->nom,$coursier->prenom,$coursier->email,$coursier->numero_telephone,$coursier->plaque_immatriculation,$coursier->cni,$coursier->selectedZone,$coursier->selectedVehicule,$coursier->selectedEmployer]);
     }
 
     public function showPropD(Coursier $coursier)

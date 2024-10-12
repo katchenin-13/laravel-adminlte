@@ -69,7 +69,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/userInfo', [UserRequette::class, 'userInfo'])->name('userInfo');
     Route::post('/send', 'FactureController@send');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-
+    Route::get('stat', [StatsController::class, 'index'])->name('stat.index');
+    Route::get('/available-options', [CoursuserComp::class, 'getAvailableOptions']);
 
 
     // Route::get('/notifications/{id}/mark-as-read', [NotificationCon::class, 'markAsRead'])->name('notification.read');
@@ -96,7 +97,7 @@ Route::middleware(['auth', 'role:superadmin'])->group(function () {
     Route::get('/vehicule', VehiculeComp::class)->name('vehicules');
     Route::get('/dossier', DossierComp::class)->name('dossiers');
     Route::get('/client', ClientComp::class)->name('clients');
-    Route::get('stat', [StatsController::class, 'index'])->name('stat.index');
+    // Route::get('stat', [StatsController::class, 'index'])->name('stat.index');
     Route::get('/payer', PaiementComp::class)->name('payer');
     Route::post('/cinetpay/notify', [CinetpayController::class, 'notify'])->name('cinetpay.notify');
 });

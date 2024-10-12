@@ -51,7 +51,7 @@
         {{-- @foreach($details as $client) --}}
         <h2>Informations personnelles du client :</h2>
         <ul>
-            <li><strong>Identifiant :</strong> {{ $contenu->uuid }}
+            <li><strong style="color:#ff0404;">Identifiant :</strong> {{ $contenu->uuid }}
             <li><strong>Nom complet :</strong> {{ $contenu->nom }} {{ $contenu->prenom }}</li>
             <li><strong>Adresse e-mail :</strong> {{ $contenu->email }}</li>
             <li><strong>Numéro de téléphone :</strong> {{ $contenu->telephone }}</li>
@@ -110,6 +110,32 @@
                 <tr>
                     <td>{{ $livraison->uuid }}</td>
                     <td>{{ $livraison->colis->nom }}</td>
+                    <td>{{ $livraison->coursier->nom }}</td>
+                    <td>{{ $livraison->adresse_livraison }}</td>
+                    <td>{{ $livraison->numerodes }}</td>
+                </tr>
+            @endif
+        @endforeach
+    </tbody>
+</table>
+
+<h2>Colis annulé :</h2>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Colis</th>
+            <th>Livreur</th>
+            <th>Adresse</th>
+            <th>Téléphone</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($livraisons as $livraison)
+            @if($livraison->statut->nom === 'annuler')
+                <tr >
+                    <td>{{ $livraison->uuid }}</td>
+                    <td style="color:#ff0404;">{{ $livraison->colis->nom }}</td>
                     <td>{{ $livraison->coursier->nom }}</td>
                     <td>{{ $livraison->adresse_livraison }}</td>
                     <td>{{ $livraison->numerodes }}</td>

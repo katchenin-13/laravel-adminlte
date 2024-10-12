@@ -82,8 +82,8 @@
                         <div class="info-box mb-3">
                             <span class="info-box-icon bg-success elevation-1"><i class="fas fa-building"></i></span>
                             <div class="info-box-content">
-                                <span class="info-box-text">Coursiers</span>
-                                <span class="info-box-number">{{ $coursierCount }}</span>
+                                <span class="info-box-text">Zones</span>
+                                <span class="info-box-number">{{ $zoneCount }}</span> 
                             </div>
                         </div>
                     </div>

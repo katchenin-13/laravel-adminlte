@@ -120,12 +120,14 @@ class ClientComp extends Component
         ]);
 
         // Envoyer l'e-mail de bienvenue
-        Mail::to($newClient->email)->send(new ClientMail($newClient));
 
-        event(new NewclientCreated($newClient));
         session()->flash('message', 'Le client a été enregistré avec succès !');
 
         $this->reset('newClientName', 'newClientPrenom', 'newClientPhone', 'newClientEmail', 'newClientSecteur', 'selectedZone');
+        Mail::to($newClient->email)->send(new ClientMail($newClient));
+
+        event(new NewclientCreated($newClient));
+
         $this->loading = false;
     }
 
@@ -188,6 +190,9 @@ class ClientComp extends Component
         $client = Client::findOrFail($clientId);
         $client->zone_id = $zoneId;
         $client->save();
+        session()->flash('message', "Le client a été mis à jour avec succès !");
+        $this->closeEditModal();
+
 
     }
 

@@ -8,6 +8,7 @@ use Ramsey\Uuid\Uuid;
 use App\Models\Manager;
 use App\Models\Manuser;
 use Livewire\Component;
+use App\Models\Coursuser;
 use Livewire\WithPagination;
 
 class ManuserComp extends Component
@@ -40,19 +41,32 @@ class ManuserComp extends Component
 
         $searchCriteria = "%" . $this->search . "%";
 
-        $manuser = Manuser::where('uuid', 'like', '%'.$this->search.'%')
-        ->paginate(10);
-        //  dd("all");
-        $managers = Manager::all();
-        $users = User::all();
+        // Récupérer les IDs des managers et utilisateurs déjà associés
+        $usedManagersIds = Manuser::pluck('manager_id')->toArray();
+        $usedUserIdsInManuser = Manuser::pluck('user_id')->toArray();
+
+        // Récupérer les utilisateurs déjà associés dans Coursuser
+        $usedUserIdsInCoursuser = Coursuser::pluck('user_id')->toArray();
+
+        // Fusionner les IDs d'utilisateurs utilisés
+        $usedUserIds = array_merge($usedUserIdsInManuser, $usedUserIdsInCoursuser);
+
+        // Filtrer les manage et utilisateurs disponibles
+        $managers = Manager::whereNotIn('id', $usedManagersIds)->get();
+        $users = User::whereNotIn('id', $usedUserIds)->get();
+
+        // Récupérer les Manuser avec possibilité de recherche
+        $manuser = Manuser::with(['user', 'manager'])
+            ->where('uuid', 'like', $searchCriteria)
+            ->paginate(10);
 
         return view('livewire.manuser.index', [
-            'managers'=> $managers,
-            'users'=>$users,
-            'manusers'=>$manuser
-            ])
-                ->extends("layouts.app")
-                ->section("content");
+            'managers' => $managers,
+            'users' => $users,
+            'manusers' => $manuser,
+        ])
+            ->extends("layouts.app")
+            ->section("content");
     }
 
     public function addNewManuser()
@@ -73,8 +87,8 @@ class ManuserComp extends Component
             "manager_id" => $validatedData["selectedManager"],
             "user_id" => $validatedData["selectedUser"],
         ]);
-        session()->flash('message', 'Le compte a été enregistré avec succès!');
-        $this->reset('selectedUser','selectedManager');
+        session()->flash('message', 'Le compte a été mise à jour avec succès!');
+        $this->closeEditModal();
     }
 
     // public function availableUsers($excludedId)
@@ -150,17 +164,10 @@ class ManuserComp extends Component
 
 
     public function showPropE(Manuser $manuser)
-
     {
-
-        $editManuser = $manuser;
-        function getModelId($model, $id) {
-            $instance = $model::find($id);
-            return $instance ? $instance->id : null;
-        }
-
-        $this->selectedManusers = getModelId(Manager::class, $editManuser->coursier_id);
-        $this->selectedUser = getModelId(User::class, $editManuser->User_id);
+        $this->selectedManusers = $manuser;
+        $this->selectedManager = $manuser->manager_id;
+        $this->selectedUser = $manuser->user_id;
 
         $this->dispatch("showEditModal");
     }

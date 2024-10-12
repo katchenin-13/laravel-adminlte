@@ -36,6 +36,16 @@ class Coursier extends Authenticatable
             return $this->hasOneThrough(User::class, Coursuser::class, 'coursier_id', 'id', 'id', 'user_id');
         }
 
+        // public function user()
+        // {
+        //     return $this->belongsTo(User::class);
+        // }
+
+        // public function coursuser()
+        // {
+        //     return $this->belongsTo(Coursuser::class);
+        // }
+
     public function employer()
     {
         return $this->belongsTo(Employer::class);
@@ -73,7 +83,7 @@ class Coursier extends Authenticatable
 
     public function colis()
      {
-        return $this->hasmany(Colis::class);
+        return $this->hasMany(Colis::class);
      }
 
     // public function colis()

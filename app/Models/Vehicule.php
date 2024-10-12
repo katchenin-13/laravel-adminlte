@@ -16,7 +16,7 @@ class Vehicule extends Model
 
     public function coursier()
     {
-        return $this->hasmany(Coursier::class);
+        return $this->hasMany(Coursier::class);
     }
 
     protected static function boot()

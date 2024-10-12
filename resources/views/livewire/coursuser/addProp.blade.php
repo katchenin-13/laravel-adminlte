@@ -59,3 +59,31 @@
     </div>
 </div>
 
+{{-- <style>
+$(document).on('click', '.btn-success', function() {
+    $.ajax({
+        url: '/available-options', // Assure-toi que cette route est correcte
+        type: 'GET',
+        success: function(response) {
+            // Met à jour la liste des coursiers disponibles
+            var coursierSelect = $('#selectedCoursiers');
+            coursierSelect.empty(); // Vide le s elect
+            coursierSelect.append('<option value="">Sélectionner le coursier</option>');
+            $.each(response.coursiers, function(index, coursier) {
+                coursierSelect.append('<option value="'+coursier.id+'">'+coursier.nom+'</option>');
+            });
+
+            // Met à jour la liste des utilisateurs disponibles
+            var userSelect = $('#selectedUser');
+            userSelect.empty();
+            userSelect.append('<option value="">Sélectionner un utilisateur</option>');
+            $.each(response.users, function(index, user) {
+                userSelect.append('<option value="'+user.id+'">'+user.name+'</option>');
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error("Erreur lors de la récupération des options disponibles : " + error);
+        }
+    });
+});
+</style> --}}

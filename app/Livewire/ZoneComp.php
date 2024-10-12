@@ -79,17 +79,20 @@ class ZoneComp extends Component
     {
         $validated = $this->validate([
             "editZoneName" => ["required", "max:50", Rule::unique("zones", "nom")->ignore($zone->id)],
+            "selectedCommune"=>"required"
         ], [
             "editZoneName.required" => "Le champ du nom de la zone est requis.",
             "editZoneName.max" => "Le nom de la zone ne peut pas dépasser :max caractères.",
             "editZoneName.unique" => "Ce nom de zone est déjà utilisé.",
+            "selectedCommune"=> "Le champ de la commune est requis"
         ]);
 
         $editZone = Zone::findOrFail($zone->id);
         $editZone->nom = $this->editZoneName;
         $editZone->save();
         $this->editZoneName = "";
-        session()->flash('message', 'mise à jour avec succès!');
+        session()->flash('message', 'La zone a été mise à jour avec succès!');
+        $this->closeEditModal();
     }
 
     public function updateCommune($zoneId, $communeId)
@@ -97,8 +100,6 @@ class ZoneComp extends Component
         $zone = Zone::findOrFail($zoneId);
         $zone->commune_id = $communeId;
         $zone->save();
-
-
     }
 
 

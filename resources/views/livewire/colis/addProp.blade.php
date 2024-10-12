@@ -123,7 +123,7 @@
             </div>
         </div>
     </div>
-    @endrole
+
 @endif
 
 @if(auth()->user()->hasRole('coursier'))
@@ -251,5 +251,4 @@
             </div>
         </div>
     </div>
-    @endrole
 @endif

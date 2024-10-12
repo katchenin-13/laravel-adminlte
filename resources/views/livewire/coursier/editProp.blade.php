@@ -15,7 +15,7 @@
                                         <div class="alert alert-success">
                                             {{ session('message') }}
                                         </div>
-                                    @endif
+                                     @endif
 
                                     <div class="row">
                                         <!-- Nom -->
@@ -34,11 +34,11 @@
                                         <!-- Prénom -->
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="editCoursiersPrenom">Prénom</label>
-                                                <input type="text" id="editCoursiersPrenom" wire:keydown.enter=""
-                                                    class="form-control @error('editCoursiersPrenom') is-invalid @enderror"
-                                                    wire:model="editCoursiersPrenom"/>
-                                                @error('editCoursiersPrenom')
+                                                <label for="editCoursierPrenom">Prénom</label>
+                                                <input type="text" id="editCoursierPrenom" wire:keydown.enter=""
+                                                    class="form-control @error('editCoursierPrenom') is-invalid @enderror"
+                                                    wire:model="editCoursierPrenom"/>
+                                                @error('editCoursierPrenom')
                                                     <span class="text-danger animate__animated animate__fadeInDown">{{ $message }}</span>
                                                 @enderror
                                             </div>

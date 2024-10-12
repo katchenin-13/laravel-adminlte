@@ -44,10 +44,21 @@ class User extends Authenticatable
     //     return $this->hasOne(Coursuser::class);
     // }
 
-    public function coursiers()
+    public function coursier()
     {
         return $this->hasOneThrough(Coursier::class, Coursuser::class,'user_id','id','id','coursier_id');
     }
+
+    // public function coursier()
+    // {
+    //     return $this->hasOne(Coursier::class);
+    // }
+
+
+    // public function coursuser()
+    // {
+    //     return $this->belongsTo(Coursuser::class);
+    // }
 
     public function manager()
     {

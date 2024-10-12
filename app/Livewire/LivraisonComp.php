@@ -36,62 +36,64 @@ class LivraisonComp extends Component
     protected $paginationTheme = "bootstrap";
 
     public function render()
-    {
-        Carbon::setLocale("fr");
+{
+    Carbon::setLocale("fr");
 
-        $searchCriteria = "%" . $this->search . "%";
+    $searchCriteria = "%" . $this->search . "%";
 
-        // Obtenir l'utilisateur connecté
-        $user = auth()->user();
+    // Obtenir l'utilisateur connecté
+    $user = auth()->user();
 
-        $livraisonsQuery = Livraison::query();
+    $livraisonsQuery = Livraison::query();
 
-        if ($user->hasRole('superadmin') || $user->hasRole('manager')) {
-            // Afficher toutes les livraisons
-            $livraisonsQuery->where(function($query) use ($searchCriteria) {
-                $query->where('destinataire', 'like', $searchCriteria)
-                    ->orWhere('uuid', 'like', $searchCriteria)
-                    ->orWhere('numerodes', 'like', $searchCriteria)
-                    ->orWhere('adresse_livraison', 'like', $searchCriteria);
-            });
-        } elseif ($user->HasRole('coursier')) {
-            if($user->coursier){
-            $livraisonsQuery->where('coursier_id', $user->coursier->id) // Utiliser l'objet Coursier
+    if ($user->hasRole('superadmin') || $user->hasRole('manager')) {
+        // Afficher toutes les livraisons
+        $livraisonsQuery->where(function($query) use ($searchCriteria) {
+            $query->where('destinataire', 'like', $searchCriteria)
+                  ->orWhere('uuid', 'like', $searchCriteria)
+                  ->orWhere('numerodes', 'like', $searchCriteria)
+                  ->orWhere('adresse_livraison', 'like', $searchCriteria);
+        });
+    } elseif ($user->hasRole('coursier')) {
+        if ($user->coursier) {
+            $livraisonsQuery->where('coursier_id', $user->coursier->id)
                 ->where(function($query) use ($searchCriteria) {
                     $query->where('destinataire', 'like', $searchCriteria)
-                        ->orWhere('uuid', 'like', $searchCriteria)
-                        ->orWhere('numerodes', 'like', $searchCriteria)
-                        ->orWhere('adresse_livraison', 'like', $searchCriteria);
+                          ->orWhere('uuid', 'like', $searchCriteria)
+                          ->orWhere('numerodes', 'like', $searchCriteria)
+                          ->orWhere('adresse_livraison', 'like', $searchCriteria);
                 });
-            }else{
-                dd('ya pas de coursier associé');
-            }
+        } else {
+            dd('Il n\'y a pas de coursier associé');
         }
-
-        $livraisons = $livraisonsQuery->paginate(10);
-
-        // Filtrer les colis en fonction du rôle de l'utilisateur
-        $colisQuery = Colis::query();
-        if ($user->role === 'coursier') {
-            $colisQuery->where('coursier_id', $user->coursier->id); // Associer les colis au coursier
-        }
-
-        $colis = $colisQuery->get(); // Récupérer les colis filtrés
-
-        $statuts = Statut::where('statut_type', $this->statutType)->get();
-        $coursiers = Coursier::all();
-        $clients = Client::all();
-
-        return view('livewire.livraison.index', [
-            'livraisons' => $livraisons,
-            'coursiers' => $coursiers,
-            'statuts' => $statuts,
-            'colis' => $colis,
-            'clients' => $clients,
-        ])
-        ->extends("layouts.app")
-        ->section("content");
     }
+
+    $livraisons = $livraisonsQuery->paginate(10);
+
+    // Filtrer les colis en fonction du rôle de l'utilisateur
+    $colisQuery = Colis::query();
+    if ($user->hasRole('coursier')) {
+        $colisQuery->where('coursier_id', $user->coursier->id); // Associer les colis au coursier
+    }
+
+    // Trier les colis en fonction du coursier
+    $colis = $colisQuery->get(); // Récupérer les colis filtrés
+
+    // Récupérer les statuts, coursiers et clients
+    $statuts = Statut::where('statut_type', $this->statutType)->get();
+    $coursiers = Coursier::all();
+    $clients = Client::all();
+
+    return view('livewire.livraison.index', [
+        'livraisons' => $livraisons,
+        'coursiers' => $coursiers,
+        'statuts' => $statuts,
+        'colis' => $colis,
+        'clients' => $clients,
+    ])
+    ->extends("layouts.app")
+    ->section("content");
+}
 
     public function addNewLivraison()
     {
@@ -169,6 +171,8 @@ class LivraisonComp extends Component
         $livraisons->destinataire = $this->editDestinataireName;
         $livraisons->numerodes = $this->editLivraisonPhone;
         $livraisons->adresse_livraison = $this->editLivraisonAdd;
+        session()->flash('message', "La livraison a été mis à jour avec succès !");
+        $this->closeEditModal();
 
 
     }
@@ -236,14 +240,14 @@ class LivraisonComp extends Component
         $this->editLivraisonsPhone = $editLivraison->prenom;
         $this->editLivraisonsAdd = $editLivraison->email;
 
-        $selectedLivraison = Coursier::find($editLivraison->coursier_id);
+        $selectedCoursiers = Coursier::find($editLivraison->coursier_id);
 
-        if ($selectedLivraison) {
+        if ($selectedCoursiers) {
 
-            $this->selectedLivraison = $selectedLivraison->id;
+            $this->selectedCoursiers = $selectedCoursiers->id;
         } else {
 
-            $this->selectedLivraison = null;
+            $this->selectedCoursiers = null;
         }
 
         $selectedColis = Colis::find($editLivraison->colis_id);
@@ -264,7 +268,7 @@ class LivraisonComp extends Component
             $this->selectedStatut = null;
         }
 
-        $this->dispatch("EditModal", []);
+        $this->dispatch("EditModal", [$livraison->destinataire,$livraison->numerodes,$livraison->adresse_livraison,$livraison->numerodes,$livraison->selectedStatut,$livraison->selectedColis,$livraison->selectedCoursiers]);
     }
 
     public function showPropD(Livraison $livraison)

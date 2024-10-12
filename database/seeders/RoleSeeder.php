@@ -27,11 +27,11 @@ class RoleSeeder extends Seeder
             $deletePermission = Permission::create(['name' => 'delet']);
             $editPermission = Permission::create(['name' => 'edit']);
             $readPermission = Permission::create(['name' => 'read']);
-            $modifierPermission = Permission::create(['name' => 'modifier']);
+
 
 
             // Attribution des permissions aux rôles
-            $adminRole->syncPermissions([$addPermission->id, $readPermission->id, $deletePermission->id, $editPermission->id, $modifierPermission->id]);
+            $adminRole->syncPermissions([$addPermission->id, $readPermission->id, $deletePermission->id, $editPermission->id]);
             $coursierRole->syncPermissions([$addPermission->id, $readPermission->id, $editPermission->id]);
 
 

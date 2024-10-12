@@ -73,14 +73,26 @@ class TarificationComp extends Component
     {
         $validated = $this->validate([
             "editTarificationPrix" => ["required", "max:10", Rule::unique("tarifications", "prix")->ignore($tarification->id)],
+            "selectedCategorie" => ["required"],
         ], [
             "editTarificationPrix.required" => "Le champ prix est requis.",
-            "editTarificationPrix.max" => "Le prix ne peut pas dépasser :max caractères."
+            "editTarificationPrix.max" => "Le prix ne peut pas dépasser :max caractères.",
+            "selectedCategorie.required" => "Le champ categorie est requis.",
         ]);
 
+        $tarifications = Tarification::findOrFail($tarification->id);
         $tarification->prix = $this->editTarificationPrix;
+        $result = $tarification->save();
+        $this->editTarificationPrix = "";
+        session()->flash('message', 'Le tarif a été mise a jour avec succès!');
+        $this->closeEditModal();
+    }
+
+    public function updateCategorie($tarificationId, $categorieId)
+    {
+        $tarification = Tarification::findOrFail($tarificationId);
+        $tarification->categorie_id = $categorieId;
         $tarification->save();
-        $this->editTarificationPrix = ""; // Assurez-vous de réinitialiser la propriété après la sauvegarde
     }
 
 
@@ -121,8 +133,17 @@ class TarificationComp extends Component
 
     public function showPropE(Tarification $tarification)
     {
+        $editTarification = $tarification;
         $this->editTarificationId = $tarification->id;
         $this->editTarificationPrix = $tarification->prix;
+                $selectedCategorie = Categorie::find($editTarification->categorie_id);
+
+                if ($selectedCategorie) {
+                    $this->selectedCategorie = $selectedCategorie->id;
+                } else {
+
+                    $this->selectedCategorie = null; // ou toute autre valeur par défaut
+                }
 
         $this->dispatch("showEditModal", $tarification->prix);
     }

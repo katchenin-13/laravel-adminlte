@@ -135,6 +135,8 @@ class ManagerComp extends Component
         $managers->email = $validated['editemail'];
 
         $managers->save();
+        session()->flash('message', "Le manager a été mis à jour avec succès !");
+        $this->closeEditModal();
 
 
     }

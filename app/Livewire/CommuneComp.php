@@ -93,7 +93,8 @@ class CommuneComp extends Component
         $communes->nom = $this->editCommuneName;
         $result = $communes->save();
         $communes->nom = "";
-        session()->flash('message', 'Le nom de la commune a été modifié avec succès!');
+        session()->flash('message', 'La commune a été modifié avec succès!');
+        $this->closeEditModal();
     }
 
 

@@ -123,7 +123,7 @@ class UserComp extends Component
 
         $user->syncRoles($validated['editRole']);
         session()->flash('message', "L'utilisateur a été mis à jour avec succès !");
-        $this->reset(['editUserName', 'editUserEmail', 'editUserPassword', 'editRole']);
+        // $this->reset(['editUserName', 'editUserEmail', 'editUserPassword', 'editRole']);
     }
 
     public function updatedSelectedRole($role)

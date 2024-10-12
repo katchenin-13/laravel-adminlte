@@ -73,7 +73,8 @@ class VehiculeComp extends Component
         $vehicules->nom = $this->editVehiculeName;
         $result = $vehicules->save();
         $vehicules->nom = "";
-        session()->flash('message', 'Le nom du type de vehicule a été modifié avec succès!');
+        session()->flash('message', 'Le nom du type de vehicule a été mise à jour avec succès!');
+        $this->closeEditModal();
     }
 
 
