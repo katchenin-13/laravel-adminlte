@@ -7,6 +7,7 @@ use App\Models\User;
 use Ramsey\Uuid\Uuid;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Role;
 
 class UserComp extends Component
@@ -91,7 +92,7 @@ class UserComp extends Component
     {
         $validated = $this->validate([
             "editUserName" => "required|max:20",
-            "editUserEmail" => "required|max:50|unique:users,email," . $user->id, // Changement de 'editUserGmail' à 'editUserEmail'
+            "editUserEmail" => ["required","max:50",Rule::unique('users')->ignore($user->id),], // Changement de 'editUserGmail' à 'editUserEmail'
             "editUserPassword" => "required|min:6", // Changement de 'max:6' à 'min:6'
             "editRole" => "required|exists:roles,name"
         ], [

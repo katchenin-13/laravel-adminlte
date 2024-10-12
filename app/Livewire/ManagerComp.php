@@ -8,6 +8,7 @@ use Livewire\Component;
 use App\Models\Employer;
 use Livewire\WithPagination;
 use Illuminate\Support\Carbon;
+use Illuminate\Validation\Rule;
 
 class ManagerComp extends Component
 {
@@ -62,9 +63,9 @@ class ManagerComp extends Component
         $validatedData = $this->validate([
             "newnom" => "required|max:20",
             "newprenom" => "required|max:50",
-            "newphone" => "required|max:10|unique:managers,numero_telephone",
-            "newemail" => "required|max:30|unique:managers,email",
-            "newphone2" => "max:10",
+            "newphone" => "required|max:10|regex:/^[0-9]+$/:unique:managers,numero_telephone",
+            "newemail" => "required|max:50|unique:managers,email",
+            "newphone2" => "max:10|regex:/^[0-9]+$/::unique:managers,numero_telephone_2",
             "selectedEmployer" => "required",
         ], [
             "newnom.required" => "Le champ du nom du manager est requis.",
@@ -75,6 +76,7 @@ class ManagerComp extends Component
             "newphone.max" => "Le téléphone du manager ne peut pas dépasser :max caractères.",
             "newphone.unique" => "Le numéro de téléphone est déjà utilisé.",
             "newphone2.max" => "Le deuxième téléphone du manager ne peut pas dépasser :max caractères.",
+            "newphone2.required" => "Le champ du téléphone du manager est requis.",
             "newemail.required" => "Le champ email du manager est requis.",
             "newemail.max" => "L'email du manager ne peut pas dépasser :max caractères.",
             "newemail.unique" => "L'email est déjà utilisé.",
@@ -106,24 +108,27 @@ class ManagerComp extends Component
     public function updateManager(Manager $manager)
     {
         $validated = $this->validate([
-            "newnom" => "required|max:20",
-            "newprenom" => "required|max:50",
-            "newphone" => "required|max:10|unique:managers,numero_telephone",
-            "newemail" => "required|max:30|unique:managers,email",
-            "newphone2" => "max:10",
+            "editnom" => "required|max:20",
+            "editprenom" => "required|max:50",
+            "editphone" => ["required","max:10","regex:/^[0-9]+$/",Rule::unique('managers')->ignore($manager->id),],
+            "editemail" => ["required","max:50",Rule::unique('managers')->ignore($manager->id),],
+            "editphone2" => ["max:10","regex:/^[0-9]+$/",Rule::unique('managers')->ignore($manager->id),],
             "selectedEmployer" => "required",
         ], [
-            "newnom.required" => "Le champ du nom du manager est requis.",
-            "newnom.max" => "Le nom du manager ne peut pas dépasser :max caractères.",
-            "newprenom.required" => "Le champ du prénom du manager est requis.",
-            "newprenom.max" => "Le prénom du manager ne peut pas dépasser :max caractères.",
-            "newphone.required" => "Le champ du téléphone du manager est requis.",
-            "newphone.max" => "Le téléphone du manager ne peut pas dépasser :max caractères.",
-            "newphone.unique" => "Le numéro de téléphone est déjà utilisé.",
-            "newphone2.max" => "Le deuxième téléphone du manager ne peut pas dépasser :max caractères.",
-            "newemail.required" => "Le champ email du manager est requis.",
-            "newemail.max" => "L'email du manager ne peut pas dépasser :max caractères.",
-            "newemail.unique" => "L'email est déjà utilisé.",
+            "editnom.required" => "Le champ du nom du manager est requis.",
+            "editnom.max" => "Le nom du manager ne peut pas dépasser :max caractères.",
+            "editprenom.required" => "Le champ du prénom du manager est requis.",
+            "editprenom.max" => "Le prénom du manager ne peut pas dépasser :max caractères.",
+            "editphone.required" => "Le champ du téléphone du manager est requis.",
+            "editphone.max" => "Le téléphone du manager ne peut pas dépasser :max caractères.",
+            "editphone.regex" => "Le champ du téléphonene peut contenir que des chiffres.",
+            "editphone.unique" => "Le numéro de téléphone est déjà utilisé.",
+            "editphone2.max" => "Le deuxième téléphone du manager ne peut pas dépasser :max caractères.",
+            "editphone2.regex" => "Le champ du téléphonene peut contenir que des chiffres.",
+            "editphone2.unique" => "Le numéro de téléphone est déjà utilisé.",
+            "editemail.required" => "Le champ email du manager est requis.",
+            "editemail.max" => "L'email du manager ne peut pas dépasser :max caractères.",
+            "editemail.unique" => "L'email est déjà utilisé.",
             "selectedEmployer.required" => "Veuillez sélectionner un employeur.",
        ]);
 

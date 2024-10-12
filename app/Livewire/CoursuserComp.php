@@ -9,7 +9,9 @@ use Livewire\Component;
 use App\Models\Coursier;
 
 use App\Models\Coursuser;
+use App\Mail\InfoCoursier;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Mail;
 
 class CoursuserComp extends Component
 {
@@ -58,40 +60,50 @@ class CoursuserComp extends Component
 
     public function addNewCoursuser()
     {
+        // Validation des données
         $validatedData = $this->validate([
-             "selectedCoursiers" => "required",
-             "selectedUser" => "required",
+            "selectedCoursiers" => "required",
+            "selectedUser" => "required",
         ], [
-
             "selectedCoursiers.required" => "Veuillez sélectionner le coursier.",
             "selectedUser.required" => "Veuillez sélectionner le compte du client.",
         ]);
 
         $uuid = Uuid::uuid4()->toString();
 
-        Coursuser::create([
+        $coursuser = Coursuser::create([
             "uuid" => $uuid,
             "coursier_id" => $validatedData["selectedCoursiers"],
             "user_id" => $validatedData["selectedUser"],
         ]);
-        session()->flash('message', 'Le coursier a été enregistré avec succès!');
-        $this->reset('selectedUser','selectedCoursiers');
+
+        $coursier = Coursier::find($validatedData["selectedCoursiers"]);
+        $user = User::find($validatedData["selectedUser"]);
+
+
+
+        // Message flash pour confirmation
+        session()->flash('message', 'Le coursier a été enregistré avec succès et un e-mail a été envoyé !');
+        Mail::to($user->email)->send(new InfoCoursier($coursier, $user));
+        // Réinitialisation des champs
+        $this->reset('selectedUser', 'selectedCoursiers');
+
     }
 
-    public function availableUsers($excludedId)
-    {
-        // Validation de l'entrée
-        if (!is_numeric($excludedId)) {
-            return response()->json(['error' => 'Invalid ID'], 400);
-        }
+    // public function availableUsers($excludedId)
+    // {
+    //     // Validation de l'entrée
+    //     if (!is_numeric($excludedId)) {
+    //         return response()->json(['error' => 'Invalid ID'], 400);
+    //     }
 
-        // Récupérer les utilisateurs sauf celui avec l'ID exclu
-        $users = User::where('id', '!=', $excludedId)
-                     ->select('id', 'name')
-                     ->get();
+    //     // Récupérer les utilisateurs sauf celui avec l'ID exclu
+    //     $users = User::where('id', '!=', $excludedId)
+    //                  ->select('id', 'name')
+    //                  ->get();
 
-        return response()->json($users);
-    }
+    //     return response()->json($users);
+    // }
 
 
 

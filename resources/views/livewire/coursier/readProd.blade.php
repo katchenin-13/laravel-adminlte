@@ -9,8 +9,9 @@
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <tbody>
-                                @if($selectedCoursiers && $selectedCoursiers->vehicule && $selectedCoursiers->zone && $selectedCoursiers->employer && $selectedCoursiers->user)
+                                @if($selectedCoursiers)
                                 <tr>
+
                                     <td><strong>Nom:</strong></td>
                                     <td>{{ $selectedCoursiers ->nom }}</td>
                                 </tr>
@@ -47,23 +48,26 @@
                                 </tr>
 
                                  <tr>
+                                    @if ($selectedCoursiers->vehicule)
                                     <td><strong>Vehicule:</strong></td>
                                     <td>{{ $selectedCoursiers->vehicule->nom }}</td>
+                                    @endif
+
                                 </tr>
 
                                 <tr>
+                                    @if ($selectedCoursiers->zone)
                                     <td><strong>Zone:</strong></td>
                                     <td>{{ $selectedCoursiers->zone->nom }}</td>
+                                    @endif
+
                                 </tr>
 
                                 <tr>
+                                    @if($selectedCoursiers->employer)
                                     <td><strong>Poste:</strong></td>
                                     <td>{{ $selectedCoursiers->employer->poste }}</td>
-                                </tr>
-
-                                <tr>
-                                    <td><strong>Compte:</strong></td>
-                                    <td>{{ $selectedCoursiers->user->name }}</td>
+                                    @endif
                                 </tr>
 
                                 @endif

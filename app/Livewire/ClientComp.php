@@ -6,11 +6,12 @@ use App\Models\Zone;
 use Ramsey\Uuid\Uuid;
 use App\Models\Client;
 use Livewire\Component;
-use Barryvdh\DomPDF\Facade\Pdf;
+use App\Mail\ClientMail;
 use Livewire\WithPagination;
 use Illuminate\Support\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Validation\Rule;
 use App\Events\NewclientCreated;
-use App\Mail\ClientMail;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -36,7 +37,7 @@ class ClientComp extends Component
     public $clientCount;
     public $showDeleteModal="false";
     public $clientToDelete;
-    public $loading = false; // Propriété pour gérer l'état de chargement
+ // Propriété pour gérer l'état de chargement
 
 
 
@@ -79,14 +80,13 @@ class ClientComp extends Component
 
 
     public function addNewClient()
-    {
-        $this->loading = true; // Début du chargement
+    { // Début du chargement
 
         $validatedData = $this->validate([
             "newClientName" => "required|max:20",
             "newClientPrenom" => "required|max:50",
-            "newClientPhone" => "required|max:10|unique:clients,telephone",
-            "newClientEmail" => "required|max:30|unique:clients,email",
+            "newClientPhone" => "required|max:10|regex:/^[0-9]+$/:unique:clients,telephone|regex:/^[0-9]+$/",
+            "newClientEmail" => "required|max:50|unique:clients,email",
             "newClientSecteur" => "required|max:20",
             "selectedZone" => "required",
         ], [
@@ -124,7 +124,7 @@ class ClientComp extends Component
         session()->flash('message', 'Le client a été enregistré avec succès !');
 
         $this->reset('newClientName', 'newClientPrenom', 'newClientPhone', 'newClientEmail', 'newClientSecteur', 'selectedZone');
-        $this->loading = false;
+
     }
 
 
@@ -147,8 +147,8 @@ class ClientComp extends Component
         $validated = $this->validate([
             "editClientName" => ["required", "max:20"],
             "editClientPrenom" => ["required", "max:50"],
-            "editClientPhone" => ["required", "max:10"],
-            "editClientEmail" => ["required", "max:30"],
+            "editClientPhone" => ["required", "max:10","regex:/^[0-9]+$/",Rule::unique('clients')->ignore($client->id),],
+            "editClientEmail" => ["required", "max:50", Rule::unique('clients')->ignore($client->id),],
 
         ], [
             "editClientName.required" => "Le champ du nom du client est requis.",
@@ -157,6 +157,7 @@ class ClientComp extends Component
             "editClientPrenom.max" => "Le prenom du client ne peut pas dépasser :max caractères.",
             "editClientPhone.required" => "Le champ du téléphone du client est requis.",
             "editClientPhone.max" => "Le téléphone du client ne peut pas dépasser :max caractères.",
+            "editClientPhone.unique" => "le numero de téléphone est déjà utilisé.",
             "editClientPhone.regex" => "Le champ du téléphonene peut contenir que des chiffres.",
             "editClientEmail.required" => "Le champ email du client est requis.",
             "editClientEmail.max" => "L'email du client ne peut pas dépasser :max caractères.",

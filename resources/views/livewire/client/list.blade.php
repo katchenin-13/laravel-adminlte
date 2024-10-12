@@ -1,4 +1,4 @@
-@if ($loading)
+
     <div class="loading-overlay">
         <div class="spinner-border text-primary" role="status"> <span class="sr-only">Chargement en cours...</span> </div>
     </div>
@@ -58,26 +58,4 @@
                 </div> <!-- /.card-footer -->
             </div> <!-- /.card -->
         </div> <!-- /.col-12 -->
-    </div> @push('styles')
-        <style>
-            .loading-overlay {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(255, 255, 255, 0.5);
-                /* Fond semi-transparent */
-                z-index: 9999;
-                /* Assure que l'overlay est au-dessus du contenu */
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-
-            .loading-overlay .spinner-border {
-                width: 3rem;
-                height: 3rem;
-            }
-        </style>
-    @endpush
+    </div>

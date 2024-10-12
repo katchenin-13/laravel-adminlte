@@ -10,6 +10,7 @@ use App\Models\Employer;
 use App\Models\Vehicule;
 use Livewire\WithPagination;
 use Illuminate\Support\Carbon;
+use Illuminate\Validation\Rule;
 
 class CoursierComp extends Component
 {
@@ -82,7 +83,7 @@ class CoursierComp extends Component
         $validatedData = $this->validate([
              "newCoursiersName" =>"required|max:20",
              "newCoursiersPrenom" =>"required|max:50",
-             "newCoursiersPhone"=>"required|max:10|unique:coursiers,numero_telephone",
+             "newCoursiersPhone"=>"required|max:10|unique|regex:/^[0-9]+$/:coursiers,numero_telephone",
              "newCoursiersNump" =>"required|max:20|unique:coursiers,numero_permis_conduire",
              "newCoursiersCni" =>"required|max:9|unique:coursiers,cni",
              "newCoursiersPlaq" =>"required|max:20",
@@ -125,7 +126,7 @@ class CoursierComp extends Component
             "nom" => $validatedData["newCoursiersName"],
             "prenom" => $validatedData["newCoursiersPrenom"],
             "numero_telephone" => $validatedData["newCoursiersPhone"],
-            "numero_numero_permis_conduire" => $validatedData["newCoursiersNump"],
+            "numero_permis_conduire" => $validatedData["newCoursiersNump"],
             "plaque_immatriculation" => $validatedData["newCoursiersPlaq"],
             "cni" => $validatedData["newCoursiersCni"],
             "email" => $validatedData["newCoursiersEmail"],
@@ -155,10 +156,10 @@ class CoursierComp extends Component
         $validated = $this->validate([
             "editCoursiersName" =>"required|max:20",
             "editCoursiersPrenom" =>"required|max:50",
-            "editCoursiersPhone1 "=>"required|max:10|unique:coursiers,numero_telephone",
-            "editCoursiersNump" =>"required|max:20|unique:coursiers,numero_permis_conduire",
-            "editCoursiersCni" =>"required|max:9|unique:coursiers,cni",
-            "editCoursiersEmail" =>"required|max:10|unique:coursiers,email",
+            "editCoursiersPhone1"=>["required","max:10","regex:/^[0-9]+$/",Rule::unique('coursiers')->ignore($coursier->id),],
+            "editCoursiersNump" =>["required","max:20",Rule::unique('coursiers')->ignore($coursier->id),],
+            "editCoursiersCni" =>["require","max:9",Rule::unique('coursiers')->ignore($coursier->id),],
+            "editCoursiersEmail" =>["required","max:50","unique",Rule::unique('coursiers')->ignore($coursier->id),],
             "editCoursiersPlaq" =>"required|max:20",
             "selectedZone" => "required",
             "selectedVehicule" => "required",
@@ -171,6 +172,7 @@ class CoursierComp extends Component
            "editCoursiersPrenom.max" => "Le prenom du coursier ne peut pas dépasser :max caractères.",
            "editCoursiersPhone1.required" => "Le champ du téléphone du coursier est requis.",
            "editCoursiersPhone1.max" => "Le téléphone du coursier ne peut pas dépasser :max caractères.",
+           "editCoursiersPhone1.unique" => "numero de téléphone est déjà utilisé.",
            "editCoursiersPhone1.regex" => "Le champ du téléphonene peut contenir que des chiffres.",
            "editCoursiersNump.required" => "Le champ du numero de permis du coursier est requis.",
            "editCoursiersNump.max" => "Le numero de permis du coursier ne peut pas dépasser :max caractères.",
@@ -193,7 +195,7 @@ class CoursierComp extends Component
         $coursiers = Coursier::findOrFail($coursier->id);
         $coursiers->nom = $this->editCoursiersName;
         $coursiers->prenom = $this->editCoursierPrenom;
-        $coursiers->numero_telephone = $this->editCoursierPhone1;
+        $coursiers->numero_telephone = $this->editCoursiersPhone1;
         $coursiers->numero_permis_conduire = $this->editCoursiersNump;
         $coursiers->plaque_immatriculation = $this->editCoursierPlaq;
         $coursiers->cni = $this->editCoursierCni;
