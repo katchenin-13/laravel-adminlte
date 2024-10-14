@@ -23,6 +23,12 @@ class Employer extends Model
         return $this->hasmany(Coursier::class);
     }
 
+    public function manager()
+    {
+        return $this->hasmany(Manager::class);
+    }
+
+
 
     protected static function boot()
     {

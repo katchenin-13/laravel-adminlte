@@ -22,7 +22,7 @@ class manager extends Model
 
         public function user()
         {
-            return $this->belongsToMany(User::class, 'manuser');
+            return $this->hasOneThrough(User::class, 'manager_id','id', 'id','user_id');
         }
 
         public function employer()

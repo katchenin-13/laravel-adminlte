@@ -29,4 +29,14 @@ class Manuser extends Model
         $uuid = base_convert(Uuid::uuid4()->getHex(), 16, 36);
         return substr($uuid, 0, 4);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function manager()
+    {
+        return $this->belongsTo(Manager::class);
+    }
 }

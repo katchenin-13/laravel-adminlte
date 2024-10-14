@@ -46,13 +46,30 @@ class User extends Authenticatable
 
     public function coursier()
     {
-        return $this->belongsToMany(Coursier::class, 'coursuser');
+        return $this->hasOneThrough(Coursier::class, Coursuser::class,'user_id','id','id','coursier_id');
     }
+
+    // public function coursier()
+    // {
+    //     return $this->hasOne(Coursier::class);
+    // }
+
+
+    // public function coursuser()
+    // {
+    //     return $this->belongsTo(Coursuser::class);
+    // }
 
     public function manager()
     {
-        return $this->hasmany(Manager::class , 'manuser');
+        return $this->hasOneThrough(Manager::class, Manuser::class,'user_id','id','id','manager_id');
     }
+    // public function manager()
+    // {
+    //     return $this->hasmany(Manager::class , 'manuser');
+    // }
+
+
 
 
 
@@ -86,3 +103,9 @@ class User extends Authenticatable
 
 
 }
+
+
+
+
+
+

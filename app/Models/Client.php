@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Client extends Model
 {
-    use HasFactory, Notifiable, Billable;
+    use HasFactory, Notifiable;
     protected $fillable = [
         'uuid',
         'nom',
@@ -27,9 +27,9 @@ class Client extends Model
         return $this->belongsto(Zone::class);
     }
 
-    public function payement()
+    public function paiement()
     {
-        return $this->hasMany(Payement::class);
+        return $this->hasMany(Paiement::class);
     }
 
     public function dossier()
