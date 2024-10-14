@@ -6,8 +6,10 @@ use App\Models\Colis;
 use Ramsey\Uuid\Uuid;
 use App\Models\Client;
 use Livewire\Component;
+use App\Models\Coursier;
 use App\Models\Categorie;
 use Livewire\WithPagination;
+use Illuminate\Validation\Validator;
 use Illuminate\Support\Carbon;
 
 class ColisComp extends Component
@@ -26,6 +28,7 @@ class ColisComp extends Component
     public $selectedColis;
     public $selectedCategorie;
     public $selectedClient;
+    public $selectedCoursier;
     // public $colisCount;
     public $showDeleteModal=false;
 
@@ -45,22 +48,49 @@ class ColisComp extends Component
 
         $searchCriteria = "%" . $this->search . "%";
 
-        $colisse = Colis::where('nom', 'like', '%'.$this->search.'%')
-        ->orWhere('uuid', 'like', '%'.$this->search.'%')
-        ->paginate(10);
+        // Construire la requête pour les colis
+        $colisQuery = Colis::query();
 
-        // $colisCount = $this->colisCount;
+        if ($user = auth()->user()) {
+            // Vérification du coursier directement via la relation
+            $coursier = $user->coursier;
+
+            if ($user->hasRole('superadmin') || $user->hasRole('manager')) {
+                // Afficher tous les colis
+                $colisQuery->where(function($query) use ($searchCriteria) {
+                    $query->where('nom', 'like', $searchCriteria)
+                          ->orWhere('uuid', 'like', $searchCriteria);
+                });
+            } elseif ($user->hasRole('coursier')) {
+                if ($coursier) {
+                    // Afficher seulement les colis qui concernent le coursier
+                    $colisQuery->where('coursier_id', $coursier->id)
+                               ->where(function($query) use ($searchCriteria) {
+                                   $query->where('nom', 'like', $searchCriteria)
+                                         ->orWhere('uuid', 'like', $searchCriteria);
+                               });
+                } else {
+                    dd('Pas de coursier associé à cet utilisateur.', $user); // Debug pour voir l'utilisateur
+                }
+            } else {
+                dd('Problème de rôle d\'utilisateur');
+            }
+        }
+
+        // Paginer les résultats
+        $colis = $colisQuery->paginate(10);
+
         $categories = Categorie::all();
 
         $clients = Client::all();
+        $coursiers = Coursier::all();
 
         return view('livewire.colis.index', [
             'categories' => $categories,
             'clients' => $clients,
-            'colis' => $colisse,
-        ])
-            ->extends("layouts.app")
-            ->section("content");
+            'coursiers' => $coursiers,
+            'colis' => $colis,
+        ])->extends("layouts.app")->section("content");
     }
 
     public function addNewColis()
@@ -68,9 +98,10 @@ class ColisComp extends Component
         $validatedData = $this->validate([
             "newColisName" => "required|max:20",
             "newColisDes" => "required|max:550",
-            "newColisQuan" => "required|max:100",
+            "newColisQuan" => "required|regex|max:9",
             "selectedClient" => "required",
             "selectedCategorie" => "required",
+            "selectedCoursier" => "required"
         ], [
             "newColisName.required" => "Le champ du nom du colis est requis.",
             "newColisName.max" => "Le nom du colis ne peut pas dépasser :max caractères.",
@@ -80,6 +111,7 @@ class ColisComp extends Component
             "newColisQuan.max" => "La quantité du colis ne peut pas dépasser :max caractères.",
             "selectedClient.required" => "Veuillez sélectionner le client.",
             "selectedCategorie.required" => "Veuillez sélectionner une catégorie.",
+            "selectedCoursier.required" => "Veuillez sélectionner une coursier.",
         ]);
 
         $uuid = Uuid::uuid4()->toString();
@@ -91,9 +123,10 @@ class ColisComp extends Component
             "quantite" => $validatedData["newColisQuan"],
             "client_id" => $validatedData["selectedClient"],
             "categorie_id" => $validatedData["selectedCategorie"],
+            "coursier_id" => $validatedData["selectedCoursier"],
         ]);
         session()->flash('message', 'Le colis a été enregistré avec succès!');
-        $this->reset('newColisName','newColisDes','newColisQuan','selectedClient','selectedCategorie');
+        $this->reset('newColisName','newColisDes','newColisQuan','selectedClient','selectedCategorie','selectedCoursier');
     }
 
 
@@ -126,6 +159,7 @@ class ColisComp extends Component
             "editColisQuan.max" => "La quantité du colis ne peut pas dépasser :max caractères.",
             "selectedClient.required" => "Veuillez sélectionner le client.",
             "selectedCategorie.required" => "Veuillez sélectionner une catégorie.",
+            "selectedCoursier.required" => "Veuillez sélectionner une catégorie.",
 
         ]);
 
@@ -138,12 +172,16 @@ class ColisComp extends Component
         $colis->description = "";
         $colis->quantite = "";
 
+        session()->flash('message', "Le colis a été mis à jour avec succès !");
+        $this->closeEditModal();
+
     }
-    public function updateCategorie($colisId,$clientId, $categorieId)
+    public function updateCategorie($colisId,$clientId, $categorieId,$coursierId)
     {
         $colis = Colis::findOrFail($colisId);
         $colis->client_id = $clientId;
         $colis->categorie_id = $categorieId;
+        $colis->coursier_id = $coursierId;
         $colis->save();
 
     }
@@ -172,6 +210,14 @@ class ColisComp extends Component
             $this->selectedClient = $selectedClient->id;
         } else {
             $this->selectedClient = null;
+        }
+
+        $selectedCoursier = Client::find($editColis->coursier_id);
+        if ($selectedCoursier) {
+
+            $this->selectedCoursier = $selectedCoursier->id;
+        } else {
+            $this->selectedCoursier = null;
         }
 
         $this->dispatch("showEditModal", [$colis->nom,$colis->description,$colis->telephone,$colis->email,$colis->secteuract]);

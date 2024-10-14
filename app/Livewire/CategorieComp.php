@@ -82,7 +82,7 @@ class CategorieComp extends Component
         $categories->nom = $this->editCategorieName;
         $result = $categories->save();
         $categories->nom = "";
-        session()->flash('message', 'Le nom de la catégorie a été modifié avec succès!');
+        session()->flash('message', 'La catégorie a été modifié avec succès!');
     }
 
 

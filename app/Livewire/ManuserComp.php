@@ -8,7 +8,9 @@ use Ramsey\Uuid\Uuid;
 use App\Models\Manager;
 use App\Models\Manuser;
 use Livewire\Component;
+use App\Mail\InfoManger;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Mail;
 
 class ManuserComp extends Component
 {
@@ -40,11 +42,24 @@ class ManuserComp extends Component
 
         $searchCriteria = "%" . $this->search . "%";
 
-        $manuser = Manuser::where('uuid', 'like', '%'.$this->search.'%')
-        ->paginate(10);
-        //  dd("all");
-        $managers = Manager::all();
-        $users = User::all();
+        // Récupérer les IDs des managers et utilisateurs déjà associés
+        $usedManagersIds = Manuser::pluck('manager_id')->toArray();
+        $usedUserIdsInManuser = Manuser::pluck('user_id')->toArray();
+
+        // Récupérer les utilisateurs déjà associés dans Coursuser
+        $usedUserIdsInCoursuser = Manuser::pluck('user_id')->toArray();
+
+        // Fusionner les IDs d'utilisateurs utilisés
+        $usedUserIds = array_merge($usedUserIdsInManuser, $usedUserIdsInCoursuser);
+
+        // Filtrer les manage et utilisateurs disponibles
+        $managers = Manager::whereNotIn('id', $usedManagersIds)->get();
+        $users = User::whereNotIn('id', $usedUserIds)->get();
+
+        // Récupérer les Manuser avec possibilité de recherche
+        $manuser = Manuser::with(['user', 'manager'])
+            ->where('uuid', 'like', $searchCriteria)
+            ->paginate(10);
 
         return view('livewire.manuser.index', [
             'managers'=> $managers,
@@ -68,12 +83,16 @@ class ManuserComp extends Component
 
         $uuid = Uuid::uuid4()->toString();
 
-        Manuser::create([
+        $manuser = Manuser::create([
             "uuid" => $uuid,
             "manager_id" => $validatedData["selectedManager"],
             "user_id" => $validatedData["selectedUser"],
         ]);
+
+        $manager = Manager::find($validatedData["selectedManager"]);
+        $user = User::find($validatedData["selectedUser"]);
         session()->flash('message', 'Le compte a été enregistré avec succès!');
+        // Mail::to($user->email)->send(new InfoManger($manager, $user));
         $this->reset('selectedUser','selectedManager');
     }
 

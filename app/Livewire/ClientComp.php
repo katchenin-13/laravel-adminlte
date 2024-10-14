@@ -10,7 +10,6 @@ use App\Mail\ClientMail;
 use Livewire\WithPagination;
 use Illuminate\Support\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Validation\Rule;
 use App\Events\NewclientCreated;
 use Illuminate\Support\Facades\Mail;
 
@@ -147,8 +146,8 @@ class ClientComp extends Component
         $validated = $this->validate([
             "editClientName" => ["required", "max:20"],
             "editClientPrenom" => ["required", "max:50"],
-            "editClientPhone" => ["required", "max:10","regex:/^[0-9]+$/",Rule::unique('clients')->ignore($client->id),],
-            "editClientEmail" => ["required", "max:50", Rule::unique('clients')->ignore($client->id),],
+            "editClientPhone" => ["required", "max:10","regex:/^[0-9]+$/"],
+            "editClientEmail" => ["required", "max:50"],
 
         ], [
             "editClientName.required" => "Le champ du nom du client est requis.",
@@ -166,18 +165,17 @@ class ClientComp extends Component
             "editClientSecteur.max" => "Le secteur d'activité du client ne peut pas dépasser :max caractères.",
         ]);
 
-        $clients = Client::findOrFail($client->id);
-        $clients->nom = $this->editClientName;
-        $clients->prenom = $this->editClientPrenom;
-        $clients->telephone = $this->editClientPhone;
-        $clients->email = $this->editClientEmail;
-        $clients->secteuract = $this->editClientSecteur;
-        $result = $clients->save();
-        $clients->nom = "";
-        $clients->prenom = "";
-        $clients->telephone = "";
-        $clients->email = "";
-        $clients->secteuract = "";
+        $client->update([
+        'nom' => $this->editClientName,
+        'prenom' => $this->editClientPrenom,
+        'telephone' => $this->editClientPhone,
+        'email' => $this->editClientEmail,
+        'secteuract' => $this->editClientSecteur,
+        'zone_id'=> $this->SelectedZone,
+
+        ]);
+        session()->flash('message', "Le client a été mis à jour avec succès !");
+
 
     }
     public function updateZone($clientId, $zoneId)

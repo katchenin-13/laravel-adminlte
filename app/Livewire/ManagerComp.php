@@ -15,19 +15,18 @@ class ManagerComp extends Component
     use WithPagination;
 
     public $search = "";
-    public $manager;
-    public $newnom = "";
-    public $newprenom = "";
-    public $newphone = "";
-    public $newphone2 = "";
-    public $newemail = "";
-    public $editnom = "";
-    public $editprenom = "";
-    public $editphone = "";
-    public $editphone2 = "";
-    public $editemail = "";
-    public $editmanagerId = "";
-    public $selectedManager ;
+    public $newNom = "";
+    public $newPrenom = "";
+    public $newPhone = "";
+    public $newPhone2 = "";
+    public $newEmail = "";
+    public $editNom = "";
+    public $editPrenom = "";
+    public $editPhone = "";
+    public $editPhone2 = "";
+    public $editEmail = "";
+    public $editManagerId = "";
+    public $selectedManager;
     public $selectedEmployer = "";
     public $showDeleteModal = false;
 
@@ -46,7 +45,7 @@ class ManagerComp extends Component
                            ->orWhere('uuid', 'like', $searchCriteria)
                            ->paginate(10);
 
-         $employers = Employer::all();
+        $employers = Employer::all();
 
         // Retourner la vue avec les données nécessaires
         return view('livewire.manager.index', [
@@ -61,25 +60,26 @@ class ManagerComp extends Component
     {
         // Valider les données d'entrée
         $validatedData = $this->validate([
-            "newnom" => "required|max:20",
-            "newprenom" => "required|max:50",
-            "newphone" => "required|max:10|regex:/^[0-9]+$/:unique:managers,numero_telephone",
-            "newemail" => "required|max:50|unique:managers,email",
-            "newphone2" => "max:10|regex:/^[0-9]+$/::unique:managers,numero_telephone_2",
+            "newNom" => "required|max:20",
+            "newPrenom" => "required|max:50",
+            "newEmail" => "required|max:50|unique:managers,email",
+            "newPhone" => "required|max:10|regex:/^[0-9]+$/|unique:managers,numero_telephone",
+            "newPhone2" => "nullable|max:10|regex:/^[0-9]+$/|unique:managers,numero_telephone_2",
             "selectedEmployer" => "required",
         ], [
-            "newnom.required" => "Le champ du nom du manager est requis.",
-            "newnom.max" => "Le nom du manager ne peut pas dépasser :max caractères.",
-            "newprenom.required" => "Le champ du prénom du manager est requis.",
-            "newprenom.max" => "Le prénom du manager ne peut pas dépasser :max caractères.",
-            "newphone.required" => "Le champ du téléphone du manager est requis.",
-            "newphone.max" => "Le téléphone du manager ne peut pas dépasser :max caractères.",
-            "newphone.unique" => "Le numéro de téléphone est déjà utilisé.",
-            "newphone2.max" => "Le deuxième téléphone du manager ne peut pas dépasser :max caractères.",
-            "newphone2.required" => "Le champ du téléphone du manager est requis.",
-            "newemail.required" => "Le champ email du manager est requis.",
-            "newemail.max" => "L'email du manager ne peut pas dépasser :max caractères.",
-            "newemail.unique" => "L'email est déjà utilisé.",
+            "newNom.required" => "Le champ du nom du manager est requis.",
+            "newNom.max" => "Le nom du manager ne peut pas dépasser :max caractères.",
+            "newPrenom.required" => "Le champ du prénom du manager est requis.",
+            "newPrenom.max" => "Le prénom du manager ne peut pas dépasser :max caractères.",
+            "newPhone.required" => "Le champ du téléphone du manager est requis.",
+            "newPhone.max" => "Le téléphone du manager ne peut pas dépasser :max caractères.",
+            "newPhone.regex" => "Le champ du téléphone ne peut contenir que des chiffres.",
+            "newPhone.unique" => "Le numéro de téléphone est déjà utilisé.",
+            "newPhone2.max" => "Le deuxième téléphone du manager ne peut pas dépasser :max caractères.",
+            "newPhone2.regex" => "Le champ du deuxième téléphone ne peut contenir que des chiffres.",
+            "newEmail.required" => "Le champ email du manager est requis.",
+            "newEmail.max" => "L'email du manager ne peut pas dépasser :max caractères.",
+            "newEmail.unique" => "L'email est déjà utilisé.",
             "selectedEmployer.required" => "Veuillez sélectionner un employeur.",
         ]);
 
@@ -87,13 +87,13 @@ class ManagerComp extends Component
         $uuid = Uuid::uuid4()->toString();
 
         // Créer un nouveau manager
-        $newManager = Manager::create([
+        Manager::create([
             "uuid" => $uuid,
-            "nom" => $validatedData["newnom"],
-            "prenom" => $validatedData["newprenom"],
-            "numero_telephone" => $validatedData["newphone"],
-            "numero_telephone_2" => $validatedData["newphone2"],
-            "email" => $validatedData["newemail"],
+            "nom" => $validatedData["newNom"],
+            "prenom" => $validatedData["newPrenom"],
+            "numero_telephone" => $validatedData["newPhone"],
+            "numero_telephone_2" => $validatedData["newPhone2"] ?: null,
+            "email" => $validatedData["newEmail"],
             "employer_id" => $validatedData["selectedEmployer"],
         ]);
 
@@ -101,52 +101,57 @@ class ManagerComp extends Component
         session()->flash('message', 'Le manager a été enregistré avec succès!');
 
         // Réinitialiser les champs du formulaire
-        $this->reset('newnom', 'newprenom', 'newphone', 'newphone2', 'newemail', 'selectedEmployer');
+        $this->reset('newNom', 'newPrenom', 'newPhone', 'newPhone2', 'newEmail', 'selectedEmployer');
     }
 
 
     public function updateManager(Manager $manager)
     {
         $validated = $this->validate([
-            "editnom" => "required|max:20",
-            "editprenom" => "required|max:50",
-            "editphone" => ["required","max:10","regex:/^[0-9]+$/",Rule::unique('managers')->ignore($manager->id),],
-            "editemail" => ["required","max:50",Rule::unique('managers')->ignore($manager->id),],
-            "editphone2" => ["max:10","regex:/^[0-9]+$/",Rule::unique('managers')->ignore($manager->id),],
+            "editNom" => "required|max:20",
+            "editPrenom" => "required|max:50",
+            "newPhone" => "required|max:10|regex:/^[0-9]+$/|unique:managers,numero_telephone" . $manager->id,
+            "editEmail" => "required|max:50|unique:managers,email," . $manager->id,
+            "editPhone2" => "nullable|max:10|regex:/^[0-9]+$/|unique:managers,numero_telephone_2," . $manager->id,
             "selectedEmployer" => "required",
         ], [
-            "editnom.required" => "Le champ du nom du manager est requis.",
-            "editnom.max" => "Le nom du manager ne peut pas dépasser :max caractères.",
-            "editprenom.required" => "Le champ du prénom du manager est requis.",
-            "editprenom.max" => "Le prénom du manager ne peut pas dépasser :max caractères.",
-            "editphone.required" => "Le champ du téléphone du manager est requis.",
-            "editphone.max" => "Le téléphone du manager ne peut pas dépasser :max caractères.",
-            "editphone.regex" => "Le champ du téléphonene peut contenir que des chiffres.",
-            "editphone.unique" => "Le numéro de téléphone est déjà utilisé.",
-            "editphone2.max" => "Le deuxième téléphone du manager ne peut pas dépasser :max caractères.",
-            "editphone2.regex" => "Le champ du téléphonene peut contenir que des chiffres.",
-            "editphone2.unique" => "Le numéro de téléphone est déjà utilisé.",
-            "editemail.required" => "Le champ email du manager est requis.",
-            "editemail.max" => "L'email du manager ne peut pas dépasser :max caractères.",
-            "editemail.unique" => "L'email est déjà utilisé.",
+            "editNom.required" => "Le champ du nom du manager est requis.",
+            "editNom.max" => "Le nom du manager ne peut pas dépasser :max caractères.",
+            "editPrenom.required" => "Le champ du prénom du manager est requis.",
+            "editPrenom.max" => "Le prénom du manager ne peut pas dépasser :max caractères.",
+            "editPhone.required" => "Le champ du téléphone du manager est requis.",
+            "editPhone.max" => "Le téléphone du manager ne peut pas dépasser :max caractères.",
+            "editPhone.regex" => "Le champ du téléphone ne peut contenir que des chiffres.",
+            "editPhone.unique" => "Le numéro de téléphone est déjà utilisé.",
+            "editPhone2.max" => "Le deuxième téléphone du manager ne peut pas dépasser :max caractères.",
+            "editPhone2.regex" => "Le champ du deuxième téléphone ne peut contenir que des chiffres.",
+            "editEmail.required" => "Le champ email du manager est requis.",
+            "editEmail.max" => "L'email du manager ne peut pas dépasser :max caractères.",
+            "editEmail.unique" => "L'email est déjà utilisé.",
             "selectedEmployer.required" => "Veuillez sélectionner un employeur.",
-       ]);
-
-        $managers = Manager::findOrFail($manager->id);
-        $managers->nom = $validated['editnom'];
-        $managers->prenom = $validated['editprenom'];
-        $managers->numero_telephone= $validated['editphone'];
-        $managers->numero_telephone2 = $validated['editphone2'];
-        $managers->email = $validated['editemail'];
-
-        $managers->save();
+        ]);
 
 
+            // $managers->numero_telephone = $validated['editPhone'];
+            // $manager->numero_telephone_2 = $validated['editPhone2'] ?: null;
+            // $managers->email = $validated['editEmail'];
+            // $managers->save();
+
+            $manager->update([
+                'nom' => $this->editNom,
+                'prenom' => $this->editPrenom,
+                'numero_telephone' => $this->editPhone2 ?: null,
+                'numero_telephone_2' => $this->editCoursiersNump,
+                'email' => $this->editEmail,
+                'employer'
+            ]);
+
+    session()->flash('message', "Le manager a été mis à jour avec succès !");
     }
 
     public function updateEmployer($managerId, $employerId)
     {
-        $manager = Manager::findOrFail($employerId);
+        $manager= Manager::findOrFail($managerId);
         $manager->employer_id = $employerId;
         $manager->save();
 
@@ -162,28 +167,18 @@ class ManagerComp extends Component
         $this->dispatch("CreateModal", []);
     }
 
-        public function showPropE(Manager $manager)
+    public function showPropE(Manager $manager)
     {
+        $this->editManagerId = $manager->id;
+        $this->editNom = $manager->nom;
+        $this->editPrenom = $manager->prenom;
+        $this->editPhone = $manager->numero_telephone;
+        $this->editPhone2 = $manager->numero_telephone_2;
+        $this->editEmail = $manager->email;
 
-        $editManager = $manager;
-        $this->editmanagerId = $editManager ->id;
-        $this->editnom = $editManager ->nom;
-        $this->editprenom = $editManager ->prenom;
-        $this->editphone = $editManager ->numero_telephone;
-        $this->editphone2 = $editManager ->numero_telephone_2;
-        $this->editemail = $editManager ->email;
-        //dd($editEmployer);
-        $selectedEmployer = Employer::find($editManager->employer_id);
+        $this->selectedEmployer = $manager->employer_id;
 
-        if ($selectedEmployer) {
-            $this->selectedEmployer = $selectedEmployer->id;
-        } else {
-            $this->selectedEmployer = null;
-        }
-
-        $this->dispatch("showEditModal", [$manager->nom,$manager->prenom,$manager->numero_telephone_2,$manager->email,$manager->numero_telephone_2]);
-
-        $this->dispatch("EditModal",);
+        $this->dispatch("EditModal", [$manager->nom,$manager->prenom,$manager->numero_telephone,$manager->numero_telephone_2,$manager->email,$manager->selectedEmployer]);
     }
 
     public function showPropC(Manager $manager)
@@ -192,9 +187,9 @@ class ManagerComp extends Component
         $this->dispatch("readModal", []);
     }
 
-    public function showPropD(Employer $employer)
+    public function showPropD(Manager $manager)
     {
-        $this->selectedEmployer = $employer;
+        $this->selectedManager = $manager;
         $this->dispatch("showDeleteModal", []);
     }
 

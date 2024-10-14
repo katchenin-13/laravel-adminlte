@@ -89,11 +89,11 @@ class CommuneComp extends Component
             "editCommuneName.unique" => "Ce nom de commune est déjà utilisé.",
         ]);
 
-        $communes = Commune::findOrFail($commune->id);
-        $communes->nom = $this->editCommuneName;
-        $result = $communes->save();
-        $communes->nom = "";
-        session()->flash('message', 'Le nom de la commune a été modifié avec succès!');
+        $commune->update([
+        'nom'=> $this->editCommuneName,
+        ]);
+
+        session()->flash('message', 'La commune a été modifié avec succès!');
     }
 
 

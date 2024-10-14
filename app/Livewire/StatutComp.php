@@ -18,6 +18,7 @@ class StatutComp extends Component
     public $editStatutid ="";
     public $selectedStatut;
     public $statutType = '';
+    public $editstatutType = '';
     // public $statutCount;
     public $showDeleteModal="false";
 
@@ -73,17 +74,17 @@ class StatutComp extends Component
     {
    $validated = $this->validate([
         "editStatutName" => ["required", "max:50", Rule::unique("statuts", "nom")->ignore($statut->id)],
-        "statutType" => "required|in:paiement,livraison",
+        "editstatutType" => "required|in:paiement,livraison",
     ], [
         "editStatutName.required" => "Le champ du nom de la statut est requis.",
         "editStatutName.max" => "Le nom du statut ne peut pas dépasser :max caractères.",
         "editStatutName.unique" => "Ce nom de statut est déjà utilisé.",
-        "statutType.required" => "Le type de statut est requis.",
-        "statutType.in" => "Le type de statut doit être soit 'paiement' soit 'livraison'.",
+        "editstatutType.required" => "Le type de statut est requis.",
+        "editstatutType.in" => "Le type de statut doit être soit 'paiement' soit 'livraison'.",
     ]);
 
     $statut->nom = $this->editStatutName;
-    $statut->statut_type = $this->statutType;
+    $statut->statut_type = $this->editstatutType;
     $statut->save();
 
     session()->flash('message', 'Le nom du statut a été modifié avec succès!');
@@ -131,10 +132,10 @@ class StatutComp extends Component
         $editStatut = $statut;
         $this->editStatutid = $editStatut ->id;
         $this->editStatutName = $editStatut ->nom;
-
+        $this->editstatutType = $editStatut ->statut_type;
         //dd($editStatut);
 
-        $this->dispatch("showEditModal", [$statut->nom]);
+        $this->dispatch("showEditModal", [$statut->nom,$statut->statut_type]);
     }
 
     public function closeModal()
