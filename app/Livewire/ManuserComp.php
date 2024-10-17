@@ -136,6 +136,12 @@ class ManuserComp extends Component
             "selectedUser.required" => "Veuillez sélectionner le compte.",
        ]);
 
+       $manuser->update([
+        'manager_id' => $this->selectedManager,
+        'user_id' => $this->selectedUser,
+      ]);
+      session()->flash('message', "Le Compte a été mis à jour avec succès !");
+
     }
 
     public function selectedManuser($manuserId, $managerId)

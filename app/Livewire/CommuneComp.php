@@ -20,7 +20,6 @@ class CommuneComp extends Component
     public $editCommuneName = "";
     public $editCommuneid ="";
     public $selectedCommune;
-    public $loading = false;
     public $showDeleteModal="false";
 
 
@@ -38,13 +37,11 @@ class CommuneComp extends Component
         Carbon::setLocale("fr");
 
         $searchCriteria = "%" . $this->search . "%";
-        $this->loading = true;
 
         $commune = Commune::where('nom', 'like', '%'.$this->search.'%')
         ->orWhere('uuid', 'like', '%'.$this->search.'%')
         ->paginate(10);
 
-        $this->loading = false;
         return view('livewire.commune.index', [
             'communes' => $commune,
 

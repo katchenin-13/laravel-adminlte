@@ -78,9 +78,11 @@ class TarificationComp extends Component
             "editTarificationPrix.max" => "Le prix ne peut pas dépasser :max caractères."
         ]);
 
-        $tarification->prix = $this->editTarificationPrix;
-        $tarification->save();
-        $this->editTarificationPrix = ""; // Assurez-vous de réinitialiser la propriété après la sauvegarde
+        $tarification->update([
+    'prix' => $this->editTarificationPrix,
+
+        ]);
+        session()->flash('message', 'La tarification a été modifié avec succès!'); // Assurez-vous de réinitialiser la propriété après la sauvegarde
     }
 
 

@@ -69,10 +69,9 @@ class VehiculeComp extends Component
             "editVehiculeName.unique" => "Ce nom du type de vehicule est déjà utilisé.",
         ]);
 
-        $vehicules = Vehicule::findOrFail($vehicule->id);
-        $vehicules->nom = $this->editVehiculeName;
-        $result = $vehicules->save();
-        $vehicules->nom = "";
+        $vehicule->update([
+        'nom' => $this->editVehiculeName,
+        ]);
         session()->flash('message', 'Le nom du type de vehicule a été modifié avec succès!');
     }
 

@@ -78,10 +78,10 @@ class CategorieComp extends Component
             "editCategorieName.unique" => "Ce nom de catégorie est déjà utilisé.",
         ]);
 
-        $categories = Categorie::findOrFail($categorie->id);
-        $categories->nom = $this->editCategorieName;
-        $result = $categories->save();
-        $categories->nom = "";
+        $categorie->update([
+            'nom' => $this->editCategorieName,
+            ]);
+
         session()->flash('message', 'La catégorie a été modifié avec succès!');
     }
 

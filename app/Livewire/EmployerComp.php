@@ -87,16 +87,14 @@ class EmployerComp extends Component
         "newSalaire.required" => "Le champ salaire est requis.",
        ]);
 
-        $employers = Employer::findOrFail($employer->id);
-        $employers->poste = $validated['editPost'];
-        $employers->salaire = $validated['editSalaire'];
-        $employers->save();
+        $employer->update([
+        'poste' => $validated['editPost'],
+        'salaire' => $validated['editSalaire'],
 
-
-
+        ]);
 
         session()->flash('message', "L\'employé a été mis à jour avec succès !");
-        $this->closeEditModal();
+    
 
     }
 

@@ -163,17 +163,12 @@ class ColisComp extends Component
 
         ]);
 
-        $colis = Colis::findOrFail($colis->id);
-        $colis->nom = $this->editColisName;
-        $colis->description = $this->editColisDes;
-        $colis->quantite = $this->editColisQuan;
-        $result = $colis->save();
-        $colis->nom = "";
-        $colis->description = "";
-        $colis->quantite = "";
-
+        $colis->update([
+        'nom' => $this->editColisName,
+        'description' => $this->editColisDes,
+         'quantite' => $this->editColisQuan,
+        ]);
         session()->flash('message', "Le colis a été mis à jour avec succès !");
-        $this->closeEditModal();
 
     }
     public function updateCategorie($colisId,$clientId, $categorieId,$coursierId)

@@ -167,10 +167,11 @@ class LivraisonComp extends Component
         "selectedClient.required" => "Veuillez sélectionner le client.",
        ]);
 
-        $livraisons = Livraison::findOrFail($livraison->id);
-        $livraisons->destinataire = $this->editDestinataireName;
-        $livraisons->numerodes = $this->editLivraisonPhone;
-        $livraisons->adresse_livraison = $this->editLivraisonAdd;
+        $livraison->update([
+        'destinataire' => $this->editDestinataireName,
+        'numerodes' => $this->editLivraisonPhone,
+        'adresse_livraison' => $this->editLivraisonAdd,
+        ]);
         session()->flash('message', "La livraison a été mis à jour avec succès !");
         $this->closeEditModal();
 

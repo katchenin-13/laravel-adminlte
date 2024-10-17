@@ -147,7 +147,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header border-transparent">
-                            <h3 class="card-title">LIVRAISONS</h3>
+                           <h4 class="card-title," ><label class="text-center,">LIVRAISONS</label></h4>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">

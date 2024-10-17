@@ -16,8 +16,7 @@
         "laravel/ui": "*",
         "livewire/livewire": "^3.4",
         "ramsey/uuid": "^4.7",
-        "spatie/laravel-permission": "^6.7",
-        "twbs/bootstrap": "4.6.2"
+        "spatie/laravel-permission": "^6.7"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

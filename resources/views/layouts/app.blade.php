@@ -9,9 +9,7 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/fontawesome.min.css') }}">
-    <script src="{{ asset('js/adminlte.min.js') }}"></script>
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}">
     @yield('styles')
@@ -36,7 +34,7 @@
                     {{ Auth::user()->name }}
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" style="left: inherit; right: 0px;">
-                    <a href="{{"#" }}" class="dropdown-item">
+                    <a href="{{ route('profile.show') }}" class="dropdown-item">
                         <i class="mr-2 fas fa-file"></i>
                         {{ __('#') }}
                     </a>
@@ -59,8 +57,10 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a href="/" class="brand-link">
-            <img src="{{ asset('images/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-            <span class="brand-text font-weight-light">BOXLOGIN</span>
+            <img src="{{ asset('images/AdminLTELogo.png') }}" alt="AdminLTE Logo"
+                 class="brand-image img-circle elevation-3"
+                 style="opacity: .8">
+            <span class="brand-text font-weight-light">AdminLTE 3</span>
         </a>
 
         @include('layouts.navigation')
@@ -74,6 +74,7 @@
 
     <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
         <div class="p-3">
             <h5>Title</h5>
             <p>Sidebar content</p>
@@ -83,17 +84,28 @@
 
     <!-- Main Footer -->
     <footer class="main-footer">
+        <!-- To the right -->
         <div class="float-right d-none d-sm-inline">
             Anything you want
         </div>
-        <strong>&copy; {{ date('Y') }} <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+        <!-- Default to the left -->
+        <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
     </footer>
 </div>
 <!-- ./wrapper -->
 
+
+
+
 <!-- REQUIRED SCRIPTS -->
-<script src="{{ asset('js/adminlte.min.js') }}" defer></script>
+<script src="{{ asset('jquery/jquery.min.js')}}"></script>
+
+<script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
+
 @vite('resources/js/app.js')
+<!-- AdminLTE App -->
+<script src="{{ asset('js/adminlte.min.js') }}" defer></script>
+
 @yield('scripts')
 @livewireScripts
 </body>

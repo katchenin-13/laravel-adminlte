@@ -82,12 +82,12 @@ class StatutComp extends Component
         "editstatutType.required" => "Le type de statut est requis.",
         "editstatutType.in" => "Le type de statut doit être soit 'paiement' soit 'livraison'.",
     ]);
+    $statut->update([
+    'nom' =>$this->editStatutName,
+     'statut_type' => $this->editstatutType,
+    ]);
 
-    $statut->nom = $this->editStatutName;
-    $statut->statut_type = $this->editstatutType;
-    $statut->save();
-
-    session()->flash('message', 'Le nom du statut a été modifié avec succès!');
+    session()->flash('message', 'Le statut a été modifié avec succès!');
     }
 
 

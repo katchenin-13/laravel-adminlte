@@ -85,11 +85,10 @@ class ZoneComp extends Component
             "editZoneName.unique" => "Ce nom de zone est déjà utilisé.",
         ]);
 
-        $editZone = Zone::findOrFail($zone->id);
-        $editZone->nom = $this->editZoneName;
-        $editZone->save();
-        $this->editZoneName = "";
-        session()->flash('message', 'mise à jour avec succès!');
+        $zone->update([
+        'nom' => $this->editZoneName,
+        ]);
+        session()->flash('message', 'lLa zone a étè mise à jour avec succès!');
     }
 
     public function updateCommune($zoneId, $communeId)
