@@ -34,7 +34,7 @@
                     {{ Auth::user()->name }}
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" style="left: inherit; right: 0px;">
-                    <a href="{{ route('profile.show') }}" class="dropdown-item">
+                    <a href="#" class="dropdown-item">
                         <i class="mr-2 fas fa-file"></i>
                         {{ __('#') }}
                     </a>
@@ -93,9 +93,6 @@
     </footer>
 </div>
 <!-- ./wrapper -->
-
-
-
 
 <!-- REQUIRED SCRIPTS -->
 <script src="{{ asset('jquery/jquery.min.js')}}"></script>

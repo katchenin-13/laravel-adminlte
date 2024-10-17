@@ -9,6 +9,7 @@ use App\Models\Manager;
 use App\Models\Manuser;
 use Livewire\Component;
 use App\Mail\InfoManger;
+use App\Models\Coursuser;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Mail;
 
@@ -47,7 +48,7 @@ class ManuserComp extends Component
         $usedUserIdsInManuser = Manuser::pluck('user_id')->toArray();
 
         // Récupérer les utilisateurs déjà associés dans Coursuser
-        $usedUserIdsInCoursuser = Manuser::pluck('user_id')->toArray();
+        $usedUserIdsInCoursuser = Coursuser::pluck('user_id')->toArray();
 
         // Fusionner les IDs d'utilisateurs utilisés
         $usedUserIds = array_merge($usedUserIdsInManuser, $usedUserIdsInCoursuser);
