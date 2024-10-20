@@ -73,10 +73,9 @@ class LivraisonComp extends Component
 
     // Filtrer les colis en fonction du rôle de l'utilisateur
     $colisQuery = Colis::query();
-    if ($user->hasRole('coursier')) {
-        $colisQuery->where('coursier_id', $user->coursier->id); // Associer les colis au coursier
+    if ($user->hasRole('coursier') && $user->coursier) {
+        $colisQuery->where('coursier_id', $user->coursier->id);
     }
-
     // Trier les colis en fonction du coursier
     $colis = $colisQuery->get(); // Récupérer les colis filtrés
 
