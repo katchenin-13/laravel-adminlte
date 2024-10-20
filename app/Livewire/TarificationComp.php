@@ -79,7 +79,7 @@ class TarificationComp extends Component
         ]);
 
         $tarification->update([
-    'prix' => $this->editTarificationPrix,
+        'prix' => $this->editTarificationPrix,
 
         ]);
         session()->flash('message', 'La tarification a été modifié avec succès!'); // Assurez-vous de réinitialiser la propriété après la sauvegarde

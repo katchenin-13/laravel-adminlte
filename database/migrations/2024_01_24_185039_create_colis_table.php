@@ -20,6 +20,8 @@ return new class extends Migration
             $table->integer('quantite');
             $table->unsignedBigInteger('client_id');
             $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
+            $table->unsignedBigInteger('coursier_id');
+            $table->foreign('coursier_id')->references('id')->on('coursiers')->onDelete('cascade');
             $table->unsignedBigInteger('categorie_id');
             $table->foreign('categorie_id')->references('id')->on('categories')->onDelete('cascade');
             $table->unsignedBigInteger('livraison_id')->nullable();

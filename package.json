@@ -57,9 +57,14 @@
     "devDependencies": {
         "@popperjs/core": "^2.11.6",
         "bootstrap": "~4.6.1",
+        "jquery": "^3.3.1",
         "axios": "^1.4.0",
+        "popper.js": "^1.14.3",
+        "sass": "^1.56.1",
         "vite": "^4.0.0"
+
     },
+
     "scripts": {
         "dev": "vite",
         "build": "vite build",

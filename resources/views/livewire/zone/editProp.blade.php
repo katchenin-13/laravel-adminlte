@@ -37,6 +37,9 @@
                                                 <option value="{{ $commune->id }}">{{ $commune->nom }}</option>
                                             @endforeach
                                         </select>
+                                        @error('selectedCommune')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                     </div>
                                 </div>
                             </div>

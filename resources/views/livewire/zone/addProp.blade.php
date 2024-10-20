@@ -35,7 +35,7 @@
                         @endforeach
                     </select>
                     @error('selectedCommune')
-                        <div class="invalid-feedback">{{ $message }}</div>
+                       <div class="invalid-feedback animate__animated animate__fadeInDown">{{ $message }}</div>
                     @enderror
                 </div>
             </div>

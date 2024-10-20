@@ -16,8 +16,8 @@ return new class extends Migration
             $table->uuid('uuid')->unique();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('manager');
-            $table->foreign('manager')->references('id')->on('managers')->onDelete('cascade');
+            $table->unsignedBigInteger('manager_id');
+            $table->foreign('manager_id')->references('id')->on('managers')->onDelete('cascade');
             $table->timestamps();
         });
     }

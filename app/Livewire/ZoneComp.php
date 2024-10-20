@@ -149,7 +149,7 @@ class ZoneComp extends Component
             $this->selectedCommune = null; // ou toute autre valeur par défaut
         }
 
-        $this->dispatch("showEditModal", [$zone->nom]);
+        $this->dispatch("showEditModal", [$zone->nom,$zone->selectedCommune]);
     }
 
     public function closeModal()

@@ -53,6 +53,7 @@
                                     name="editRole">
                                     <option value="">Sélectionner un rôle</option>
                                     @foreach($roles as $role)
+
                                         <option value="{{ $role->name }}">{{ $role->name }}</option>
                                     @endforeach
                                 </select>

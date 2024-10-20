@@ -3,7 +3,7 @@
 namespace App\Mail;
 
 use App\Models\User;
-use App\Models\Coursier;
+use App\Models\Manager;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
@@ -11,18 +11,18 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class InfoCoursier extends Mailable
+class InfoManager extends Mailable
 {
     use Queueable, SerializesModels;
-    public $coursier;
     public $user;
+    public $manager;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(Coursier $coursier, User $user)
+    public function __construct(Manager $manager, User $user)
     {
-        $this->coursier = $coursier;
+        $this->manager = $manager;
         $this->user = $user;
     }
 
@@ -32,20 +32,20 @@ class InfoCoursier extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Informations concernant votre compte !'
-
+            subject: 'Informations concernant votre compte !',
         );
     }
 
     public function build()
     {
-        return $this->view('emails.infoCoursier')
+        return $this->view('emails.infoManager')
                     ->with([
-                        'coursierName' => $this->coursier->nom,
+                        'managerName' => $this->manager->nom,
                         'userEmail' => $this->user->email,
                         'userPassword' => $this->user->password,
                     ]);
     }
+
 
     /**
      * Get the message content definition.
@@ -53,7 +53,7 @@ class InfoCoursier extends Mailable
     // public function content(): Content
     // {
     //     return new Content(
-    //         view: 'view.name',
+    //         view: '',
     //     );
     // }
 

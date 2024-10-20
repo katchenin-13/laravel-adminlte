@@ -19,7 +19,7 @@ class RoleSeeder extends Seeder
         try {
             // Création des rôles
 
-            $adminRole = Role::create(['name' => 'admin']);
+            $adminManager = Role::create(['name' => 'manager']);
             $coursierRole = Role::create(['name' => 'coursier']);
 
             // Création des permissions
@@ -31,7 +31,7 @@ class RoleSeeder extends Seeder
 
 
             // Attribution des permissions aux rôles
-            $adminRole->syncPermissions([$addPermission->id, $readPermission->id, $deletePermission->id, $editPermission->id, $modifierPermission->id]);
+            $adminManager->syncPermissions([$addPermission->id, $readPermission->id, $deletePermission->id, $editPermission->id, $modifierPermission->id]);
             $coursierRole->syncPermissions([$addPermission->id, $readPermission->id, $editPermission->id]);
 
 

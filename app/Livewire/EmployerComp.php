@@ -93,8 +93,8 @@ class EmployerComp extends Component
 
         ]);
 
-        session()->flash('message', "L\'employé a été mis à jour avec succès !");
-    
+        session()->flash('message', "L'employé a été mis à jour avec succès !");
+
 
     }
 

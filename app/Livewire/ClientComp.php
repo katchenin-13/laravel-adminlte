@@ -36,11 +36,6 @@ class ClientComp extends Component
     public $clientCount;
     public $showDeleteModal="false";
     public $clientToDelete;
- // Propriété pour gérer l'état de chargement
-
-
-
-
     protected $paginationTheme = "bootstrap";
 
      public function mount()
@@ -71,20 +66,13 @@ class ClientComp extends Component
             ->section("content");
     }
 
-    public function search()
-    {
-        $this->render();
-    }
-
-
 
     public function addNewClient()
-    { // Début du chargement
-
+    {
         $validatedData = $this->validate([
             "newClientName" => "required|max:20",
             "newClientPrenom" => "required|max:50",
-            "newClientPhone" => "required|max:10|regex:/^[0-9]+$/:unique:clients,telephone|regex:/^[0-9]+$/",
+            "newClientPhone" => "required|max:10|regex:/^[0-9]+$/|unique:clients,telephone",
             "newClientEmail" => "required|max:50|unique:clients,email",
             "newClientSecteur" => "required|max:20",
             "selectedZone" => "required",
@@ -117,12 +105,14 @@ class ClientComp extends Component
         ]);
 
         // Envoyer l'e-mail de bienvenue
-        Mail::to($newClient->email)->send(new ClientMail($newClient));
 
-        event(new NewclientCreated($newClient));
+
+
         session()->flash('message', 'Le client a été enregistré avec succès !');
 
         $this->reset('newClientName', 'newClientPrenom', 'newClientPhone', 'newClientEmail', 'newClientSecteur', 'selectedZone');
+        Mail::to($newClient->email)->send(new ClientMail($newClient));
+        event(new NewclientCreated($newClient));
 
     }
 
@@ -171,9 +161,7 @@ class ClientComp extends Component
         'telephone' => $this->editClientPhone,
         'email' => $this->editClientEmail,
         'secteuract' => $this->editClientSecteur,
-        'zone_id'=> $this->SelectedZone,
-
-        ]);
+          ]);
         session()->flash('message', "Le client a été mis à jour avec succès !");
 
 

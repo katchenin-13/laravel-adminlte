@@ -1,8 +1,5 @@
 
-    <div class="loading-overlay">
-        <div class="spinner-border text-primary" role="status"> <span class="sr-only">Chargement en cours...</span> </div>
-    </div>
-    @endif <div class="row p-4 pt-5">
+    <div class="row p-4 pt-5">
         <div class="col-12">
             <div class="card">
                 <div class="card-header bg-gradient-primary d-flex align-items-center">

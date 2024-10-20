@@ -50,7 +50,6 @@
                                         {{$item->user->name }}
                                     @endif
                                 </td>
-                                <td class="text-center">{{ $item->numero_telephone }}</td>
                                 <td class="text-center">
                                     <button class="btn btn-primary btn-sm" wire:click="showPropE({{ $item->id }})">
                                         <i class="far fa-edit"></i>

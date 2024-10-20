@@ -9,6 +9,7 @@ use App\Models\Manager;
 use App\Models\Manuser;
 use Livewire\Component;
 use App\Mail\InfoManger;
+use App\Mail\InfoManager;
 use App\Models\Coursuser;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Mail;
@@ -92,9 +93,11 @@ class ManuserComp extends Component
 
         $manager = Manager::find($validatedData["selectedManager"]);
         $user = User::find($validatedData["selectedUser"]);
+;
+
         session()->flash('message', 'Le compte a été enregistré avec succès!');
-        // Mail::to($user->email)->send(new InfoManger($manager, $user));
         $this->reset('selectedUser','selectedManager');
+        Mail::to($user->email)->send(new InfoManager($manager, $user));
     }
 
     // public function availableUsers($excludedId)

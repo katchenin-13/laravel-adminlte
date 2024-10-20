@@ -30,13 +30,32 @@
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                  <i class="far fa-comments"></i>
+                  <span class="badge badge-danger navbar-badge">0</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                  <div class="dropdown-divider"></div>
+
+                  <div class="dropdown-divider"></div>
+                  <div class="dropdown-divider"></div>
+                  <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+                </div>
+              </li>
+
+            <li class="nav-item">
+                <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                  <i class="fas fa-expand-arrows-alt"></i>
+                </a>
+            </li>
+            <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
                     {{ Auth::user()->name }}
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" style="left: inherit; right: 0px;">
-                    <a href="#" class="dropdown-item">
+                    <a href="{{ route('profile.show') }}" class="dropdown-item">
                         <i class="mr-2 fas fa-file"></i>
-                        {{ __('#') }}
+                        {{ __('My profile') }}
                     </a>
                     <div class="dropdown-divider"></div>
                     <form method="POST" action="{{ route('logout') }}">
@@ -49,6 +68,7 @@
                     </form>
                 </div>
             </li>
+
         </ul>
     </nav>
     <!-- /.navbar -->
@@ -95,9 +115,9 @@
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
-<script src="{{ asset('jquery/jquery.min.js')}}"></script>
+<script src="{{ asset('jquery/jquery.js')}}"></script>
 
-<script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{ asset('js/bootstrap.js')}}"></script>
 
 @vite('resources/js/app.js')
 <!-- AdminLTE App -->

@@ -5,7 +5,7 @@
                 <h5 class="modal-title">Édition Coursier</h5>
             </div>
 
-            <form role="form" wire:submit.prevent="updateCoursier({{ $editCoursiersid }})">
+            <form role="form" wire:submit.prevent="updateCoursier({{ $editCoursiersId }})">
                 @csrf
                 <div class="modal-body">
                     @if (session()->has('message'))

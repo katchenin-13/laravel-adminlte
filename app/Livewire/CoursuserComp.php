@@ -95,12 +95,9 @@ class CoursuserComp extends Component
 
         // Message flash pour confirmation
         session()->flash('message', 'Le coursier a été enregistré avec succès et un e-mail a été envoyé !');
-        foreach ($user as $user){
-            Mail::to($user->email)->send(new InfoCoursier($coursier, $user));
-        }
-
         // Réinitialisation des champs
         $this->reset('selectedUser', 'selectedCoursiers');
+        Mail::to($user->email)->send(new InfoCoursier($coursier, $user));
 
     }
 

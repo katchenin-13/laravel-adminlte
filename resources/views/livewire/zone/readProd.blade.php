@@ -6,22 +6,27 @@
             </div>
             <div class="form-group">
                 <div class="modal-body">
-                    <table class="table">
-                        <tbody>
-                             @if($selectedZone && $selectedZone->commune)
-                                <tr>
-                                    <td><strong>Zone :</strong></td>
-                                    <td>{{ $selectedZone->nom }}</td>
-                                </tr>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tbody>
+                                @if($selectedZone)
+                                   <tr>
+                                       <td><strong>Zone :</strong></td>
+                                       <td>{{ $selectedZone->nom }}</td>
+                                   </tr>
 
-                                <tr>
+                                   <tr>
+                                    @if ($selectedZone->commune)
                                     <td><strong>Commune :</strong></td>
                                     <td>{{ $selectedZone->commune->nom }}</td>
-                                </tr>
+                                    @endif
 
-                            @endif
-                        </tbody>
-                    </table>
+                                   </tr>
+
+                               @endif
+                           </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -30,3 +35,4 @@
         </div>
     </div>
 </div>
+

@@ -61,7 +61,7 @@
                         <li class="nav-item"><a href="{{ route('zones') }}" class="nav-link"> <i class="fas fa-map-marker-alt" style="color:red;"></i> <p>{{ __('Zones') }}</p></a></li>
                         <li class="nav-item"><a href="{{ route('categories') }}" class="nav-link"> <i class="far fa-calendar-alt" style="color:red;"></i> <p>{{ __('Catégories') }}</p></a></li>
                         <li class="nav-item"><a href="{{ route('tarifications') }}" class="nav-link"> <i class="fas fa-dollar-sign" style="color:red;"></i> <p>{{ __('Tarifications') }}</p></a></li>
-                        <li class="nav-item"><a href="{{ route('statuts') }}" class="nav-link"><i class="fas fa-info-circle"></i> <p>{{ __('Statut') }}</p></a></li>
+                        <li class="nav-item"><a href="{{ route('statuts') }}" class="nav-link"><i class="fas fa-info-circle" style="color:red;"></i> <p>{{ __('Statut') }}</p></a></li>
                         <li class="nav-item"><a href="{{ route('vehicules') }}" class="nav-link"><i class="fas fa-car" style="color:red;"></i> <p>{{ __('Type de Véhicule') }}</p></a></li>
                     </ul>
                 </li>

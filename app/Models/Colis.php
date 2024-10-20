@@ -14,6 +14,7 @@ class Colis extends Model
         'nom',
         'description',
         'quantite',
+        'coursier_id',
         'categorie_id',
         'livraison_id',
         'client_id',

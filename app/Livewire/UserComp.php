@@ -92,7 +92,7 @@ class UserComp extends Component
     {
         $validated = $this->validate([
             "editUserName" => "required|max:20",
-            "editUserEmail" => ["required","max:50",Rule::unique('users')->ignore($user->id),], // Changement de 'editUserGmail' à 'editUserEmail'
+            "editUserEmail" => ["required","max:50"], // Changement de 'editUserGmail' à 'editUserEmail'
             "editUserPassword" => "required|min:6", // Changement de 'max:6' à 'min:6'
             "editRole" => "required|exists:roles,name"
         ], [
@@ -113,7 +113,8 @@ class UserComp extends Component
         ]);
 
         session()->flash('message', "L'utilisateur a été mis à jour avec succès !");
-        $this->reset(['editUserName', 'editUserEmail', 'editUserPassword', 'editRole']);
+
+        // dd($user);
     }
 
     public function updatedSelectedRole($role)
@@ -124,6 +125,8 @@ class UserComp extends Component
         } else {
             $this->permissions = collect();
         }
+
+
     }
 
     // Méthodes de gestion des modals et suppression de l'utilisateur
@@ -145,7 +148,7 @@ class UserComp extends Component
         $this->editUserName = $user->name;
         $this->editUserEmail = $user->email;
 
-        $this->dispatch("EditModal", [$user->name]);
+        $this->dispatch("EditModal", [$user->name,$user->role]);
     }
 
     public function showPropD(User $user)
