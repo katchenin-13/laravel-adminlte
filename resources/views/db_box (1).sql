@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mar. 24 sep. 2024 à 07:11
+-- Généré le : dim. 20 oct. 2024 à 16:59
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -83,7 +83,9 @@ CREATE TABLE `colis` (
   `description` varchar(191) NOT NULL,
   `quantite` int(11) NOT NULL,
   `client_id` bigint(20) UNSIGNED NOT NULL,
+  `coursier_id` bigint(20) UNSIGNED NOT NULL,
   `categorie_id` bigint(20) UNSIGNED NOT NULL,
+  `livraison_id` bigint(20) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -101,6 +103,14 @@ CREATE TABLE `communes` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `communes`
+--
+
+INSERT INTO `communes` (`id`, `uuid`, `nom`, `created_at`, `updated_at`) VALUES
+(1, 'm5ou', 'Songon', '2024-10-20 03:15:02', '2024-10-20 03:15:02'),
+(2, '3as6', 'yamoussoukro', '2024-10-20 03:15:08', '2024-10-20 03:15:08');
 
 -- --------------------------------------------------------
 
@@ -125,6 +135,14 @@ CREATE TABLE `coursiers` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Déchargement des données de la table `coursiers`
+--
+
+INSERT INTO `coursiers` (`id`, `uuid`, `nom`, `prenom`, `numero_telephone`, `numero_permis_conduire`, `plaque_immatriculation`, `cni`, `email`, `zone_id`, `vehicule_id`, `employer_id`, `created_at`, `updated_at`) VALUES
+(1, 'dvyu', 'brad', 'brad', '0768234852', 'sfgsdfgsdfg', 'dfgdsfgtgh', 'fgsrgsdfg', 'brad@gmail.com', 1, 1, 2, '2024-10-20 03:17:09', '2024-10-20 03:17:09'),
+(2, 'jrkr', 'benj', 'benj', '0768574852', 'spgsdfgsdfg', 'dfgdsfgtgh', 'fgsrgs5fg', 'benj@gmail.com', 1, 1, 2, '2024-10-20 03:18:01', '2024-10-20 03:18:01');
+
 -- --------------------------------------------------------
 
 --
@@ -139,6 +157,14 @@ CREATE TABLE `coursusers` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `coursusers`
+--
+
+INSERT INTO `coursusers` (`id`, `uuid`, `user_id`, `coursier_id`, `created_at`, `updated_at`) VALUES
+(2, '497b', 2, 1, '2024-10-20 03:18:52', '2024-10-20 03:18:52'),
+(3, '4mo6', 3, 2, '2024-10-20 03:19:03', '2024-10-20 03:19:03');
 
 -- --------------------------------------------------------
 
@@ -170,6 +196,14 @@ CREATE TABLE `employers` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Déchargement des données de la table `employers`
+--
+
+INSERT INTO `employers` (`id`, `uuid`, `poste`, `salaire`, `created_at`, `updated_at`) VALUES
+(1, '664d', 'manager', 1500.00, '2024-10-20 03:15:35', '2024-10-20 03:15:35'),
+(2, 'c75f', 'coursier', 2000.00, '2024-10-20 03:15:45', '2024-10-20 03:15:45');
+
 -- --------------------------------------------------------
 
 --
@@ -199,7 +233,6 @@ CREATE TABLE `livraisons` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `client_id` bigint(20) UNSIGNED NOT NULL,
   `coursier_id` bigint(20) UNSIGNED NOT NULL,
-  `colis_id` bigint(20) UNSIGNED NOT NULL,
   `statut_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -232,7 +265,7 @@ CREATE TABLE `manusers` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `uuid` char(36) NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `manager` bigint(20) UNSIGNED NOT NULL,
+  `manager_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -268,8 +301,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (12, '2024_01_24_184909_create_dossiers_table', 1),
 (13, '2024_01_24_185037_create_statuts_table', 1),
 (14, '2024_01_24_185038_create_categories_table', 1),
-(15, '2024_01_24_185038_create_colis_table', 1),
-(16, '2024_01_24_185038_create_livraisons_table', 1),
+(15, '2024_01_24_185038_create_livraisons_table', 1),
+(16, '2024_01_24_185039_create_colis_table', 1),
 (17, '2024_01_24_185040_create_tarifications_table', 1),
 (18, '2024_01_24_185116_create_bordereaus_table', 1),
 (19, '2024_08_02_150344_create_paiements_table', 1),
@@ -307,6 +340,8 @@ CREATE TABLE `model_has_roles` (
 --
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
+(2, 'App\\Models\\User', 2),
+(2, 'App\\Models\\User', 3),
 (3, 'App\\Models\\User', 1);
 
 -- --------------------------------------------------------
@@ -387,11 +422,11 @@ CREATE TABLE `permissions` (
 --
 
 INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(1, 'add', 'web', '2024-09-23 22:59:19', '2024-09-23 22:59:19'),
-(2, 'delet', 'web', '2024-09-23 22:59:19', '2024-09-23 22:59:19'),
-(3, 'edit', 'web', '2024-09-23 22:59:20', '2024-09-23 22:59:20'),
-(4, 'read', 'web', '2024-09-23 22:59:20', '2024-09-23 22:59:20'),
-(5, 'modifier', 'web', '2024-09-23 22:59:20', '2024-09-23 22:59:20');
+(1, 'add', 'web', '2024-10-20 03:03:33', '2024-10-20 03:03:33'),
+(2, 'delet', 'web', '2024-10-20 03:03:33', '2024-10-20 03:03:33'),
+(3, 'edit', 'web', '2024-10-20 03:03:33', '2024-10-20 03:03:33'),
+(4, 'read', 'web', '2024-10-20 03:03:33', '2024-10-20 03:03:33'),
+(5, 'modifier', 'web', '2024-10-20 03:03:33', '2024-10-20 03:03:33');
 
 -- --------------------------------------------------------
 
@@ -431,9 +466,9 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'web', '2024-09-23 22:59:18', '2024-09-23 22:59:18'),
-(2, 'coursier', 'web', '2024-09-23 22:59:18', '2024-09-23 22:59:18'),
-(3, 'superadmin', 'web', '2024-09-23 22:59:42', '2024-09-23 22:59:42');
+(1, 'manager', 'web', '2024-10-20 03:03:32', '2024-10-20 03:03:32'),
+(2, 'coursier', 'web', '2024-10-20 03:03:32', '2024-10-20 03:03:32'),
+(3, 'superadmin', 'web', '2024-10-20 03:04:01', '2024-10-20 03:04:01');
 
 -- --------------------------------------------------------
 
@@ -518,7 +553,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `uuid`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'c1p2', 'iwa', 'iwa@gmail.com', NULL, '$2y$12$THih64AbMWF0sUriIhQEuOkj/uazx.Pd3R3zYe5kgA/NJurc0MZjW', NULL, '2024-09-23 23:00:41', '2024-09-23 23:00:41');
+(1, '4f2c', 'iwa', 'iwa@gmail.com', NULL, '$2y$12$E7I4jLyx7X0lbAq.tikU4.4Pp88mT96gkSfmIxOoHCE2M8fHHMWee', NULL, '2024-10-20 03:02:36', '2024-10-20 03:02:36'),
+(2, '2zf9', 'brad ', 'brad@gmail.com', NULL, '$2y$12$m4rfRP7rzLFwyJCDxM74neSpZMFQrUaqvK2blOfo.CjSvBAA3TNc2', NULL, '2024-10-20 03:14:23', '2024-10-20 03:14:23'),
+(3, '4xur', 'benj', 'benj@gmail.com', NULL, '$2y$12$bXCxd3hpwvyQzphnwTlUcuvSpkWJmqB0ZIBBi1P21npO8P1h6vL1O', NULL, '2024-10-20 03:14:47', '2024-10-20 03:14:47');
 
 -- --------------------------------------------------------
 
@@ -534,6 +571,14 @@ CREATE TABLE `vehicules` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Déchargement des données de la table `vehicules`
+--
+
+INSERT INTO `vehicules` (`id`, `uuid`, `nom`, `created_at`, `updated_at`) VALUES
+(1, 'dxn8', 'velo', '2024-10-20 03:15:59', '2024-10-20 03:15:59'),
+(2, '6n14', 'moto', '2024-10-20 03:16:05', '2024-10-20 03:16:05');
+
 -- --------------------------------------------------------
 
 --
@@ -548,6 +593,13 @@ CREATE TABLE `zones` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `zones`
+--
+
+INSERT INTO `zones` (`id`, `uuid`, `nom`, `commune_id`, `created_at`, `updated_at`) VALUES
+(1, '5yqt', 'ndotre', 1, '2024-10-20 03:16:26', '2024-10-20 03:16:26');
 
 --
 -- Index pour les tables déchargées
@@ -584,7 +636,9 @@ ALTER TABLE `colis`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `colis_uuid_unique` (`uuid`),
   ADD KEY `colis_client_id_foreign` (`client_id`),
-  ADD KEY `colis_categorie_id_foreign` (`categorie_id`);
+  ADD KEY `colis_coursier_id_foreign` (`coursier_id`),
+  ADD KEY `colis_categorie_id_foreign` (`categorie_id`),
+  ADD KEY `colis_livraison_id_foreign` (`livraison_id`);
 
 --
 -- Index pour la table `communes`
@@ -643,7 +697,6 @@ ALTER TABLE `livraisons`
   ADD UNIQUE KEY `livraisons_uuid_unique` (`uuid`),
   ADD KEY `livraisons_client_id_foreign` (`client_id`),
   ADD KEY `livraisons_coursier_id_foreign` (`coursier_id`),
-  ADD KEY `livraisons_colis_id_foreign` (`colis_id`),
   ADD KEY `livraisons_statut_id_foreign` (`statut_id`);
 
 --
@@ -662,7 +715,7 @@ ALTER TABLE `manusers`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `manusers_uuid_unique` (`uuid`),
   ADD KEY `manusers_user_id_foreign` (`user_id`),
-  ADD KEY `manusers_manager_foreign` (`manager`);
+  ADD KEY `manusers_manager_id_foreign` (`manager_id`);
 
 --
 -- Index pour la table `migrations`
@@ -815,19 +868,19 @@ ALTER TABLE `colis`
 -- AUTO_INCREMENT pour la table `communes`
 --
 ALTER TABLE `communes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `coursiers`
 --
 ALTER TABLE `coursiers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `coursusers`
 --
 ALTER TABLE `coursusers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `dossiers`
@@ -839,7 +892,7 @@ ALTER TABLE `dossiers`
 -- AUTO_INCREMENT pour la table `employers`
 --
 ALTER TABLE `employers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `historiqueps`
@@ -911,19 +964,19 @@ ALTER TABLE `tarifications`
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `vehicules`
 --
 ALTER TABLE `vehicules`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `zones`
 --
 ALTER TABLE `zones`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Contraintes pour les tables déchargées
@@ -946,7 +999,9 @@ ALTER TABLE `clients`
 --
 ALTER TABLE `colis`
   ADD CONSTRAINT `colis_categorie_id_foreign` FOREIGN KEY (`categorie_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `colis_client_id_foreign` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `colis_client_id_foreign` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `colis_coursier_id_foreign` FOREIGN KEY (`coursier_id`) REFERENCES `coursiers` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `colis_livraison_id_foreign` FOREIGN KEY (`livraison_id`) REFERENCES `livraisons` (`id`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `coursiers`
@@ -980,7 +1035,6 @@ ALTER TABLE `historiqueps`
 --
 ALTER TABLE `livraisons`
   ADD CONSTRAINT `livraisons_client_id_foreign` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `livraisons_colis_id_foreign` FOREIGN KEY (`colis_id`) REFERENCES `colis` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `livraisons_coursier_id_foreign` FOREIGN KEY (`coursier_id`) REFERENCES `coursiers` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `livraisons_statut_id_foreign` FOREIGN KEY (`statut_id`) REFERENCES `statuts` (`id`) ON DELETE CASCADE;
 
@@ -994,7 +1048,7 @@ ALTER TABLE `managers`
 -- Contraintes pour la table `manusers`
 --
 ALTER TABLE `manusers`
-  ADD CONSTRAINT `manusers_manager_foreign` FOREIGN KEY (`manager`) REFERENCES `managers` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `manusers_manager_id_foreign` FOREIGN KEY (`manager_id`) REFERENCES `managers` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `manusers_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --

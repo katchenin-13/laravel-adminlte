@@ -56,12 +56,12 @@ Route::get('/colis', ColisComp::class)->name('colis');
 Route::get('/livraison', LivraisonComp::class)->name('livraison');
 
 // Routes Authentifiées
-Route::middleware(['auth', 'role:oursier'])->group(function () {
-    Route::view('about', 'about')->name('about');
-    // Route::get('/colis', ColisComp::class)->name('colis');
-    // Route::get('/livraison', LivraisonComp::class)->name('livraison');
-    Route::get('espace', [EspaceController::class, 'index'])->name('espace.index');
-});
+// Route::middleware(['auth', 'role:oursier'])->group(function () {
+//     Route::view('about', 'about')->name('about');
+//     // Route::get('/colis', ColisComp::class)->name('colis');
+//     // Route::get('/livraison', LivraisonComp::class)->name('livraison');
+//     Route::get('espace', [EspaceController::class, 'index'])->name('espace.index');
+// });
 
 Route::middleware(['auth', 'role:manager'])->group(function () {
     // Route::get('/colis', ColisComp::class)->name('colis');
