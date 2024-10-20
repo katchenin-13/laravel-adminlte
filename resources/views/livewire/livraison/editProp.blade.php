@@ -8,7 +8,7 @@
 
                         </div>
 
-                        <form role="form" wire:submit.prevent="updateLivraison({{$editLivraisonsId}})">
+                        <form role="form" wire:submit.prevent="updateLivraison({{$editLivraisonsid}})">
                             @csrf
                             <div class="modal-body">
                                 <div class="d-flex my-1 bg-gray-light p-1">
@@ -59,13 +59,18 @@
 
                                                 <div class="row">
 
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-6">
                                                             <div class="form-group"> Coursier:
-                                                                <select wire:model="selectedCoursier" class="form-control">
-                                                                    <option value="">Sélectionner un coursier</option>
-                                                                    @foreach($coursiers as $coursier)
-                                                                        <option value="{{ $coursier->id }}">{{ $coursier->nom }}</option>
-                                                                    @endforeach
+                                                                <select id="selectedCoursiers" wire:model="selectedCoursiers" class="form-control">
+                                                                    @if (auth()->user()->hasRole('superadmin') || auth()->user()->hasRole('manager'))
+                                                                        @foreach ($coursiers as $coursier)
+                                                                            <option value="{{ $coursier->id }}">{{ $coursier->nom }}</option>
+                                                                        @endforeach
+                                                                    @elseif (auth()->user()->hasRole('coursier'))
+                                                                        <option value="{{ auth()->user()->coursier->id }}">{{ auth()->user()->coursier->nom }}</option>
+                                                                    @else
+                                                                        <option value="">Aucun coursier associé</option>
+                                                                    @endif
                                                                 </select>
                                                                 @error('selectedCoursier')
                                                                 <span class="text-danger animate__animated animate__fadeInDown">{{ $message }}</span>
@@ -73,21 +78,37 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-md-4">
-                                                            <div class="form-group"> Colis:
-                                                                <select wire:model="selectedColis" class="form-control">
-                                                                    <option value="">Sélectionner un colis</option>
-                                                                    @foreach($colis as $colis)
-                                                                        <option value="{{ $colis->id }}">{{ $colis->nom }}</option>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                Colis de
+                                                                <select id="selectedClient" wire:model="selectedClient" class="form-control">
+                                                                    <option value="">Sélectionner le Client</option>
+                                                                    @foreach($clients as $client)
+                                                                        <option value="{{ $client->id }}">{{ $client->nom }}</option>
                                                                     @endforeach
                                                                 </select>
-                                                                @error('selectedColis')
-                                                                <span class="text-danger animate__animated animate__fadeInDown">{{ $message }}</span>
+                                                                @error('selectedClient')
+                                                                    <span class="text-danger">{{ $message }}</span>
                                                                 @enderror
                                                             </div>
                                                         </div>
+                                            </div>
+                                            <div class="row">
 
-                                                        <div class="col-md-4">
+                                                <div class="col-md-6">
+                                                    <div class="form-group"> Colis:
+                                                        <select wire:model="selectedColis" class="form-control">
+                                                            @foreach($colis as $colis)
+                                                                <option value="{{ $colis->id }}">{{ $colis->nom }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        @error('selectedColis')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                        <div class="col-md-6">
                                                             <div class="form-group"> Statut:
                                                                 <select wire:model="selectedStatut" class="form-control">
                                                                     <option value="">Sélectionner un statut</option>
@@ -100,9 +121,9 @@
                                                                 @enderror
                                                             </div>
                                                         </div>
-                                                    </div>
 
 
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

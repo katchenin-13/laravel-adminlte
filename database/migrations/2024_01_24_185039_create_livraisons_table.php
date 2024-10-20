@@ -24,6 +24,8 @@ return new class extends Migration
             $table->foreign('coursier_id')->references('id')->on('coursiers')->onDelete('cascade');
             $table->unsignedBigInteger('statut_id');
             $table->foreign('statut_id')->references('id')->on('statuts')->onDelete('cascade');
+            $table->unsignedBigInteger('colis_id');
+            $table->foreign('colis_id')->references('id')->on('colis')->onDelete('cascade');
 
         });
         Schema::enableForeignKeyConstraints();

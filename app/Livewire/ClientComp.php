@@ -84,6 +84,7 @@ class ClientComp extends Component
             "newClientPhone.required" => "Le champ du téléphone du client est requis.",
             "newClientPhone.max" => "Le téléphone du client ne peut pas dépasser :max caractères.",
             "newClientPhone.regex" => "Le champ du téléphonene peut contenir que des chiffres.",
+            "newClientPhone.unique" => "le numéro est déjà utilisé..",
             "newClientEmail.required" => "Le champ email du client est requis.",
             "newClientEmail.max" => "L'email du client ne peut pas dépasser :max caractères.",
             "newClientEmail.unique" => "Email est déjà utilisé.",

@@ -9,6 +9,7 @@ use Livewire\Component;
 use App\Models\Coursier;
 use App\Models\Categorie;
 use Livewire\WithPagination;
+use App\Models\Livraison;
 use Illuminate\Validation\Validator;
 use Illuminate\Support\Carbon;
 
@@ -98,10 +99,10 @@ class ColisComp extends Component
         $validatedData = $this->validate([
             "newColisName" => "required|max:20",
             "newColisDes" => "required|max:550",
-            "newColisQuan" => "required|regex|max:9",
+            "newColisQuan" => "required|regex:/^[0-9]+$/|max:9",
             "selectedClient" => "required",
             "selectedCategorie" => "required",
-            "selectedCoursier" => "required"
+            "selectedCoursier" => "required",
         ], [
             "newColisName.required" => "Le champ du nom du colis est requis.",
             "newColisName.max" => "Le nom du colis ne peut pas dépasser :max caractères.",

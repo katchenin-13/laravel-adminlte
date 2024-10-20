@@ -92,7 +92,8 @@ class UserComp extends Component
     {
         $validated = $this->validate([
             "editUserName" => "required|max:20",
-            "editUserEmail" => ["required","max:50"], // Changement de 'editUserGmail' à 'editUserEmail'
+            "editUserEmail" => ["required","max:50",Rule::unique('users')->ignore($user->id),], // Changement de 'editUserGmail' à 'editUserEmail'
+            // Changement de 'editUserGmail' à 'editUserEmail'
             "editUserPassword" => "required|min:6", // Changement de 'max:6' à 'min:6'
             "editRole" => "required|exists:roles,name"
         ], [
@@ -112,9 +113,10 @@ class UserComp extends Component
             'password' => bcrypt($validated['editUserPassword']),
         ]);
 
+        $user->syncRoles($this->editRole);
+
         session()->flash('message', "L'utilisateur a été mis à jour avec succès !");
 
-        // dd($user);
     }
 
     public function updatedSelectedRole($role)
@@ -147,8 +149,13 @@ class UserComp extends Component
         $this->editUserid = $user->id;
         $this->editUserName = $user->name;
         $this->editUserEmail = $user->email;
+        
+        $roles = $user->getRoleNames(); // Cela retourne une collection de rôles
 
-        $this->dispatch("EditModal", [$user->name,$user->role]);
+        // Assigner le premier rôle à editRole si l'utilisateur a un rôle
+        $this->editRole = $roles->isNotEmpty() ? $roles->first() : null;
+
+        $this->dispatch("EditModal", [$user->name, $this->editRole]);
     }
 
     public function showPropD(User $user)

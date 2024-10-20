@@ -32,7 +32,7 @@ class Colis extends Model
 
     public function livraison()
     {
-        return $this->belongsTo(Livraison::class);
+        return $this->hasMany(Livraison::class);
     }
 
     public function coursiers()

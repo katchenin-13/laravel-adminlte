@@ -10,7 +10,7 @@
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
                                         <tbody>
-                                            @if($selectedLivraison && $selectedLivraison && $selectedLivraison->coursier && $selectedLivraison->colis && $selectedLivraison->statut)
+                                            @if($selectedLivraison)
                                             <tr>
                                                 <td><strong>Destinataire:</strong></td>
                                                 <td>{{ $selectedLivraison->destinataire }}</td>
@@ -24,16 +24,23 @@
                                                 <td>{{ $selectedLivraison->numerodes }}</td>
                                             </tr>
                                             <tr>
-                                                <td><strong>Coursier:</strong></td>
-                                                <td>{{ $selectedLivraison->coursier->nom }}</td>
+                                                @if($selectedLivraison->coursier)
+                                                    <td><strong>Coursier:</strong></td>
+                                                    <td>{{ $selectedLivraison->coursier->nom }}</td>
+
+                                                @endif
                                             </tr>
                                             <tr>
-                                                <td><strong>Colis:</strong></td>
-                                                <td>{{ $selectedLivraison->colis->nom }}</td>
+                                                @if($selectedLivraison->colis)
+                                                    <td><strong>Colis:</strong></td>
+                                                    <td>{{ $selectedLivraison->colis->nom }}</td>
+                                                @endif
                                             </tr>
                                             <tr>
-                                                <td><strong>Statut:</strong></td>
-                                                <td>{{ $selectedLivraison->statut->nom }}</td>
+                                                @if($selectedLivraison->statut)
+                                                    <td><strong>Statut:</strong></td>
+                                                    <td>{{ $selectedLivraison->statut->nom }}</td>
+                                                @endif
                                             </tr>
                                         {{-- @else
                                             <tr>

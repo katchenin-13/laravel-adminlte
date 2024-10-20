@@ -16,8 +16,8 @@
 
                 <!-- Champ de saisie pour le poste -->
                 <div class="form-group">
-                    <label for="post">Poste</label>
-                    <input type="text" id="post" wire:keydown.enter="newEmployer"
+                    <label for="newPost">Poste</label>
+                    <input type="text" id="newPost" wire:model="newPost"
                            class="form-control @error('newPost') is-invalid @enderror"
                            wire:model="newPost" />
                     @error('newPost')
@@ -27,8 +27,8 @@
 
                 <!-- Champ de saisie pour le salaire -->
                 <div class="form-group">
-                    <label for="salaire">Salaire</label>
-                    <input type="text" id="salaire" wire:keydown.enter="newEmployer"
+                    <label for="newSalaire">Salaire</label>
+                    <input type="text" id="newSalaire" wire:model="newSalaire"
                            class="form-control @error('newSalaire') is-invalid @enderror"
                            wire:model="newSalaire" />
                     @error('newSalaire')
@@ -40,7 +40,7 @@
                 <button type="button" class="btn btn-danger" data-dismiss="modal">
                     <i class="fas fa-times"></i> Fermer
                 </button>
-                <button type="button" class="btn btn-success" wire:click="NewEmployer">
+                <button type="button" class="btn btn-success"  wire:click="NewEmployer">
                     <i class="fa fa-check"></i> Valider
                 </button>
             </div>

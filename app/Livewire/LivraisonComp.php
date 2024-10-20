@@ -30,6 +30,7 @@ class LivraisonComp extends Component
     public $selectedColis;
     public $selectedStatut;
     public $selectedClient;
+
     public $statutType = 'livraison';
     public $showDeleteModal = false;
 
@@ -83,6 +84,7 @@ class LivraisonComp extends Component
     $statuts = Statut::where('statut_type', $this->statutType)->get();
     $coursiers = Coursier::all();
     $clients = Client::all();
+    $colis = Colis::all();
 
     return view('livewire.livraison.index', [
         'livraisons' => $livraisons,
@@ -105,6 +107,7 @@ class LivraisonComp extends Component
             "selectedCoursiers" => "required",
             "selectedStatut" => "required",
             "selectedClient" => "required",
+            "selectedColis" => "required",
         ], [
             "newDestinataireName.required" => "Le champ du nom du destinataire est requis.",
             "newDestinataireName.max" => "Le nom du destinataire ne peut pas dépasser :max caractères.",
@@ -130,6 +133,7 @@ class LivraisonComp extends Component
             "statut_id" => $validatedData["selectedStatut"],
             "coursier_id" => $validatedData["selectedCoursiers"],
             "client_id" => $validatedData["selectedClient"],
+            "colis_id" => $validatedData["selectedColis"],
         ]);
 
         session()->flash('message', 'La livraison a été enregistrée avec succès!');
@@ -140,7 +144,8 @@ class LivraisonComp extends Component
             'selectedColis',
             'selectedCoursiers',
             'selectedStatut',
-            'selectedClient'
+            'selectedClient',
+            'selectedColis'
         ]);
     }
 
@@ -173,7 +178,6 @@ class LivraisonComp extends Component
         'adresse_livraison' => $this->editLivraisonAdd,
         ]);
         session()->flash('message', "La livraison a été mis à jour avec succès !");
-        $this->closeEditModal();
 
 
     }
@@ -237,9 +241,9 @@ class LivraisonComp extends Component
     {
         $editLivraison = $livraison;
         $this->editLivraisonsid = $editLivraison->id;
-        $this->editDestinataireName= $editLivraison->nom;
-        $this->editLivraisonsPhone = $editLivraison->prenom;
-        $this->editLivraisonsAdd = $editLivraison->email;
+        $this->editDestinataireName= $editLivraison->destinataire;
+        $this->editLivraisonsPhone = $editLivraison->numerodes;
+        $this->editLivraisonsAdd = $editLivraison->adresse_livraison;
 
         $selectedCoursiers = Coursier::find($editLivraison->coursier_id);
 

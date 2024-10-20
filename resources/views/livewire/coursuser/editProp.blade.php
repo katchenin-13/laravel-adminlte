@@ -1,4 +1,4 @@
-
+{{--
 <div class="modal fade" id="editModalProp" style="z-index: 1900;" role="dialog" wire:ignore.self>
     <div class="modal-dialog" style="top:50px;">
         <div class="modal-content">
@@ -55,9 +55,7 @@
                                         </div>
                                         </div>
                                     </div>
-                                </div>
 
-                            </div>
                             <div class="modal-footer">
 
                                 <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times"></i> Fermer</button>
@@ -70,4 +68,4 @@
             </form>
         </div>
     </div>
-</div>
+</div> --}}

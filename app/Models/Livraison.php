@@ -17,6 +17,7 @@ class Livraison extends Model
         'client_id',
         'coursier_id',
         'livraison_id',
+        'colis_id',
         'statut_id'
     ];
 
@@ -34,7 +35,7 @@ class Livraison extends Model
 
     public function colis()
     {
-        return $this->HasMany(Colis::class);
+        return $this->belongsTo(Colis::class);
 
     }
 
