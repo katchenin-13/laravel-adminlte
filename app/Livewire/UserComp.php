@@ -149,7 +149,7 @@ class UserComp extends Component
         $this->editUserid = $user->id;
         $this->editUserName = $user->name;
         $this->editUserEmail = $user->email;
-        
+
         $roles = $user->getRoleNames(); // Cela retourne une collection de rôles
 
         // Assigner le premier rôle à editRole si l'utilisateur a un rôle

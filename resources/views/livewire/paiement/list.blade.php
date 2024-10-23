@@ -24,7 +24,7 @@
                                 <th style="width:10%;">No</th>
                                 <th style="width:20%;" class="text-center">ID</th>
                                 <th style="width:20%;" class="text-center">Client</th>
-                                <th style="width:20%;" class="text-center">Facture restante</th>
+                                <th style="width:20%;" class="text-center">livraison du mois</th>
                                 <th style="width:30%;" class="text-center">Total Factures</th>
                                 <th style="width:50%;" class="text-center">payer</th>
                             </tr>
@@ -34,7 +34,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td class="text-center">{{ $client->uuid }}</td>
-                                <td class="text-center">{{ $client->nom }}</td>
+                                <td class="text-center">{{ $client->nom }} </td>
                                 <td class="text-center">{{ $client->nombre_livraisons }}</td>
                                 <td class="text-center">{{ number_format($client->tarification_total, 2) }} XOF</td>
                                 <td class="text-center">

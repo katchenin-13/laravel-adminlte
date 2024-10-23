@@ -59,8 +59,7 @@
                     })
                     //console.log('soro');
                     })
-                    window.addEventListener('communeDeleted', function () {
-                    console.log('fermerture')
+                    window.addEventListener('livraisonDeleted', function () {
                     $('#DelectetModalProp').modal('hide');
                 });
 

@@ -78,3 +78,53 @@
     }
 </script>
 @endsection --}}
+
+
+
+<div class="modal fade" id="Payementmodal" tabindex="-1" role="dialog" wire:ignore.self>
+    <div class="modal-dialog" style="left: 50px;">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Créer le Compte</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @if (session()->has('message'))
+                    <div class="alert alert-success">
+                        {{ session('message') }}
+                    </div>
+                @endif
+
+                <div class="d-flex my-4 bg-gray-light p-3">
+                    <div class="d-flex flex-grow-1 mr-2">
+                        <div class="flex-grow-1 mr-2">
+                <!-- Champ de saisie pour le nom de la Zone -->
+
+                            <!-- Sélecteur de commune -->
+                                <div class="form-group">
+                                        <h2>Cinetpay</h2>
+                                </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                    <i class="fas fa-times"></i> Fermer
+                </button>
+                <button class="btn btn-success" wire:click="addNewManuser">
+                    <i class="fa fa-check"></i> Valider
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+</script> --}}
+

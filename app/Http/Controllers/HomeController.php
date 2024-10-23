@@ -53,10 +53,10 @@ class HomeController extends Controller
     protected function getLivraisonsForUser($user)
     {
         if ($user->hasRole('superadmin') || $user->hasRole('manager')) {
-            return Livraison::all(); // Tous les livraisons
+            return Livraison::paginate(10); // Tous les livraisons
         } elseif ($user->hasRole('coursier')) {
             $coursier = $user->coursier()->first(); // Obtenir le coursier associé
-            return $coursier ? Livraison::where('coursier_id', $coursier->id)->get() : collect();
+            return $coursier ? Livraison::where('coursier_id', $coursier->id)->paginate(10) : collect();
         }
 
         return collect(); // Pour les autres utilisateurs

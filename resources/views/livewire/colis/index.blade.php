@@ -6,6 +6,10 @@
 
     @include("livewire.colis.list")
 
+   @include("livewire.colis.read")
+
+    @include("livewire.colis.deletProp")
+
 
 </div>
 
@@ -17,7 +21,6 @@
            "show": true,
            "backdrop": "static"
        })
-       console.log('bonjours')
     })
     // window.addEventListener("closeModal", event=>{
     //    $("#modalProp").modal("hide")
@@ -30,6 +33,7 @@
            "show": true,
            "backdrop": "static"
        })
+       console.log('bonjours')
     })
     // window.addEventListener("closeEditModal", event=>{
     //    $("#editModalProp").modal("hide")
@@ -37,15 +41,17 @@
 
 
     //eyes
-    window.addEventListener("readModal", event=>{
-       $("#eyesmodal").modal({
-           "show": true,
-           "backdrop": "static"
-       })
-    })
-    // window.addEventListener("closereadModal", event=>{
-    //    $("#readmodalProp").modal("hide")
-    // })
+    window.addEventListener("ReadModal", event=>{
+        $("#eyesmodal").modal({
+            "show": true,
+            "backdrop": "static"
+        })
+        console.log('bonjour');
+        })
+        // window.addEventListener("closereadModal", event=>{
+        // $("#eyesmodal").modal("hide")
+        // })
+
 
 
     ///
@@ -56,10 +62,9 @@
             })
             //console.log('soro');
             })
-        //     window.addEventListener('colisDeleted', function () {
-        //    // console.log('fermerture')
-        //     $('#DelectetModalProp').modal('hide');
-        // });
+         window.addEventListener("colisDeleted", event=>{
+          $("#DelectetModalProp").modal("hide")
+        })
 
         //delet
 

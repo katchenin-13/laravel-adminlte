@@ -138,6 +138,7 @@
                             </div>
                         </div>
                     </div>
+
                 @endrole
             </div>
             <!-- /.row -->
@@ -154,11 +155,13 @@
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
-                                            <th style="width:10%;">No</th>
+                                            <th style="width:2%;">No</th>
                                             <th style="width:10%;" class="text-center">ID</th>
+                                            <th style="width:10%;" class="text-center">Client</th>
                                             <th style="width:10%;" class="text-center">Destinataire</th>
-                                            <th style="width:20%;" class="text-center">Coursier</th>
-                                            <th style="width:20%;" class="text-center">Téléphone</th>
+                                            <th style="width:10%;" class="text-center">Coursier</th>
+                                            <th style="width:10%;" class="text-center">Statut</th>
+
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -171,9 +174,14 @@
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td class="text-center">{{ $item->uuid }}</td>
+                                                    <td class="text-center">{{ $item->client->nom }}</td>
                                                     <td class="text-center">{{ $item->destinataire }}</td>
                                                     <td class="text-center">{{ $item->coursier->nom }}</td>
-                                                    <td class="text-center">{{ $item->numerodes }}</td>
+                                                    @if($item->statut->nom =="en cours")
+                                                     <td class="text-center" >{{ $item->statut->nom }}</td>
+                                                    @else($item->statut->nom == "livrer")
+                                                        <td class="text-center" style="color:  rgb(25, 255, 113)">{{ $item->statut->nom }}</td>
+                                                    @endif
                                                 </tr>
                                             @endforeach
                                         @endif
@@ -181,7 +189,13 @@
                                 </table>
                             </div>
                         </div>
+
                     </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="float-right">
+                    {{ $livraisons->links() }}
                 </div>
             </div>
             <!-- /.row -->

@@ -10,6 +10,7 @@ use App\Mail\ClientMail;
 use Livewire\WithPagination;
 use Illuminate\Support\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Validation\Rule;
 use App\Events\NewclientCreated;
 use Illuminate\Support\Facades\Mail;
 
@@ -72,7 +73,7 @@ class ClientComp extends Component
         $validatedData = $this->validate([
             "newClientName" => "required|max:20",
             "newClientPrenom" => "required|max:50",
-            "newClientPhone" => "required|max:10|regex:/^[0-9]+$/|unique:clients,telephone",
+            "newClientPhone" => "required|min:10|regex:/^[0-9]+$/|unique:clients,telephone",
             "newClientEmail" => "required|max:50|unique:clients,email",
             "newClientSecteur" => "required|max:20",
             "selectedZone" => "required",
@@ -82,7 +83,7 @@ class ClientComp extends Component
             "newClientPrenom.required" => "Le champ du prenom du client est requis.",
             "newClientPrenom.max" => "Le prenom du client ne peut pas dépasser :max caractères.",
             "newClientPhone.required" => "Le champ du téléphone du client est requis.",
-            "newClientPhone.max" => "Le téléphone du client ne peut pas dépasser :max caractères.",
+            "newClientPhone.min" => "Le numero de téléphone du client doit être de :min caractères .",
             "newClientPhone.regex" => "Le champ du téléphonene peut contenir que des chiffres.",
             "newClientPhone.unique" => "le numéro est déjà utilisé..",
             "newClientEmail.required" => "Le champ email du client est requis.",
@@ -137,8 +138,8 @@ class ClientComp extends Component
         $validated = $this->validate([
             "editClientName" => ["required", "max:20"],
             "editClientPrenom" => ["required", "max:50"],
-            "editClientPhone" => ["required", "max:10","regex:/^[0-9]+$/"],
-            "editClientEmail" => ["required", "max:50"],
+            "editClientPhone" => ["required", "min:10","regex:/^[0-9]+$/|unique:clients,client_id,id"],
+            "editClientEmail" => ["required", "max:50",Rule::unique('clients')->ignore($client->id)],
 
         ], [
             "editClientName.required" => "Le champ du nom du client est requis.",
@@ -146,7 +147,7 @@ class ClientComp extends Component
             "editClientPrenom.required" => "Le champ du prenom du client est requis.",
             "editClientPrenom.max" => "Le prenom du client ne peut pas dépasser :max caractères.",
             "editClientPhone.required" => "Le champ du téléphone du client est requis.",
-            "editClientPhone.max" => "Le téléphone du client ne peut pas dépasser :max caractères.",
+            "editClientPhone.min" => "Le numero de téléphone du client doit être de :min caractères.",
             "editClientPhone.unique" => "le numero de téléphone est déjà utilisé.",
             "editClientPhone.regex" => "Le champ du téléphonene peut contenir que des chiffres.",
             "editClientEmail.required" => "Le champ email du client est requis.",

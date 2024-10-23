@@ -22,6 +22,11 @@ class Statut extends Model
         return $this->hasmany(Livraison::class);
     }
 
+    public function paiement()
+    {
+        return $this->hasmany(Paiement::class);
+    }
+
     protected static function boot()
     {
         parent::boot();

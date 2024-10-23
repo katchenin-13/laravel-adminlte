@@ -63,8 +63,8 @@ class ManagerComp extends Component
             "newNom" => "required|max:20",
             "newPrenom" => "required|max:50",
             "newEmail" => "required|max:50|unique:managers,email",
-            "newPhone" => "required|max:10|regex:/^[0-9]+$/|unique:managers,numero_telephone",
-            "newPhone2" => "nullable|max:10|regex:/^[0-9]+$/|unique:managers,numero_telephone_2",
+            "newPhone" => "required|min:10|max:10|regex:/^[0-9]+$/|unique:managers,numero_telephone",
+            "newPhone2" => "nullable|min:10|max:10|regex:/^[0-9]+$/|unique:managers,numero_telephone_2",
             "selectedEmployer" => "required",
         ], [
             "newNom.required" => "Le champ du nom du manager est requis.",
@@ -73,9 +73,11 @@ class ManagerComp extends Component
             "newPrenom.max" => "Le prénom du manager ne peut pas dépasser :max caractères.",
             "newPhone.required" => "Le champ du téléphone du manager est requis.",
             "newPhone.max" => "Le téléphone du manager ne peut pas dépasser :max caractères.",
+            "newPhone.min" => "Le téléphone du manager doit être de :min caractères.",
             "newPhone.regex" => "Le champ du téléphone ne peut contenir que des chiffres.",
             "newPhone.unique" => "Le numéro de téléphone est déjà utilisé.",
             "newPhone2.max" => "Le deuxième téléphone du manager ne peut pas dépasser :max caractères.",
+            "newPhone2.max" => "Le deuxième téléphone du manager doit être de :min caractères.",
             "newPhone2.regex" => "Le champ du deuxième téléphone ne peut contenir que des chiffres.",
             "newEmail.required" => "Le champ email du manager est requis.",
             "newEmail.max" => "L'email du manager ne peut pas dépasser :max caractères.",
@@ -110,9 +112,9 @@ class ManagerComp extends Component
         $validated = $this->validate([
             "editNom" => "required|max:20",
             "editPrenom" => "required|max:50",
-            "newPhone" => "required|max:10|regex:/^[0-9]+$/|unique:managers,numero_telephone" . $manager->id,
+            "newPhone" => "required|min:10|max:10|regex:/^[0-9]+$/|unique:managers,numero_telephone" . $manager->id,
             "editEmail" => "required|max:50|unique:managers,email," . $manager->id,
-            "editPhone2" => "nullable|max:10|regex:/^[0-9]+$/|unique:managers,numero_telephone_2," . $manager->id,
+            "editPhone2" => "nullable|min:10|max:10|regex:/^[0-9]+$/|unique:managers,numero_telephone_2," . $manager->id,
             "selectedEmployer" => "required",
         ], [
             "editNom.required" => "Le champ du nom du manager est requis.",
@@ -121,9 +123,11 @@ class ManagerComp extends Component
             "editPrenom.max" => "Le prénom du manager ne peut pas dépasser :max caractères.",
             "editPhone.required" => "Le champ du téléphone du manager est requis.",
             "editPhone.max" => "Le téléphone du manager ne peut pas dépasser :max caractères.",
+            "editPhone.max" => "Le téléphone du manager doit être de :min caractères.",
             "editPhone.regex" => "Le champ du téléphone ne peut contenir que des chiffres.",
             "editPhone.unique" => "Le numéro de téléphone est déjà utilisé.",
             "editPhone2.max" => "Le deuxième téléphone du manager ne peut pas dépasser :max caractères.",
+            "editPhone2.min" => "Le deuxième téléphone du manager doit être de :min caractères.",
             "editPhone2.regex" => "Le champ du deuxième téléphone ne peut contenir que des chiffres.",
             "editEmail.required" => "Le champ email du manager est requis.",
             "editEmail.max" => "L'email du manager ne peut pas dépasser :max caractères.",
@@ -143,7 +147,7 @@ class ManagerComp extends Component
                 'numero_telephone' => $this->editPhone2 ?: null,
                 'numero_telephone_2' => $this->editCoursiersNump,
                 'email' => $this->editEmail,
-                'employer'
+                'employer_id' => $this->selectedEmployer,
             ]);
 
     session()->flash('message', "Le manager a été mis à jour avec succès !");

@@ -2,21 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Ramsey\Uuid\Uuid;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Paiement extends Model
 {
     use HasFactory;
     public $fillable= [
         'uuid',
-        'amount',
-       ' client_id',
-       'coursier_id',
-       'livraison_id',
+        'montan_t',
+        'année',
+        'mois',
+       'client_id',
        'statut_id',
-       'user_id',
-       'colis_id',
     ];
 
     public function client()
@@ -25,14 +24,6 @@ class Paiement extends Model
             return $this->belongsto(Client::class);
 
     }
-
-    public function colis()
-    {
-
-            return $this->belongsto(Colis::class);
-
-    }
-
 
 
 
@@ -44,26 +35,19 @@ class Paiement extends Model
 
     }
 
-    public function user()
+    protected static function boot()
     {
+        parent::boot();
 
-            return $this->belongsto(User::class);
-
+        static::creating(function ($user) {
+            $user->uuid = static::generateUuid();
+        });
     }
 
-    public function coursier()
+    protected static function generateUuid()
     {
-
-            return $this->belongsto(Coursier::class);
-
-    }
-
-
-    public function livraison()
-    {
-
-            return $this->belongsto(Livraison::class);
-
+        $uuid = base_convert(Uuid::uuid4()->getHex(), 16, 36);
+        return substr($uuid, 0, 4);
     }
 
 

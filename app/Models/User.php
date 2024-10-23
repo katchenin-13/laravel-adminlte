@@ -44,6 +44,11 @@ class User extends Authenticatable
     //     return $this->hasOne(Coursuser::class);
     // }
 
+    public function profil()
+    {
+        return $this->hasOne(Profil::class);
+    }
+
     public function coursier()
     {
         return $this->hasOneThrough(Coursier::class, Coursuser::class,'user_id','id','id','coursier_id');

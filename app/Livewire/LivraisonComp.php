@@ -22,7 +22,7 @@ class LivraisonComp extends Component
     public $newLivraisonsPhone = "";
     public $newLivraisonsAdd = "";
     public $editDestinataireName = "";
-    public $editLivraisonsPhone = "";
+    public $editLivraisonPhone = "";
     public $editLivraisonsAdd = "";
     public $editLivraisonsid;
     public $selectedLivraison;
@@ -43,6 +43,7 @@ class LivraisonComp extends Component
     $searchCriteria = "%" . $this->search . "%";
 
     // Obtenir l'utilisateur connecté
+
     $user = auth()->user();
 
     $livraisonsQuery = Livraison::query();
@@ -100,8 +101,8 @@ class LivraisonComp extends Component
     {
         $validatedData = $this->validate([
             "newDestinataireName" => "required|max:20",
-            "newLivraisonsPhone" => "required|max:10|unique:livraisons,numerodes",
-            "newLivraisonsAdd" => "required|max:50|unique:livraisons,adresse_livraison",
+            "newLivraisonsPhone" => "required|min:10|regex:/^[0-9]+$/",
+            "newLivraisonsAdd" => "required|max:50",
             "selectedColis" => "required",
             "selectedCoursiers" => "required",
             "selectedStatut" => "required",
@@ -110,7 +111,7 @@ class LivraisonComp extends Component
         ], [
             "newDestinataireName.required" => "Le champ du nom du destinataire est requis.",
             "newDestinataireName.max" => "Le nom du destinataire ne peut pas dépasser :max caractères.",
-            "newLivraisonsPhone.max" => "Le téléphone du destinataire ne peut pas dépasser :max caractères.",
+            "newLivraisonsPhone.min" => "Le téléphone du destinataire doit être de :min caractères.",
             "newLivraisonsPhone.regex" => "Le champ du téléphone ne peut contenir que des chiffres.",
             "newLivraisonsAdd.required" => "Le champ adresse du destinataire est requis.",
             "newLivraisonsAdd.max" => "L'adresse du destinataire ne peut pas dépasser :max caractères.",
@@ -152,17 +153,18 @@ class LivraisonComp extends Component
     {
         $validated = $this->validate([
             "editDestinataireName" =>"required|max:20",
-            "editLivraisonsPhone" =>"required|max:10|unique:livraisons,numero_telephone",
-            "editLivraisonsAdd" =>"required|max:50|unique:livraisons,adresse_livraison",
+            "editLivraisonPhone" =>"required|min:10",
+            "editLivraisonsAdd" =>"required|max:50",
             "selectedCoursiers" => "required",
+            "selectedStatut" => "required",
             "selectedColis" => "required",
             "selectedClient" => "required",
 
        ], [
         "editDestinataireName.required" => "Le champ du nom du livraison est requis.",
         "editDestinataireName.max" => "Le nom du livraison ne peut pas dépasser :max caractères.",
-        "editLivraisonsPhone.max" => "Le téléphone du livraison ne peut pas dépasser :max caractères.",
-        "editLivraisonsPhone.regex" => "Le champ du téléphonene peut contenir que des chiffres.",
+        "editLivraisonPhone.min" => "Le téléphone du destinataire doit être de :min caractères.",
+        "editLivraisonPhone.regex" => "Le champ du téléphonene peut contenir que des chiffres.",
         "editLivraisonsAdd.required" => "Le champ adresse du destinataire est requis.",
         "editLivraisonsAdd.max" => "L'adresse du destinataire ne peut pas dépasser :max caractères.",
         "selectedCoursiers.required" => "Veuillez sélectionner un coursiers.",
@@ -174,7 +176,12 @@ class LivraisonComp extends Component
         $livraison->update([
         'destinataire' => $this->editDestinataireName,
         'numerodes' => $this->editLivraisonPhone,
-        'adresse_livraison' => $this->editLivraisonAdd,
+        'adresse_livraison' => $this->editLivraisonsAdd,
+        'coursier_id' => $this->selectedCoursiers,
+        'statut_id' => $this->selectedStatut,
+        'colis_id' => $this->selectedColis,
+        'client_id' => $this->selectedClient,
+
         ]);
         session()->flash('message', "La livraison a été mis à jour avec succès !");
 
@@ -191,6 +198,14 @@ class LivraisonComp extends Component
     //     return $pdf->download('bordereau.pdf');
     // }
 
+
+    public function updateClient($livraisonId, $clientId)
+    {
+        $livraison = Livraison::findOrFail($livraisonId);
+        $livraison->client_id = $clientId;
+        $livraison->save();
+
+    }
 
     public function updateCoursier($livraisonId, $coursierId)
     {
@@ -241,7 +256,7 @@ class LivraisonComp extends Component
         $editLivraison = $livraison;
         $this->editLivraisonsid = $editLivraison->id;
         $this->editDestinataireName= $editLivraison->destinataire;
-        $this->editLivraisonsPhone = $editLivraison->numerodes;
+        $this->editLivraisonPhone = $editLivraison->numerodes;
         $this->editLivraisonsAdd = $editLivraison->adresse_livraison;
 
         $selectedCoursiers = Coursier::find($editLivraison->coursier_id);
@@ -272,7 +287,16 @@ class LivraisonComp extends Component
             $this->selectedStatut = null;
         }
 
-        $this->dispatch("EditModal", [$livraison->destinataire,$livraison->numerodes,$livraison->adresse_livraison,$livraison->numerodes,$livraison->selectedStatut,$livraison->selectedColis,$livraison->selectedCoursiers]);
+        $selectedClient = Client::find($editLivraison->client_id);
+
+        if ($selectedClient) {
+            $this->selectedClient = $selectedClient->id;
+        } else {
+
+            $this->selectedClient = null;
+        }
+
+        $this->dispatch("EditModal", [$livraison->destinataire,$livraison->numerodes,$livraison->adresse_livraison,$livraison->numerodes,$livraison->selectedStatut,$livraison->selectedColis,$livraison->selectedCoursiers,$livraison->selectedClient]);
     }
 
     public function showPropD(Livraison $livraison)

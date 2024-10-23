@@ -16,7 +16,6 @@ class PaiementComp extends Component
     public $selectedPaiement;
     public $showDeleteModal = false;
     public $search = "";
-    public $loading = false;
     public $selectedClient;
     public $clientLivraisons = [];
     public $clientsData;
@@ -30,13 +29,15 @@ class PaiementComp extends Component
 
     public function loadClientsData()
     {
+        $startOfMonth=Carbon::now()->startOfMonth();
+        $endOfMonth = Carbon::now()->endOfMonth();
         $this->clientsData = DB::table('clients')
             ->leftJoin('colis', 'clients.id', '=', 'colis.client_id')
             ->leftJoin('categories', 'colis.categorie_id', '=', 'categories.id')
             ->leftJoin('tarifications', 'categories.id', '=', 'tarifications.categorie_id')
             ->leftJoin('livraisons', 'colis.id', '=', 'livraisons.colis_id')
             ->leftJoin('statuts', 'livraisons.statut_id', '=', 'statuts.id')
-            ->where('statuts.nom', 'livré')
+            ->where('statuts.nom', 'livrer')
             ->select(
                 'clients.id',
                 'clients.nom',
@@ -54,7 +55,6 @@ class PaiementComp extends Component
 
         $searchCriteria = "%" . $this->search . "%";
 
-        $this->loading = true;
 
         // Rechercher des paiements en fonction du nom ou prénom du client
         $paiements = Paiement::whereHas('client', function ($query) use ($searchCriteria) {
@@ -62,7 +62,7 @@ class PaiementComp extends Component
                   ->orWhere('prenom', 'like', $searchCriteria);
         })->paginate(10);
 
-        $this->loading = false;
+
 
         return view('livewire.paiement.list', [
             'paiements' => $paiements,
@@ -73,10 +73,12 @@ class PaiementComp extends Component
 
     public function cinetpay($clientId)
     {
-        // dd('clients');
-        $client = Client::find($clientId);
-        $this->tarification_total = $this->clientsData->where('id', $clientId)->first()->tarification_total;
 
-        $this->dispatch('openModal', $client->id); // Émettre un événement pour ouvrir la modale
+        $client = Client::find($clientId);
+
+        // $this->tarification_total = $this->clientsData->where('id', $clientId)->first()->tarification_total;
+        dd($clientId);
+        $this->dispatch('OpenModal', $client->id); // Émettre un événement pour ouvrir la modale
     }
+
 }

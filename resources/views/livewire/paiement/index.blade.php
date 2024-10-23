@@ -9,26 +9,26 @@
 </div>
 
 <script>
-// create
-// document.addEventListener('livewire:load', function () {
-//     Livewire.on('openModal', () => {
-//         var modal = new bootstrap.Modal(document.getElementById('clientLivraisonsModal'));
-//         modal.show();
-//        })
-//     })
-//     window.addEventListener("closeModal", event=>{
-//        $("#modalProp").modal("hide")
-//     })
+    // window.addEventListener("showEditModal", event=>{
+    //    $("#editModalProp").modal({
+    //        "show": true,
+    //        "backdrop": "static"
+    //    })
+    // })
+    // window.addEventListener("closeEditModal", event=>{
+    //    $("#editModalProp").modal("hide")
+    // })
 
-    window.addEventListener("openModal", event=>{
-       $("#clientLivraisonsModal").modal({
+    window.addEventListener("OpenModal", event=>{
+       $("#Payementmodal").modal({
            "show": true,
            "backdrop": "static"
        })
+       console.log("cinetpay");
     })
 
     window.addEventListener("closeModal", event=>{
-       $("#clientLivraisonsModal").modal("hide")
+       $("#Payementmodal").modal("hide")
     })
     // console.log("ddd")
 

@@ -45,9 +45,9 @@
                                                     <div class="col-md-4">
                                                             <div class="form-group">Téléphone
                                                                         <input type="phone" wire:keydown.enter=""
-                                                                        class="form-control @error('editLivraisonsPhone') is-invalid @enderror"
-                                                                        wire:model="editLivraisonsPhone"/>
-                                                                    @error('editLivraisonsPhone')
+                                                                        class="form-control @error('editLivraisonPhone') is-invalid @enderror"
+                                                                        wire:model="editLivraisonPhone"/>
+                                                                    @error('editLivraisonPhone')
                                                                         <span class="text-danger animate__animated animate__fadeInDown">{{ $message }}</span>
                                                                     @enderror
                                                             </div>

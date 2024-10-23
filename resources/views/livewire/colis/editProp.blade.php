@@ -1,7 +1,7 @@
 {{-- if ($request->user()->can('edit')) {
-    if ($request->user()->can('editc')) { --}}
+    if ($request->user()->can('editModalProp')) { --}}
 
-       <div class="modal fade" id="editModalProp" style="z-index: 1900;" role="dialog" wire:ignore.self>
+<div class="modal fade" id="editModalProp" style="z-index: 1900;" role="dialog" wire:ignore.self>
                 <div class="modal-dialog modal-lg" style="left: 100px;">
                     <div class="modal-content">
                         <div class="modal-header" style="background-color: #15a1e2; color: white;">
@@ -122,4 +122,4 @@
 
                     </div>
                 </div>
-            </div>
+</div>

@@ -71,10 +71,6 @@ class Coursier extends Authenticatable
 
     // }
 
-    public function paiement()
-    {
-        return $this->hasMany(Paiement::class);
-    }
 
     public function colis()
     {

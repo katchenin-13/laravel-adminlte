@@ -132,6 +132,12 @@ class ColisComp extends Component
 
 
 
+    // public function showProp(Colis $colis)
+    // {
+    //     $this->selectedColis = $colis;
+    //     $this->dispatch("ModalCreate", []);
+    // }
+
     public function showProp(Colis $colis)
     {
         $this->selectedColis = $colis;
@@ -168,6 +174,9 @@ class ColisComp extends Component
         'nom' => $this->editColisName,
         'description' => $this->editColisDes,
          'quantite' => $this->editColisQuan,
+         'client_id' => $this->selectedClient,
+         'categorie_id' => $this->selectedCategorie,
+         'coursier_id' => $this->selectedCoursier
         ]);
         session()->flash('message', "Le colis a été mis à jour avec succès !");
 
@@ -225,11 +234,16 @@ class ColisComp extends Component
         $this->dispatch("closeEditModal", []);
     }
 
+
+
     public function showPropC(Colis $colis)
     {
         $this->selectedColis = $colis;
-        $this->dispatch("readModal", []);
+        $this->dispatch("ReadModal", []);
     }
+
+
+
 
     public function closeReadModal()
     {
