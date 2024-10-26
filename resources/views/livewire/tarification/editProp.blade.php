@@ -14,7 +14,7 @@
                          <div class="flex-grow-1 mr-2">
 
                             @if (session()->has('message'))
-                                <div class="alert alert-success ">
+                                <div class="alert alert-success">
                                     {{ session('message') }}
                                 </div>
                             @endif
@@ -24,20 +24,23 @@
                                     <input type="decimal" placeholder="Prix" wire:keypress.enter=""
                                     wire:model="editTarificationPrix" class="form-control @error("editTarificationPrix")
                                     is-invalid @enderror" name ="editTarificationPrix">
-                                @error("editTarificationPrix")
-                                <span class="text-danger">{{$message}}</span>
+                                    @error('editTarificationPrix')
+                                    <span class="text-danger animate__animated animate__fadeInDown">{{ $message }}</span>
                                 @enderror
                            </div>
                         </div>
                         <div class="form-group" wire:ignore>
                             Catégorie
                             <div class="col-md-12">
-                                <select wire:model="selectedCategorie" class="form-control">
+                                <select wire:model="SelectedCategorie" class="form-control">
                                     @foreach ($categories as $categorie)
                                         <option value="{{ $categorie->id }}">{{ $categorie->nom }}</option>
                                     @endforeach
                                 </select>
                             </div>
+                            @error('SelectedCategorie')
+                            <span class="text-danger animate__animated animate__fadeInDown">{{ $message }}</span>
+                          @enderror
                         </div>
 
                             </div>

@@ -54,6 +54,8 @@ Auth::routes();
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/colis', ColisComp::class)->name('colis');
 Route::get('/livraison', LivraisonComp::class)->name('livraison');
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile.show');
+Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
 // Routes Authentifiées
 // Route::middleware(['auth', 'role:oursier'])->group(function () {
@@ -76,9 +78,8 @@ Route::middleware(['auth', 'role:manager'])->group(function () {
     Route::get('/dossier', DossierComp::class)->name('dossiers');
     Route::get('/bordereau/{livraison}', [BordereauComp::class, 'generatePDF'])->name('bordereau');
     Route::get('/vehicule', VehiculeComp::class)->name('vehicules');
-    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-    Route::put('/profile/photo/update', [ProfileController::class, 'updatePhoto'])->name('profile.photo.update');
-    Route::put('/profile/information/update', [ProfileController::class, 'updateInformation'])->name('profile.information.update');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.show');
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });
 
 
@@ -106,9 +107,10 @@ Route::middleware(['auth', 'role:superadmin'])->group(function () {
     // Route::get('/livraison', LivraisonComp::class)->name('livraison');
     Route::get('/bordereau/{livraison}', [BordereauComp::class, 'generatePDF'])->name('bordereau');
     Route::get('/vehicule', VehiculeComp::class)->name('vehicules');
-    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-    Route::put('/profile/photo/update', [ProfileController::class, 'updatePhoto'])->name('profile.photo.update');
-    Route::put('/profile/information/update', [ProfileController::class, 'updateInformation'])->name('profile.information.update');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.show');
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::put('/profile/photo/update', [ProfileController::class, 'updatePhoto'])->name('profile.photo.update');
+    // Route::put('/profile/information/update', [ProfileController::class, 'updateInformation'])->name('profile.information.update');
 });
 
 

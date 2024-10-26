@@ -29,7 +29,6 @@ class LivraisonComp extends Component
     public $selectedCoursiers;
     public $selectedColis;
     public $selectedStatut;
-    public $selectedClient;
 
     public $statutType = 'livraison';
     public $showDeleteModal = false;
@@ -83,15 +82,12 @@ class LivraisonComp extends Component
     // Récupérer les statuts, coursiers et clients
     $statuts = Statut::where('statut_type', $this->statutType)->get();
     $coursiers = Coursier::all();
-    $clients = Client::all();
-    $colis = Colis::all();
 
     return view('livewire.livraison.index', [
         'livraisons' => $livraisons,
         'coursiers' => $coursiers,
         'statuts' => $statuts,
         'colis' => $colis,
-        'clients' => $clients,
     ])
     ->extends("layouts.app")
     ->section("content");
@@ -106,8 +102,6 @@ class LivraisonComp extends Component
             "selectedColis" => "required",
             "selectedCoursiers" => "required",
             "selectedStatut" => "required",
-            "selectedClient" => "required",
-            "selectedColis" => "required",
         ], [
             "newDestinataireName.required" => "Le champ du nom du destinataire est requis.",
             "newDestinataireName.max" => "Le nom du destinataire ne peut pas dépasser :max caractères.",
@@ -118,7 +112,6 @@ class LivraisonComp extends Component
             "selectedCoursiers.required" => "Veuillez sélectionner un coursier.",
             "selectedColis.required" => "Veuillez sélectionner un colis.",
             "selectedStatut.required" => "Veuillez sélectionner un statut.",
-            "selectedClient.required" => "Veuillez sélectionner le client.",
         ]);
 
         $uuid = Uuid::uuid4()->toString();
@@ -132,8 +125,6 @@ class LivraisonComp extends Component
             "colis_id" => $validatedData["selectedColis"],
             "statut_id" => $validatedData["selectedStatut"],
             "coursier_id" => $validatedData["selectedCoursiers"],
-            "client_id" => $validatedData["selectedClient"],
-            "colis_id" => $validatedData["selectedColis"],
         ]);
 
         session()->flash('message', 'La livraison a été enregistrée avec succès!');
@@ -144,7 +135,6 @@ class LivraisonComp extends Component
             'selectedColis',
             'selectedCoursiers',
             'selectedStatut',
-            'selectedClient',
             'selectedColis'
         ]);
     }
@@ -158,7 +148,7 @@ class LivraisonComp extends Component
             "selectedCoursiers" => "required",
             "selectedStatut" => "required",
             "selectedColis" => "required",
-            "selectedClient" => "required",
+
 
        ], [
         "editDestinataireName.required" => "Le champ du nom du livraison est requis.",
@@ -170,7 +160,6 @@ class LivraisonComp extends Component
         "selectedCoursiers.required" => "Veuillez sélectionner un coursiers.",
         "selectedColis.required" => "Veuillez sélectionner un colis.",
         "selectedStatus.required" => "Veuillez sélectionner un Statut.",
-        "selectedClient.required" => "Veuillez sélectionner le client.",
        ]);
 
         $livraison->update([
@@ -180,7 +169,6 @@ class LivraisonComp extends Component
         'coursier_id' => $this->selectedCoursiers,
         'statut_id' => $this->selectedStatut,
         'colis_id' => $this->selectedColis,
-        'client_id' => $this->selectedClient,
 
         ]);
         session()->flash('message', "La livraison a été mis à jour avec succès !");
@@ -197,15 +185,6 @@ class LivraisonComp extends Component
     //     $pdf = PDF::loadView('livewire.bordereau.index', [$data]);
     //     return $pdf->download('bordereau.pdf');
     // }
-
-
-    public function updateClient($livraisonId, $clientId)
-    {
-        $livraison = Livraison::findOrFail($livraisonId);
-        $livraison->client_id = $clientId;
-        $livraison->save();
-
-    }
 
     public function updateCoursier($livraisonId, $coursierId)
     {
@@ -287,16 +266,7 @@ class LivraisonComp extends Component
             $this->selectedStatut = null;
         }
 
-        $selectedClient = Client::find($editLivraison->client_id);
-
-        if ($selectedClient) {
-            $this->selectedClient = $selectedClient->id;
-        } else {
-
-            $this->selectedClient = null;
-        }
-
-        $this->dispatch("EditModal", [$livraison->destinataire,$livraison->numerodes,$livraison->adresse_livraison,$livraison->numerodes,$livraison->selectedStatut,$livraison->selectedColis,$livraison->selectedCoursiers,$livraison->selectedClient]);
+        $this->dispatch("EditModal", [$livraison->destinataire,$livraison->numerodes,$livraison->adresse_livraison,$livraison->numerodes,$livraison->selectedStatut,$livraison->selectedColis,$livraison->selectedCoursiers]);
     }
 
     public function showPropD(Livraison $livraison)

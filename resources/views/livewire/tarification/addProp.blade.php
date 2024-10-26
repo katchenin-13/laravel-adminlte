@@ -28,13 +28,13 @@
                 <!-- Sélecteur de catégorie -->
                 <div class="form-group">
                     <label for="categorieSelect">Catégorie</label>
-                    <select id="categorieSelect" wire:model="selectedCategorie" class="form-control">
+                    <select id="categorieSelect" wire:model="SelectedCategorie" class="form-control">
                         <option value="">Sélectionner une Catégorie</option>
                         @foreach($categories as $categorie)
                             <option value="{{ $categorie->id }}">{{ $categorie->nom }}</option>
                         @endforeach
                     </select>
-                    @error('selectedCategorie')
+                    @error('SelectedCategorie')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>

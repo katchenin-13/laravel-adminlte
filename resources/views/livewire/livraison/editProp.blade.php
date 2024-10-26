@@ -55,47 +55,28 @@
 
                                                 </div>
 
-
-
-                                                <div class="row">
-
-                                                        <div class="col-md-6">
-                                                            <div class="form-group"> Coursier:
-                                                                <select id="selectedCoursiers" wire:model="selectedCoursiers" class="form-control">
-                                                                    @if (auth()->user()->hasRole('superadmin') || auth()->user()->hasRole('manager'))
-                                                                        @foreach ($coursiers as $coursier)
-                                                                            <option value="{{ $coursier->id }}">{{ $coursier->nom }}</option>
-                                                                        @endforeach
-                                                                    @elseif (auth()->user()->hasRole('coursier'))
-                                                                        <option value="{{ auth()->user()->coursier->id }}">{{ auth()->user()->coursier->nom }}</option>
-                                                                    @else
-                                                                        <option value="">Aucun coursier associé</option>
-                                                                    @endif
-                                                                </select>
-                                                                @error('selectedCoursier')
-                                                                <span class="text-danger animate__animated animate__fadeInDown">{{ $message }}</span>
-                                                                @enderror
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                Colis de
-                                                                <select id="selectedClient" wire:model="selectedClient" class="form-control">
-                                                                    <option value="">Sélectionner le Client</option>
-                                                                    @foreach($clients as $client)
-                                                                        <option value="{{ $client->id }}">{{ $client->nom }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                                @error('selectedClient')
-                                                                    <span class="text-danger">{{ $message }}</span>
-                                                                @enderror
-                                                            </div>
-                                                        </div>
-                                            </div>
                                             <div class="row">
 
-                                                <div class="col-md-6">
+                                                <div class="col-md-4">
+                                                    <div class="form-group"> Coursier:
+                                                        <select id="selectedCoursiers" wire:model="selectedCoursiers" class="form-control">
+                                                            @if (auth()->user()->hasRole('superadmin') || auth()->user()->hasRole('manager'))
+                                                                @foreach ($coursiers as $coursier)
+                                                                    <option value="{{ $coursier->id }}">{{ $coursier->nom }}</option>
+                                                                @endforeach
+                                                            @elseif (auth()->user()->hasRole('coursier'))
+                                                                <option value="{{ auth()->user()->coursier->id }}">{{ auth()->user()->coursier->nom }}</option>
+                                                            @else
+                                                                <option value="">Aucun coursier associé</option>
+                                                            @endif
+                                                        </select>
+                                                        @error('selectedCoursier')
+                                                        <span class="text-danger animate__animated animate__fadeInDown">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
                                                     <div class="form-group"> Colis:
                                                         <select wire:model="selectedColis" class="form-control">
                                                             @foreach($colis as $colis)
@@ -108,7 +89,7 @@
                                                     </div>
                                                 </div>
 
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-4">
                                                             <div class="form-group"> Statut:
                                                                 <select wire:model="selectedStatut" class="form-control">
                                                                     <option value="">Sélectionner un statut</option>

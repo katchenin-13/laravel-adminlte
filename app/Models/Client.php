@@ -48,12 +48,6 @@ class Client extends Model
 
     }
 
-    public function livraison()
-    {
-        return $this->hasmany(Livraison::class);
-
-    }
-
     protected static function boot()
     {
         parent::boot();

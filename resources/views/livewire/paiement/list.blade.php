@@ -30,15 +30,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($clientsData as $client)
+                            @foreach ($clientsData as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td class="text-center">{{ $client->uuid }}</td>
-                                <td class="text-center">{{ $client->nom }} </td>
-                                <td class="text-center">{{ $client->nombre_livraisons }}</td>
-                                <td class="text-center">{{ number_format($client->tarification_total, 2) }} XOF</td>
+                                <td class="text-center">{{ $item->uuid }}</td>
+                                <td class="text-center">{{ $item->nom }} </td>
+                                <td class="text-center">{{ $item->nombre_livraisons }}</td>
+                                <td class="text-center">{{ number_format($item->tarification_total, 2) }} XOF</td>
                                 <td class="text-center">
-                                    <button class="btn btn-primary btn-sm" wire:click="cinetpay({{$client->id}})">
+                                    <button class="btn btn-primary btn-sm" wire:click="cinetpay({{$item->id}})">
                                         <i class="fas fa-file-invoice-dollar"></i>
                                     </button>
 

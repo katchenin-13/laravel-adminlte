@@ -157,7 +157,7 @@
                                         <tr>
                                             <th style="width:2%;">No</th>
                                             <th style="width:10%;" class="text-center">ID</th>
-                                            <th style="width:10%;" class="text-center">Client</th>
+                                            <th style="width:10%;color: red" class="text-center">Colis</th>
                                             <th style="width:10%;" class="text-center">Destinataire</th>
                                             <th style="width:10%;" class="text-center">Coursier</th>
                                             <th style="width:10%;" class="text-center">Statut</th>
@@ -174,7 +174,7 @@
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td class="text-center">{{ $item->uuid }}</td>
-                                                    <td class="text-center">{{ $item->client->nom }}</td>
+                                                     <td class="text-center" style="color:  rgb(255, 25, 25)">{{ $item->colis->nom }}</td>
                                                     <td class="text-center">{{ $item->destinataire }}</td>
                                                     <td class="text-center">{{ $item->coursier->nom }}</td>
                                                     @if($item->statut->nom =="en cours")
@@ -193,11 +193,15 @@
                     </div>
                 </div>
             </div>
-            <div class="card-footer">
-                <div class="float-right">
-                    {{ $livraisons->links() }}
+            @if($livraisons->collect())
+
+            @else
+                <div class="card-footer">
+                    <div class="float-right">
+                        {{ $livraisons->links() }}
+                    </div>
                 </div>
-            </div>
+            @endif
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>

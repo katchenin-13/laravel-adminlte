@@ -20,7 +20,7 @@
                 <div class="col-lg-6">
                     <div class="card">
 
-                        <form action="{{ route('profile.update') }}" method="POST">
+                        <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 
@@ -52,6 +52,37 @@
                                         </div>
                                     </div>
                                     @error('email')
+                                    <span class="error invalid-feedback">
+                                        {{ $message }}
+                                    </span>
+                                    @enderror
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <input type="text" name="pseudo"
+                                           class="form-control @error('pseudo') is-invalid @enderror"
+                                           placeholder="{{ __('Pseudo') }}" value="{{ old('pseudo', auth()->user()->pseudo) }}">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-user"></span>
+                                        </div>
+                                    </div>
+                                    @error('pseudo')
+                                    <span class="error invalid-feedback">
+                                        {{ $message }}
+                                    </span>
+                                    @enderror
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <input type="file" name="avatar"
+                                           class="form-control @error('avatar') is-invalid @enderror">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-image"></span>
+                                        </div>
+                                    </div>
+                                    @error('avatar')
                                     <span class="error invalid-feedback">
                                         {{ $message }}
                                     </span>

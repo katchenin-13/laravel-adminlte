@@ -24,7 +24,7 @@ class Categorie extends Model
 
     public function tarification()
     {
-        return $this->hasmany(Tarification::class);
+        return $this->hasOne(Tarification::class);
 
     }
 

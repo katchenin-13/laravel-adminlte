@@ -20,7 +20,7 @@ class TarificationComp extends Component
     public $editTarificationPrix = "";
     public $editTarificationId = "";
     public $selectedTarification;
-    public $selectedCategorie = "";
+    public $SelectedCategorie = "";
     public $showDeleteModal = false;
 
     protected $paginationTheme = "bootstrap";
@@ -49,23 +49,23 @@ class TarificationComp extends Component
     {
         $validatedData = $this->validate([
             "newTarificationPrix" => ["required", "max:9", "regex:/^\d+$/", Rule::unique("tarifications", "prix")],
-            "selectedCategorie" => "required"
+            "SelectedCategorie" => "required"
         ], [
             "newTarificationPrix.required" => "Le champ du prix est requis.",
             "newTarificationPrix.max" => "Le prix ne peut pas dépasser :max caractères.",
             "newTarificationPrix.regex" => "Le champ du prix ne peut contenir que des chiffres.",
-            "selectedCategorie.required" => "Le champ de la catégorie est requis."
+            "SelectedCategorie.required" => "Le champ de la catégorie est requis."
         ]);
 
         $uuid = Uuid::uuid4()->toString();
         Tarification::create([
             "uuid" => $uuid,
             "prix" => $validatedData["newTarificationPrix"],
-            "categorie_id" => $validatedData["selectedCategorie"]
+            "categorie_id" => $validatedData["SelectedCategorie"]
         ]);
 
         session()->flash('message', 'Le prix a été enregistré avec succès!');
-        $this->reset('newTarificationPrix','selectedCategorie');
+        $this->reset('newTarificationPrix','SelectedCategorie');
     }
 
 
@@ -73,16 +73,16 @@ class TarificationComp extends Component
     {
         $validated = $this->validate([
             "editTarificationPrix" => ["required", "max:10", Rule::unique("tarifications", "prix")->ignore($tarification->id)],
-            "selectedCategorie" => "required"
+            "SelectedCategorie" => "required"
         ], [
             "editTarificationPrix.required" => "Le champ prix est requis.",
             "editTarificationPrix.max" => "Le prix ne peut pas dépasser :max caractères.",
-            "selectedCategorie.required" => "Le champ de la catégorie est requis.",
+            "SelectedCategorie.required" => "Le champ de la catégorie est requis.",
         ]);
 
         $tarification->update([
         'prix' => $this->editTarificationPrix,
-        'categorie_id' => $this ->selectedCategorie
+        'categorie_id' => $this ->SelectedCategorie
 
         ]);
         session()->flash('message', 'La tarification a été modifié avec succès!'); // Assurez-vous de réinitialiser la propriété après la sauvegarde
@@ -135,7 +135,7 @@ class TarificationComp extends Component
         $this->editTarificationId = $tarification->id;
         $this->editTarificationPrix = $tarification->prix;
 
-        $this->dispatch("showEditModal", $tarification->prix);
+        $this->dispatch("showEditModal", $tarification->prix,$tarification->SelectedCategorie);
     }
 
     public function closeModal()

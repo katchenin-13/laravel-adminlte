@@ -50,7 +50,7 @@
                             </div>
 
                             <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="selectedCoursiers">Coursier</label>
                                                     <select id="selectedCoursiers" wire:model="selectedCoursiers" class="form-control">
@@ -71,24 +71,7 @@
                                                 </div>
                                             </div>
 
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="selectedClient">Colis de</label>
-                                        <select id="selectedClient" wire:model="selectedClient" class="form-control">
-                                            <option value="">Sélectionner le Client</option>
-                                            @foreach($clients as $client)
-                                                <option value="{{ $client->id }}">{{ $client->nom }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('selectedClient')
-                                            <span class="text-danger">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="selectedColis">Colis</label>
                                         <select id="selectedColis" wire:model.defer="selectedColis" class="form-control">
@@ -103,7 +86,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="selectedStatut">Statut</label>
                                         <select id="selectedStatut" wire:model.defer="selectedStatut" class="form-control">
@@ -116,8 +99,9 @@
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
+                                </div>
                             </div>
-                    </div>
+
                 </div>
               </div>
              </div>

@@ -18,8 +18,6 @@ return new class extends Migration
             $table->string('numerodes');
             $table->string('adresse_livraison');
             $table->timestamps();
-            $table->unsignedBigInteger('client_id');
-            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
             $table->unsignedBigInteger('coursier_id');
             $table->foreign('coursier_id')->references('id')->on('coursiers')->onDelete('cascade');
             $table->unsignedBigInteger('statut_id');

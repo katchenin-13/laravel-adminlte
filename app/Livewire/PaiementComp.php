@@ -41,11 +41,12 @@ class PaiementComp extends Component
             ->select(
                 'clients.id',
                 'clients.nom',
+
                 'clients.uuid',
                 DB::raw('COUNT(livraisons.id) as nombre_livraisons'),
                 DB::raw('SUM(tarifications.prix) as tarification_total')
             )
-            ->groupBy('clients.id', 'clients.nom', 'clients.uuid')
+            ->groupBy('clients.id', 'clients.nom','clients.uuid')
             ->get();
     }
 
@@ -59,7 +60,7 @@ class PaiementComp extends Component
         // Rechercher des paiements en fonction du nom ou prénom du client
         $paiements = Paiement::whereHas('client', function ($query) use ($searchCriteria) {
             $query->where('nom', 'like', $searchCriteria)
-                  ->orWhere('prenom', 'like', $searchCriteria);
+                  ->orWhere('uuid', 'like', $searchCriteria);
         })->paginate(10);
 
 
@@ -71,14 +72,20 @@ class PaiementComp extends Component
           ->section("content");
     }
 
-    public function cinetpay($clientId)
-    {
+    // public function cinetpay($clientId)
+    // {
 
-        $client = Client::find($clientId);
+    //     $client = Client::find($clientId);
 
         // $this->tarification_total = $this->clientsData->where('id', $clientId)->first()->tarification_total;
-        dd($clientId);
-        $this->dispatch('OpenModal', $client->id); // Émettre un événement pour ouvrir la modale
-    }
 
+    //     dd($clientId);
+    //     $this->dispatch('OpenModal', $client->id); // Émettre un événement pour ouvrir la modale
+    // }
+
+    public function cinetpay($clientId)
+    {
+        $this->selectedClient = $clientId;
+        $this->dispatch("OpenModal", []);
+    }
 }
