@@ -4,9 +4,9 @@
         <div class="card">
             <div class="card-header bg-gradient-primary d-flex align-items-center">
                 <h3 class="card-title flex-grow-1">
-                    <i class="fa fa-list fa-2x"></i> Paiement des factures
-                    <a class="btn btn-link text-white mr-4 d-block" wire:click="show">
-                        <i class="fas fa-users"></i> Compte Managers
+                    <i class="fa fa-list fa-2x"></i> je veux juste tester
+                    <a class="btn btn-link text-white mr-4 d-block" wire:click="showProp">
+                        <i class="fas fa-users"></i> abon
                     </a>
                 </h3>
 
@@ -28,8 +28,7 @@
                                 <th style="width:10%;">No</th>
                                 <th style="width:20%;" class="text-center">ID</th>
                                 <th style="width:20%;" class="text-center">Client</th>
-                                <th style="width:20%;" class="text-center">livraison du mois</th>
-                                <th style="width:30%;" class="text-center">Total Factures</th>
+                                <th style="width:20%;" class="text-center">Montant</th>
                                 <th style="width:50%;" class="text-center">payer</th>
                             </tr>
                         </thead>
@@ -38,11 +37,10 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td class="text-center">{{ $item->uuid }}</td>
-                                <td class="text-center">{{ $item->nom }} </td>
-                                <td class="text-center">{{ $item->nombre_livraisons }}</td>
+                                <td class="text-center">{{ $item->nom }}</td>
                                 <td class="text-center">{{ number_format($item->tarification_total, 2) }} XOF</td>
                                 <td class="text-center">
-                                    <button class="btn btn-primary btn-sm" wire:click="showPropC({{$item->id}})">
+                                    <button class="btn btn-primary btn-sm" wire:click="showProp({{ $item->id }})">
                                         <i class="fas fa-file-invoice-dollar"></i>
                                     </button>
 
@@ -57,7 +55,7 @@
             <!-- /.card-body -->
             <div class="card-footer">
                 <div class="float-right">
-                    {{ $paiements->links() }}
+
                 </div>
             </div>
             <!-- /.card-footer -->

@@ -1,4 +1,4 @@
-{{-- @can('add') --}}
+  {{-- @can('add') --}}
 <div class="modal fade" id="modalProp" style="z-index: 1900;" tabindex="-1" role="dialog" wire:ignore.self>
     <div class="modal-dialog" style="top:30px;">
         <div class="modal-content">

@@ -1,38 +1,64 @@
 <div>
 
-    @include("livewire.paiement.liquide")
-    @include("livewire.paiement.list")
-    @include("livewire.paiement.cinetpay")
+    @include("livewire.paiement.add")
 
+    @include("livewire.paiement.list")
+
+    @include("livewire.paiement.edit")
 
 
 </div>
 
 <script>
-    // window.addEventListener("showEditModal", event=>{
-    //    $("#editModalProp").modal({
-    //        "show": true,
-    //        "backdrop": "static"
-    //    })
-    // })
-    // window.addEventListener("closeEditModal", event=>{
-    //    $("#editModalProp").modal("hide")
-    // })
 
-    window.addEventListener("OpenModal", event=>{
-       $("#Payementmodal").modal({
+//create
+    window.addEventListener("ModalCreate", event=>{
+       $("#modalProp").modal({
            "show": true,
            "backdrop": "static"
        })
-       console.log("cinetpay");
+
+
+    })
+    window.addEventListener("closeModal", event=>{
+       $("#modalProp").modal("hide")
     })
 
-    window.addEventListener("closeModal", event=>{
-       $("#Payementmodal").modal("hide")
+//edit
+    window.addEventListener("showEditModal", event=>{
+       $("#editModalProp").modal({
+           "show": true,
+           "backdrop": "static"
+       })
     })
-    // console.log("ddd")
+    window.addEventListener("closeEditModal", event=>{
+       $("#editModalProp").modal("hide")
+    })
+
+//show
+
+    window.addEventListener("readModal", event=>{
+        $("#readmodalProp").modal({
+            "show": true,
+            "backdrop": "static"
+        })
+        })
+        window.addEventListener("closereadModal", event=>{
+        $("#readmodalProp").modal("hide")
+        })
+//delete
+window.addEventListener("showDeleteModal", event=>{
+            $("#DelectetModalProp").modal({
+                "show": true,
+                "backdrop": "static"
+            })
+            //console.log('soro');
+            })
+            window.addEventListener('manuserDeleted', function () {
+            console.log('fermerture')
+            $('#DelectetModalProp').modal('hide');
+        });
+
 
 </script>
-
-
 

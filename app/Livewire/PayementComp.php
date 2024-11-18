@@ -3,15 +3,17 @@
 namespace App\Livewire;
 
 use Carbon\Carbon;
-use App\Models\Client;
-use App\Models\Paiement;
 use Livewire\Component;
+use App\Models\Paiement;
 use Illuminate\Support\Facades\DB;
 
-class PaiementComp extends Component
+class PayementComp extends Component
 {
     public $paiement;
     public $montant;
+    public $mois;
+    public $année;
+    public $selectedStatut;
     public $editpaiementid;
     public $selectedPaiement;
     public $showDeleteModal = false;
@@ -63,24 +65,61 @@ class PaiementComp extends Component
                   ->orWhere('uuid', 'like', $searchCriteria);
         })->paginate(10);
 
-
-
-        return view('livewire.paiement.list', [
+        return view('livewire.Payement.index', [
             'paiements' => $paiements,
             'clientsData' => $this->clientsData,
-        ])->extends("layouts.app")
-          ->section("content");
+        ])
+            ->extends("layouts.app")
+            ->section("content");
     }
 
-    public function enregistrerPaiement()
-    {
-        // Vérifiez que le client est sélectionné
-        if (!$this->selectedClient) {
-            session()->flash('error', 'Veuillez sélectionner un client.');
-            return;
-        }
+    // public function showProp(Client $client)
+    // {
+    //     $this->selectedClient = $client;
+    //     $this->tarification_total = $this->clientsData->where('id', $clientId)->first()->tarification_total;
+    //     $this->dispatch("showModal", []);
+    //     // dd($client);
+    // }
 
-        // Calculer le montant total des livraisons pour le client dans le mois et l'année spécifiés
+    public function showProp($clientId)
+    {
+        $client = $this->clientsData->where('id', $clientId)->first();
+
+        if ($client) {
+            $this->selectedClient = $client->nom;
+            $this->tarification_total = $client->tarification_total ?? 0;
+
+            $this->dispatch("showModal", [
+                'tarificationTotal' => $this->tarification_total,
+            ]);
+        } else {
+            // Gérer le cas où le client n'est pas trouvé
+            $this->selectedClient = "";
+            $this->tarification_total = 0;
+        }
+    }
+    public function newPaiement()
+    {
+        // Vérification du paiement précédent
+        // $previousMonth = Carbon::parse($this->mois)->subMonth();
+        // $previousPaymentExists = Paiement::where('client_id', $this->selectedClient)
+        //     ->where('mois', $previousMonth->format('Y-m'))
+        //     ->exists();
+    
+        // if (!$previousPaymentExists) {
+        //     session()->flash('warning', 'Attention: Aucun paiement enregistré pour le mois précédent ('.$previousMonth->format('Y-m').').');
+        //     return;
+        // }
+    
+        // Validation des entrées
+        $this->validate([
+            'montant' => 'required|numeric|min:0',
+            'mois' => 'required|numeric|between:1,12',
+             'année' => 'required|digits:4',
+            'selectedClient' => 'required|exists:clients,id',
+        ]);
+    
+        // Calcul du montant total des livraisons
         $total = DB::table('clients')
             ->leftJoin('colis', 'clients.id', '=', 'colis.client_id')
             ->leftJoin('categories', 'colis.categorie_id', '=', 'categories.id')
@@ -89,72 +128,31 @@ class PaiementComp extends Component
             ->leftJoin('statuts', 'livraisons.statut_id', '=', 'statuts.id')
             ->where('clients.id', $this->selectedClient)
             ->where('statuts.nom', 'livrer')
-            ->whereMonth('livraisons.created_at', $this->mois) // Utilisez la propriété mois
-            ->whereYear('livraisons.created_at', $this->année) // Utilisez la propriété année
+            ->whereMonth('livraisons.created_at', $this->mois)
+            ->whereYear('livraisons.created_at', $this->année)
             ->sum('tarifications.prix');
-
-        // Vérifiez si le montant est valide
+    
+        // Vérification du montant
         if ($this->montant < $total) {
             session()->flash('error', 'Le montant doit être supérieur ou égal au montant total des livraisons ('.$total.').');
             return;
         }
-
-        // Définir le statut automatiquement en fonction du montant
-        $statutId = ($this->montant >= $total) ? 1 : 2; // 1 = payé, 2 = non payé (vous pouvez ajuster ces valeurs)
-
-        // Enregistrer le paiement
+    
+        // Enregistrement du paiement
         Paiement::create([
             'client_id' => $this->selectedClient,
             'montant' => $this->montant,
-            'mois' => $this->mois, // Assurez-vous de définir cette propriété
-            'année' => $this->année, // Assurez-vous de définir cette propriété
-            'statut_id' => $statutId, // Utilisez le statut calculé
+            'mois' => $this->mois,
+            'année' => $this->année,
+            'statut_id' => ($this->montant >= $total) ? 1 : 2,
         ]);
-
+    
         session()->flash('message', 'Paiement enregistré avec succès.');
-
-        // Réinitialiser les champs ou effectuer d'autres actions
-        $this->reset(['selectedClient', 'montant', 'mois', 'année']); // Réinitialiser si nécessaire
+        $this->reset(['selectedClient', 'montant', 'mois', 'année']);
     }
 
-
-    // public function showPropE($clientId)
-    // {
-
-    // $client = Client::find($clientId);
-
-    // if ($client) {
-    //     // Récupérer le tarif total pour le client
-    //     $this->tarification_total = $this->clientsData->where('id', $clientId)->first()->tarification_total;
-
-    //     // Enregistrez les informations du client pour l'utiliser dans le modal
-    //     $this->selectedClient = $client; // On peut stocker l'objet complet si nécessaire
-
-    //     // Déclencher l'événement pour ouvrir le modal
-    //     $this->dispatch('OpenModal', [
-    //         'clientId' => $client->id,
-    //         'clientName' => $client->nom,
-    //         'tarificationTotal' => $this->tarification_total,
-    //     ]);
-    // } else {
-    //     dd('Client non trouvé');
-    // }
-    // }
-
-    // public function showProp(Client $client)
-    // {
-    //     $this->selectedClient = $client;
-    //     $this->dispatch("showEditModal", []);
-    // }
-
-
-    public function showPropC(Client $client)
+    public function closeModal()
     {
-        $this->selectedClient = $client;
-
-        $this->dispatch("ModalCreate", []);
-
-        dd($client);
-
+        $this->dispatch("closeModal", []);
     }
 }

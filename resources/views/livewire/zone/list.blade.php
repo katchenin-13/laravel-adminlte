@@ -9,7 +9,7 @@
                         <i class="fas fa-map-marker-alt"></i> Nouvelle Zone
                     </a>
                     <div class="input-group input-group-md" style="width: 250px;">
-                        <input type="text" wire:model="search" class="form-control float-right" placeholder="Rechercher">
+                        <input type="text" wire:model.live="search" class="form-control float-right" placeholder="Rechercher">
 
 
                         <div class="input-group-append">

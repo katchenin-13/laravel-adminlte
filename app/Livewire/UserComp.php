@@ -60,7 +60,7 @@ class UserComp extends Component
     {
         $validated = $this->validate([
             "newUserName" => "required|max:20",
-            "newUserEmail" => "required|max:50|unique:users,email",
+            "newUserEmail" => "required|max:50|email|unique:users,email",
             "newUserPassword" => "required|min:6", // Changement de 'max:6' à 'min:6'
             'selectedRole' => 'required',
         ], [
@@ -92,7 +92,7 @@ class UserComp extends Component
     {
         $validated = $this->validate([
             "editUserName" => "required|max:20",
-            "editUserEmail" => ["required","max:50",Rule::unique('users')->ignore($user->id),], // Changement de 'editUserGmail' à 'editUserEmail'
+            "editUserEmail" => ["required","email","max:50",Rule::unique('users')->ignore($user->id),], // Changement de 'editUserGmail' à 'editUserEmail'
             // Changement de 'editUserGmail' à 'editUserEmail'
             "editUserPassword" => "required|min:6", // Changement de 'max:6' à 'min:6'
             "editRole" => "required|exists:roles,name"

@@ -10,7 +10,7 @@
                                 name="table_search" wire:model.debounce.300ms="search" class="form-control float-right"
                                 placeholder="Rechercher">
                             <div class="input-group-append"> <button type="submit" class="btn btn-default"
-                                    wire:click="search"><i class="fas fa-search"></i></button> </div>
+                                    wire:model.live="search"><i class="fas fa-search"></i></button> </div>
                         </div>
                     </div>
                 </div> <!-- /.card-header -->

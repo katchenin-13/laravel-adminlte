@@ -6,7 +6,7 @@
 
              </div>
 
-             <form role="form" wire:submit.prevent="updateClient({{ $editClientid }})">
+             <form role="form" wire:submit.prevent="updateClient({{ $editClientId }})">
                  @csrf
                  <div class="modal-body">
                      <div class="d-flex my-4 bg-gray-light p-3">

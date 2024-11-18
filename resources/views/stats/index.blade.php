@@ -2,7 +2,10 @@
 
 @section('content')
 
-<h1>Statistiques BoxLogin</h1>
+<h3 style="text-align: center;">
+    <label style="color: hsl(0, 100%, 50%);">Statistiques BoxLogin</label>
+</h3>
+<br><br>
 <div class="chart-wrapper">
     <div class="chart-container">
         <div class="chart-title">Nombre de Clients par Mois</div>

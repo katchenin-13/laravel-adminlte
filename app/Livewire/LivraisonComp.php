@@ -97,7 +97,7 @@ class LivraisonComp extends Component
     {
         $validatedData = $this->validate([
             "newDestinataireName" => "required|max:20",
-            "newLivraisonsPhone" => "required|min:10|regex:/^[0-9]+$/",
+            "newLivraisonsPhone" => "required|min:10|max:10|regex:/^[0-9]+$/",
             "newLivraisonsAdd" => "required|max:50",
             "selectedColis" => "required",
             "selectedCoursiers" => "required",
@@ -106,6 +106,7 @@ class LivraisonComp extends Component
             "newDestinataireName.required" => "Le champ du nom du destinataire est requis.",
             "newDestinataireName.max" => "Le nom du destinataire ne peut pas dépasser :max caractères.",
             "newLivraisonsPhone.min" => "Le téléphone du destinataire doit être de :min caractères.",
+            "newLivraisonsPhone.max" => "Le téléphone du destinataire doit être de :max caractères.",
             "newLivraisonsPhone.regex" => "Le champ du téléphone ne peut contenir que des chiffres.",
             "newLivraisonsAdd.required" => "Le champ adresse du destinataire est requis.",
             "newLivraisonsAdd.max" => "L'adresse du destinataire ne peut pas dépasser :max caractères.",
@@ -143,7 +144,7 @@ class LivraisonComp extends Component
     {
         $validated = $this->validate([
             "editDestinataireName" =>"required|max:20",
-            "editLivraisonPhone" =>"required|min:10",
+            "editLivraisonPhone" =>"required|min:10|max:10|regex:/^[0-9]+$/",
             "editLivraisonsAdd" =>"required|max:50",
             "selectedCoursiers" => "required",
             "selectedStatut" => "required",
@@ -155,6 +156,7 @@ class LivraisonComp extends Component
         "editDestinataireName.max" => "Le nom du livraison ne peut pas dépasser :max caractères.",
         "editLivraisonPhone.min" => "Le téléphone du destinataire doit être de :min caractères.",
         "editLivraisonPhone.regex" => "Le champ du téléphonene peut contenir que des chiffres.",
+        "editLivraisonPhone.max" => "Le téléphone du destinataire doit être de :max caractères.",
         "editLivraisonsAdd.required" => "Le champ adresse du destinataire est requis.",
         "editLivraisonsAdd.max" => "L'adresse du destinataire ne peut pas dépasser :max caractères.",
         "selectedCoursiers.required" => "Veuillez sélectionner un coursiers.",

@@ -26,8 +26,6 @@ class Paiement extends Model
     }
 
 
-
-
     public function statut()
     {
 
@@ -49,7 +47,6 @@ class Paiement extends Model
         $uuid = base_convert(Uuid::uuid4()->getHex(), 16, 36);
         return substr($uuid, 0, 4);
     }
-
 
 
 }

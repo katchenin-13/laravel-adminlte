@@ -22,7 +22,7 @@ class ContenudComp extends Component
     public function render()
     {
         $contenu = Client::find($this->contenuId);
-        $livraisons = Livraison::where('client_id', $this->contenuId)->get();
+        $livraisons = Livraison::whereIn('colis_id',$contenu->colis->pluck('id'))->get();
 
         return view('livewire.contenud', [
             'contenu' => $contenu,

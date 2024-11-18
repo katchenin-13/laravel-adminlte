@@ -11,10 +11,12 @@
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <tbody>
-                            @if($selectedManager  && $selectedManager->employer)
+                            @if($selectedManager)
                                 <tr>
+
                                     <td><strong>Nom:</strong></td>
                                     <td>{{ $selectedManager->nom }}</td>
+
                                 </tr>
                                 <tr>
                                     <td><strong>Prénom:</strong></td>
@@ -22,19 +24,24 @@
                                 </tr>
                                 <tr>
                                     <td><strong>Téléphone:</strong></td>
-                                    <td>{{ $selectedManager->phone }}</td>
+                                    <td>{{ $selectedManager->numero_telephone }}</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Téléphone 2:</strong></td>
-                                    <td>{{ $selectedManager->phone2 }}</td>
+                                    @if ($selectedManager)
+                                        <td><strong>Téléphone 2:</strong></td>
+                                        <td>{{ $selectedManager->numero_telephone_2 }}</td>
+                                    @endif
+
                                 </tr>
                                 <tr>
                                     <td><strong>Email:</strong></td>
                                     <td>{{ $selectedManager->email }}</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Catégorie employeur:</strong></td>
-                                    <td>{{ $selectedManager->employer->poste }}</td>
+                                    @if($selectedManager->employer)
+                                        <td><strong>Catégorie employeur:</strong></td>
+                                        <td>{{ $selectedManager->employer->poste }}</td>
+                                    @endif
                                 </tr>
                             @else
                                 <tr>

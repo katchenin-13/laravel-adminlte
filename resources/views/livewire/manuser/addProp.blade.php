@@ -23,7 +23,7 @@
                                     <select id="selectedManager" wire:model="selectedManager" class="form-control">
                                         <option value="">Sélectionner le manager</option>
                                         @foreach($managers as $manager)
-                                            <option value="{{ $manager->id }}">{{ $manager->nom }}</option>
+                                            <option value="{{ $manager->id }}">{{ $manager->nom }} {{ $manager->prenom }}</option>
                                         @endforeach
                                     </select>
                                     @error('selectedManager')

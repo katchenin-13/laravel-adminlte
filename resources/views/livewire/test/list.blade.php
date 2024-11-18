@@ -1,7 +1,7 @@
 <div>
 
-    @include("livewire.Payement.list")
-    @include("livewire.Payement.add")
+    @include("livewire.test.index")
+    @include("livewire.test.add")
 
 
 
@@ -16,6 +16,8 @@
            "show": true,
            "backdrop": "static"
        })
+
+
     })
     window.addEventListener("closeModal", event=>{
        $("#modalProp").modal("hide")

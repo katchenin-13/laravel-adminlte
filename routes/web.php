@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Livewire\Test;
 use App\Models\Commune;
 use App\Livewire\Counter;
 use App\Livewire\PostComp;
@@ -17,6 +18,7 @@ use App\Livewire\ContenudComp;
 use App\Livewire\CoursierComp;
 use App\Livewire\EmployerComp;
 use App\Livewire\PaiementComp;
+use App\Livewire\PayementComp;
 use App\Livewire\VehiculeComp;
 use App\Livewire\BordereauComp;
 use App\Livewire\CategorieComp;
@@ -25,8 +27,8 @@ use App\Livewire\LivraisonComp;
 use App\Livewire\TarificationComp;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;;
 use Spatie\Permission\Models\Permission;
+use App\Http\Controllers\HomeController;;
 use App\Http\Controllers\NotificationCon;
 use App\Http\Controllers\StatsController;
 use App\Http\Controllers\Configcontroller;
@@ -56,6 +58,7 @@ Route::get('/colis', ColisComp::class)->name('colis');
 Route::get('/livraison', LivraisonComp::class)->name('livraison');
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile.show');
 Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+Route::get('espace', [EspaceController::class, 'index'])->name('espace.index');
 
 // Routes Authentifiées
 // Route::middleware(['auth', 'role:oursier'])->group(function () {
@@ -68,26 +71,28 @@ Route::put('/profile/update', [ProfileController::class, 'update'])->name('profi
 Route::middleware(['auth', 'role:manager'])->group(function () {
     // Route::get('/colis', ColisComp::class)->name('colis');
     // Route::get('/livraison', LivraisonComp::class)->name('livraison');
-    Route::get('espace', [EspaceController::class, 'index'])->name('espace.index');
+    Route::get('stat', [StatsController::class, 'index'])->name('stat.index');
     Route::get('/client', ClientComp::class)->name('clients');
     Route::get('/contenu/{id}', ContenudComp::class)->name('contenu');
-    Route::get('stat', [StatsController::class, 'index'])->name('stat.index');
+
     Route::get('/tarification', TarificationComp::class)->name('tarifications');
     Route::get('/statut', StatutComp::class)->name('statuts');
     Route::get('/paye', PaiementComp::class)->name('payer');
+    Route::get('/payer', PayementComp::class)->name('payement');
     Route::get('/dossier', DossierComp::class)->name('dossiers');
     Route::get('/bordereau/{livraison}', [BordereauComp::class, 'generatePDF'])->name('bordereau');
     Route::get('/vehicule', VehiculeComp::class)->name('vehicules');
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.show');
-    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::get('/profile', [ProfileController::class, 'index'])->name('profile.show');
+    // Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });
 
 
 // Routes pour Super Administrateurs
 Route::middleware(['auth', 'role:superadmin'])->group(function () {
-    Route::get('espace', [EspaceController::class, 'index'])->name('espace.index');
+    // Route::get('espace', [EspaceController::class, 'index'])->name('espace.index');
     Route::get('config', [Configcontroller::class, 'index'])->name('config');
     Route::get('/paye', PaiementComp::class)->name('payer');
+    Route::get('/payer', PayementComp::class)->name('payement');
     Route::get('/contenu/{id}', ContenudComp::class)->name('contenu');
     Route::get('/commune', CommuneComp::class)->name('communes');
     Route::get('/manuser', ManuserComp::class)->name('comptesm');
@@ -107,9 +112,10 @@ Route::middleware(['auth', 'role:superadmin'])->group(function () {
     // Route::get('/livraison', LivraisonComp::class)->name('livraison');
     Route::get('/bordereau/{livraison}', [BordereauComp::class, 'generatePDF'])->name('bordereau');
     Route::get('/vehicule', VehiculeComp::class)->name('vehicules');
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.show');
-    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-    // Route::put('/profile/photo/update', [ProfileController::class, 'updatePhoto'])->name('profile.photo.update');
+    Route::get('/tester', Test::class)->name('on va voir');
+    // Route::get('/profile', [ProfileController::class, 'index'])->name('profile.show');
+    // Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::put('/profile/photo/update',  [ProfileController::class, 'updatePhoto'])->name('profile.photo.update');
     // Route::put('/profile/information/update', [ProfileController::class, 'updateInformation'])->name('profile.information.update');
 });
 

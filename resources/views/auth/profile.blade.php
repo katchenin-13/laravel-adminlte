@@ -1,30 +1,33 @@
 @extends('layouts.app')
 
 @section('content')
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <div class="alert alert-info text-center" role="alert">
+                    <h2>{{ __('Espace Utilisateur')}}</h2>
+                </div>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
     <!-- Content Header (Page header) -->
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0">{{ __('My profile') }}</h1>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div>
     <!-- /.content-header -->
 
     <!-- Main content -->
-    <div class="content">
+    <div class="text-center">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-6">
                     <div class="card">
 
-                        <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+                        <form  action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 
-                            <div class="card-body">
+                            <div class="card-body" >
 
                                 <div class="input-group mb-3">
                                     <input type="text" name="name"
@@ -120,7 +123,7 @@
                             </div>
 
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
+                                <button type="submit" class="btn btn-primary">{{ __('Modifier le Profil') }}</button>
                             </div>
                         </form>
                     </div>

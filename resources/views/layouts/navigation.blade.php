@@ -3,7 +3,7 @@
     <!-- Panneau utilisateur de la barre latérale -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="info">
-            <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+            <a href="#" class="d-block">{{ Auth::user()->email }}</a>
         </div>
     </div>
 
@@ -29,7 +29,7 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item"><a href="{{ route('espace.index') }}" class="nav-link"> <i class="far fa-address-card" style="color:red;"></i> <p>{{ __('Espace Utilisateur') }}</p></a></li>
+                        <li class="nav-item"><a href="{{ route('profile.show') }}" class="nav-link"> <i class="far fa-address-card" style="color:red;"></i> <p>{{ __('Espace Utilisateur') }}</p></a></li>
                         <li class="nav-item"><a href="{{ route('users') }}" class="nav-link"> <i class="fas fa-user" style="color:red;"></i> <p>{{ __('Utilisateurs') }}</p></a></li>
                         <li class="nav-item"><a href="{{ route('communes') }}" class="nav-link"> <i class="fas fa-building" style="color:red;"></i> <p>{{ __('Communes') }}</p></a></li>
                         <li class="nav-item"><a href="{{ route('employers') }}" class="nav-link"> <i class="fas fa-user-tie" style="color:red;"></i> <p>{{ __('Employés') }}</p></a></li>
@@ -78,6 +78,7 @@
                 </a>
                 <ul class="nav nav-treeview">
                     @role('superadmin')
+
                         <li class="nav-item"><a href="{{ route('clients') }}" class="nav-link"><i class="fas fa-user" style="color:rgb(20, 239, 255);"></i> <p>{{ __('Clients') }}</p></a></li>
                     @endrole
                     @role('manager')
@@ -96,6 +97,8 @@
                         <li class="nav-item"><a href="{{ route('comptes') }}" class="nav-link"><i class="fas fa-users" style="color:rgb(20, 239, 255);"></i> <p>{{ __('Compte C') }}</p></a></li>
                         <li class="nav-item"><a href="{{ route('comptesm') }}" class="nav-link"><i class="fas fa-user" style="color:rgb(20, 239, 255);"></i> <p>{{ __('Compte M') }}</p></a></li>
                     @endrole
+
+
                 </ul>
             </li>
 
@@ -112,7 +115,7 @@
 
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('payer') }}" class="nav-link">
+                            <a href="{{ route('payement') }}" class="nav-link">
                                 <i class="fas fa-file-invoice-dollar" style="color:rgb(0, 189, 51)"></i>
                                 <p>{{ __('Paiement des factures') }}</p>
                             </a>

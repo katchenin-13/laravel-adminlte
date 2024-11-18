@@ -31,7 +31,7 @@ class ClientComp extends Component
     public $editClientPhone = "";
     public $editClientEmail = "";
     public $editClientSecteur = "";
-    public $editClientid ="";
+    public $editClientId ="";
     public $selectedClient;
     public $selectedZone;
     public $clientCount;
@@ -41,7 +41,7 @@ class ClientComp extends Component
 
      public function mount()
      {
-        $this->clientCount = Client::count();
+        // $this->clientCount = Client::count();
 
     }
 
@@ -73,8 +73,8 @@ class ClientComp extends Component
         $validatedData = $this->validate([
             "newClientName" => "required|max:20",
             "newClientPrenom" => "required|max:50",
-            "newClientPhone" => "required|min:10|regex:/^[0-9]+$/|unique:clients,telephone",
-            "newClientEmail" => "required|max:50|unique:clients,email",
+            "newClientPhone" => "required|min:10|max:10|regex:/^[0-9]+$/|unique:clients,telephone",
+            "newClientEmail" => "required|max:50|email|unique:clients,email",
             "newClientSecteur" => "required|max:20",
             "selectedZone" => "required",
         ], [
@@ -84,6 +84,7 @@ class ClientComp extends Component
             "newClientPrenom.max" => "Le prenom du client ne peut pas dépasser :max caractères.",
             "newClientPhone.required" => "Le champ du téléphone du client est requis.",
             "newClientPhone.min" => "Le numero de téléphone du client doit être de :min caractères .",
+            "newClientPhone.max" => "Le numero de téléphone du client doit être de :max caractères .",
             "newClientPhone.regex" => "Le champ du téléphonene peut contenir que des chiffres.",
             "newClientPhone.unique" => "le numéro est déjà utilisé..",
             "newClientEmail.required" => "Le champ email du client est requis.",
@@ -136,11 +137,11 @@ class ClientComp extends Component
     public function updateClient(Client $client)
     {
         $validated = $this->validate([
-            "editClientName" => ["required", "max:20"],
-            "editClientPrenom" => ["required", "max:50"],
-            "editClientPhone" => ["required", "min:10","regex:/^[0-9]+$/|unique:clients,client_id,id"],
-            "editClientEmail" => ["required", "max:50",Rule::unique('clients')->ignore($client->id)],
-
+            "editClientName" => "required|max:20",
+            "editClientPrenom" => "required|max:50",
+            "editClientPhone" => "required|min:10|max:10|regex:/^[0-9]+$/,",
+            "editClientEmail" => "required|email|max:50,",
+            "selectedZone" => "required",
         ], [
             "editClientName.required" => "Le champ du nom du client est requis.",
             "editClientName.max" => "Le nom du client ne peut pas dépasser :max caractères.",
@@ -148,6 +149,7 @@ class ClientComp extends Component
             "editClientPrenom.max" => "Le prenom du client ne peut pas dépasser :max caractères.",
             "editClientPhone.required" => "Le champ du téléphone du client est requis.",
             "editClientPhone.min" => "Le numero de téléphone du client doit être de :min caractères.",
+            "editClientPhone.max" => "Le numero de téléphone du client doit être de :max caractères.",
             "editClientPhone.unique" => "le numero de téléphone est déjà utilisé.",
             "editClientPhone.regex" => "Le champ du téléphonene peut contenir que des chiffres.",
             "editClientEmail.required" => "Le champ email du client est requis.",
@@ -163,6 +165,7 @@ class ClientComp extends Component
         'telephone' => $this->editClientPhone,
         'email' => $this->editClientEmail,
         'secteuract' => $this->editClientSecteur,
+        'zone_id' => $this->selectedZone,
           ]);
         session()->flash('message', "Le client a été mis à jour avec succès !");
 
@@ -179,7 +182,7 @@ class ClientComp extends Component
     public function showPropE(Client $client)
     {
         $editClient = $client;
-        $this->editClientid = $editClient->id;
+        $this->editClientId = $editClient->id;
         $this->editClientName = $editClient->nom;
         $this->editClientPrenom = $editClient->prenom;
         $this->editClientPhone = $editClient->telephone;

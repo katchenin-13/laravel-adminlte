@@ -36,9 +36,9 @@
                                 <div class="form-group">statut type
                                     {{-- <div class="col-md-12" wire:ignore> --}}
                                                 <input type="text" placeholder="Statut" wire:keypress.enter=""
-                                                wire:model="statutType" class="form-control @error("statutType")
-                                                is-invalid @enderror" name ="statutType">
-                                            @error("statutType")
+                                                wire:model="editstatutType" class="form-control @error("editstatutType")
+                                                is-invalid @enderror" name ="editstatutType">
+                                            @error("editstatutType")
                                             <span class="text-danger">{{$message}}</span>
                                             @enderror
                                       {{-- </div> --}}

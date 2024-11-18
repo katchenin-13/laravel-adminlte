@@ -110,6 +110,7 @@ class ColisComp extends Component
             "newColisDes.max" => "Le description du colis ne peut pas dépasser :max caractères.",
             "newColisQuan.required" => "Le champ quantité du colis est requis.",
             "newColisQuan.max" => "La quantité du colis ne peut pas dépasser :max caractères.",
+            "newColisQuan.regrex" => "La quantité du colis ne peut contenir que des chiffres.",
             "selectedClient.required" => "Veuillez sélectionner le client.",
             "selectedCategorie.required" => "Veuillez sélectionner une catégorie.",
             "selectedCoursier.required" => "Veuillez sélectionner une coursier.",
@@ -154,7 +155,7 @@ class ColisComp extends Component
         $validated = $this->validate([
             "editColisName" => ["required", "max:20"],
             "editColisDes" => ["required", "max:550"],
-            "editColisQuan" => ["required", "max:100"],
+            "editColisQuan" => ["required", "max:9","regex:/^[0-9]+$/"],
 
 
         ], [
@@ -164,6 +165,7 @@ class ColisComp extends Component
             "editColisDes.max" => "Le description du colis ne peut pas dépasser :max caractères.",
             "editColisQuan.required" => "Le champ quantité du colis est requis.",
             "editColisQuan.max" => "La quantité du colis ne peut pas dépasser :max caractères.",
+            "editColisQuan.regrex" => "La quantité du colis ne peut contenir que des chiffres.",
             "selectedClient.required" => "Veuillez sélectionner le client.",
             "selectedCategorie.required" => "Veuillez sélectionner une catégorie.",
             "selectedCoursier.required" => "Veuillez sélectionner une catégorie.",
