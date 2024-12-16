@@ -6,7 +6,7 @@
                     <h5 class="modal-title">Édition User</h5>
                 </div>
 
-                <form wire:submit.prevent="updateUser({{ $editUserid }})">
+                <form role="form" wire:submit.prevent="updateUser({{ $editUserid }})">
                     @csrf
                     <div class="modal-body">
                         @if (session()->has('message'))

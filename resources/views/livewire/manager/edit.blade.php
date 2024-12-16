@@ -68,7 +68,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-7">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Type d'employé<label>
                                             <select wire:model="selectedEmployer" class="form-control">

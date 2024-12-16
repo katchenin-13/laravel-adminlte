@@ -5,9 +5,9 @@
             <div class="card-header bg-gradient-primary d-flex align-items-center">
                 <h3 class="card-title flex-grow-1">
                     <i class="fa fa-list fa-2x"></i> Paiement des factures
-                    <a class="btn btn-link text-white mr-4 d-block" wire:click="show">
+                    {{-- <a class="btn btn-link text-white mr-4 d-block" wire:click="show">
                         <i class="fas fa-users"></i> Compte Managers
-                    </a>
+                    </a> --}}
                 </h3>
 
                 <div class="card-tools d-flex align-items-center">

@@ -18,38 +18,38 @@
                 <div class="d-flex my-4 bg-gray-light p-3">
                     <div class="flex-grow-1 mr-2">
                         <div class="form-group">
-                            <label for="montant">Montant</label>
-                            <input type="number" wire:keydown.enter="montant"
-                                   class="form-control @error('montant') is-invalid @enderror"
-                                   wire:model="montant" placeholder="{{ $tarification_total }} XOF"/>
-                            @error('montant')
+                            <label for="montantT">montant</label>
+                            <input type="number" wire:keydown.enter="montantT"
+                                   class="form-control @error('montantT') is-invalid @enderror"
+                                   wire:model="montantT" placeholder="{{ $tarification_total }} XOF"/>
+                            @error('montantT')
                                 <span class="text-danger animate__animated animate__fadeInDown">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="mois">Mois</label>
-                                    <select wire:model="mois" class="form-control @error('mois') is-invalid @enderror">
-                                        <option value="" disabled>Sélectionner un mois</option>
+                                    <label for="moisT">mois</label>
+                                    <select wire:model="moisT" class="form-control @error('moisT') is-invalid @enderror">
+                                        <option value="" disabled>Sélectionner un moisT</option>
                                         @foreach(range(1, 12) as $month)
                                             <option value="{{ str_pad($month, 2, '0', STR_PAD_LEFT) }}">
                                                 {{ \Carbon\Carbon::create()->month($month)->locale('fr')->translatedFormat('F') }}
                                             </option>
                                         @endforeach
                                     </select>
-                                    @error('mois')
+                                    @error('moisT')
                                         <span class="text-danger animate__animated animate__fadeInDown">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="année">Année</label>
-                                    <input type="number" wire:keydown.enter="Année"
-                                           class="form-control @error('année') is-invalid @enderror"
-                                           wire:model="année" placeholder="Année" min="2020" max="{{ date('Y') }}"/>
-                                    @error('année')
+                                    <label for="annéeT">année</label>
+                                    <input type="number" wire:keydown.enter="annéeT"
+                                           class="form-control @error('annéeT') is-invalid @enderror"
+                                           wire:model="annéeT" placeholder="année" min="2020" max="{{ date('Y') }}"/>
+                                    @error('annéeT')
                                         <span class="text-danger animate__animated animate__fadeInDown">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -58,8 +58,8 @@
                     </div>
                 </div>
                 <br>
-                <button type="button" class="btn btn-success btn-block mb-2">
-                    <i class="fas fa-mobile-alt"></i> Autre méthode 
+                <button type="button" class="btn btn-success btn-block mb-2" wire:click="cinetplay">
+                    <i class="fas fa-mobile-alt"></i> Autre méthode
                 </button>
                 <br>
                 <div class="modal-footer">

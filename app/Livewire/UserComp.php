@@ -91,9 +91,10 @@ class UserComp extends Component
     public function updateUser(User $user)
     {
         $validated = $this->validate([
-            "editUserName" => "required|max:20",
-            "editUserEmail" => ["required","email","max:50",Rule::unique('users')->ignore($user->id),], // Changement de 'editUserGmail' à 'editUserEmail'
+            "editUserName" => ["required","max:20"],
+            // "editUserEmail" => ["required","email","max:50",Rule::unique('users')->ignore($user->id),], // Changement de 'editUserGmail' à 'editUserEmail'
             // Changement de 'editUserGmail' à 'editUserEmail'
+            "editUserEmail" => "required|max:50|email|unique:users,email," . $user->id,
             "editUserPassword" => "required|min:6", // Changement de 'max:6' à 'min:6'
             "editRole" => "required|exists:roles,name"
         ], [
@@ -108,8 +109,8 @@ class UserComp extends Component
         ]);
 
         $user->update([
-            'name' => $validated['editUserName'],
-            'email' => $validated['editUserEmail'],
+            'name' =>$this->editUserName,
+            'email' =>$this->editUserEmail,
             'password' => bcrypt($validated['editUserPassword']),
         ]);
 

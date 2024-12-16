@@ -87,7 +87,7 @@
 
     <div class="footer">
         <p>MENTIONS LÉGALES ET INFORMATIONS DE PAIEMENT</p>
-        <p>Boxlogin</p>
+        <p>Boxlogin@gmail.com</p>
     </div>
 
     <!-- Bootstrap JS (optional) -->

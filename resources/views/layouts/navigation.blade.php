@@ -54,15 +54,10 @@
 
                     <ul class="nav nav-treeview">
                         <!-- Même contenu que pour superadmin -->
-                        <li class="nav-item"><a href="{{ route('espace.index') }}" class="nav-link"> <i class="far fa-address-card" style="color:red;"></i> <p>{{ __('Espace Utilisateur') }}</p></a></li>
-                        <li class="nav-item"><a href="{{ route('users') }}" class="nav-link"> <i class="fas fa-user" style="color:red;"></i> <p>{{ __('Utilisateurs') }}</p></a></li>
-                        <li class="nav-item"><a href="{{ route('communes') }}" class="nav-link"> <i class="fas fa-building" style="color:red;"></i> <p>{{ __('Communes') }}</p></a></li>
-                        <li class="nav-item"><a href="{{ route('employers') }}" class="nav-link"> <i class="fas fa-user-tie" style="color:red;"></i> <p>{{ __('Employés') }}</p></a></li>
-                        <li class="nav-item"><a href="{{ route('zones') }}" class="nav-link"> <i class="fas fa-map-marker-alt" style="color:red;"></i> <p>{{ __('Zones') }}</p></a></li>
+                        <li class="nav-item"><a href="{{ route('profile.show') }}" class="nav-link"> <i class="far fa-address-card" style="color:red;"></i> <p>{{ __('Espace Utilisateur') }}</p></a></li>
+
                         <li class="nav-item"><a href="{{ route('categories') }}" class="nav-link"> <i class="far fa-calendar-alt" style="color:red;"></i> <p>{{ __('Catégories') }}</p></a></li>
                         <li class="nav-item"><a href="{{ route('tarifications') }}" class="nav-link"> <i class="fas fa-dollar-sign" style="color:red;"></i> <p>{{ __('Tarifications') }}</p></a></li>
-                        <li class="nav-item"><a href="{{ route('statuts') }}" class="nav-link"><i class="fas fa-info-circle" style="color:red;"></i> <p>{{ __('Statut') }}</p></a></li>
-                        <li class="nav-item"><a href="{{ route('vehicules') }}" class="nav-link"><i class="fas fa-car" style="color:red;"></i> <p>{{ __('Type de Véhicule') }}</p></a></li>
                     </ul>
                 </li>
             @endrole
@@ -77,23 +72,22 @@
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
-                    @role('superadmin')
-
-                        <li class="nav-item"><a href="{{ route('clients') }}" class="nav-link"><i class="fas fa-user" style="color:rgb(20, 239, 255);"></i> <p>{{ __('Clients') }}</p></a></li>
+                    @role('coursier')
+                    <li class="nav-item"><a href="{{ route('profile.show') }}" class="nav-link"> <i class="far fa-address-card" style="color:rgb(20, 239, 255);"></i> <p>{{ __('Espace Utilisateur') }}</p></a></li>
+                    <li class="nav-item"><a href="{{ route('colis') }}" class="nav-link"><i class="fas fa-box" style="color:rgb(20, 239, 255);"></i> <p>{{ __('Colis') }}</p></a></li>
+                    <li class="nav-item"><a href="{{ route('livraison') }}" class="nav-link"><i class="fas fa-truck-moving" style="color:rgb(20, 239, 255);"></i> <p>{{ __('Livraison') }}</p></a></li>
                     @endrole
-                    @role('manager')
+
+                    @role('manager|superadmin')
                         <li class="nav-item"><a href="{{ route('clients') }}" class="nav-link" ><i class="fas fa-user" style="color:rgb(20, 239, 255);"></i> <p>{{ __('Clients') }}</p></a></li>
                         <li class="nav-item"><a href="{{ route('dossiers') }}" class="nav-link"><i class="fas fa-folder" style="color:rgb(20, 239, 255);"></i> <p>{{ __('Dossiers') }}</p></a></li>
-                        <li class="nav-item"><a href="{{ route('coursiers') }}" class="nav-link"><i class="fas fa-truck" style="color:rgb(20, 239, 255);"></i> <p>{{ __('Coursiers') }}</p></a></li>
                     @endrole
+
+                    @role('superadmin')
                     <li class="nav-item"><a href="{{ route('colis') }}" class="nav-link"><i class="fas fa-box" style="color:rgb(20, 239, 255);"></i> <p>{{ __('Colis') }}</p></a></li>
-                    @role('superadmin')
-                        <li class="nav-item"><a href="{{ route('coursiers') }}" class="nav-link"><i class="fas fa-truck" style="color:rgb(20, 239, 255);"></i> <p>{{ __('Coursiers') }}</p></a></li>
-                        <li class="nav-item"><a href="{{ route('managers') }}" class="nav-link"><i class="fas fa-user" style="color:rgb(20, 239, 255);"></i> <p>{{ __('Manager') }}</p></a></li>
-                    @endrole
                     <li class="nav-item"><a href="{{ route('livraison') }}" class="nav-link"><i class="fas fa-truck-moving" style="color:rgb(20, 239, 255);"></i> <p>{{ __('Livraison') }}</p></a></li>
-                    @role('superadmin')
-                        <li class="nav-item"><a href="{{ route('dossiers') }}" class="nav-link"><i class="fas fa-folder" style="color:rgb(20, 239, 255);"></i> <p>{{ __('Dossiers') }}</p></a></li>
+                    <li class="nav-item"><a href="{{ route('coursiers') }}" class="nav-link"><i class="fas fa-truck" style="color:rgb(20, 239, 255);"></i> <p>{{ __('Coursiers') }}</p></a></li>
+                    <li class="nav-item"><a href="{{ route('managers') }}" class="nav-link"><i class="fas fa-user" style="color:rgb(20, 239, 255);"></i> <p>{{ __('Manager') }}</p></a></li>
                         <li class="nav-item"><a href="{{ route('comptes') }}" class="nav-link"><i class="fas fa-users" style="color:rgb(20, 239, 255);"></i> <p>{{ __('Compte C') }}</p></a></li>
                         <li class="nav-item"><a href="{{ route('comptesm') }}" class="nav-link"><i class="fas fa-user" style="color:rgb(20, 239, 255);"></i> <p>{{ __('Compte M') }}</p></a></li>
                     @endrole
@@ -103,7 +97,7 @@
             </li>
 
             <!-- Paiement et Statistiques -->
-            @role('superadmin|manager')
+            @role('manager|superadmin')
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="fas fa-file-invoice-dollar" style="color:rgb(0, 189, 51)"></i>

@@ -19,7 +19,7 @@
             <div class="col-lg-12">
                 <div>
                     <div class="alert alert-info" style="margin-top: 20px;">
-                        <h3 class="text-center">Dossier Client</h3>
+                        <h3 class="text-center">Dossiers Clients</h3>
                     </div>
 
                     <div class="d-flex flex-wrap">

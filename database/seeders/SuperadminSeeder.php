@@ -15,13 +15,14 @@ class SuperadminSeeder extends Seeder
      */
     public function run(): void
     {
+
                 $superadminRole = Role::create(['name' => 'superadmin']);
 
                 $permissions = Permission::all();
 
                 $superadminRole->syncPermissions($permissions->pluck('id')->toArray());
 
-               
+
 
     }
 }

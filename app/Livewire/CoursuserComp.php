@@ -149,7 +149,7 @@ class CoursuserComp extends Component
 
     }
 
-    public function selectedCoursiers($coursuserId, $coursierId)
+    public function updateCoursiers($coursuserId, $coursierId)
     {
         $coursuser = Coursuser::findOrFail($coursuserId);
         $coursuser->coursier_id = $coursierId;
@@ -183,14 +183,11 @@ class CoursuserComp extends Component
 
     {
 
-        $editCoursuser = $coursuser;
-        function getModelId($model, $id) {
-            $instance = $model::find($id);
-            return $instance ? $instance->id : null;
-        }
-
-        $this->selectedCoursiers = getModelId(Coursier::class, $editCoursuser->coursier_id);
-        $this->selectedUser = getModelId(User::class, $editCoursuser->User_id);
+           // Affecter l'ID du Coursuser à la variable $editCoursusersid
+    $this->editCoursusersid = $coursuser->id;
+    // Pré-remplir les champs avec les valeurs existantes
+    $this->selectedCoursiers = $coursuser->coursier_id;  // Assurez-vous que la valeur de coursier_id est correctement définie
+    $this->selectedUser = $coursuser->user_id;  // Assurez-vous que l'ID de l'utilisateur est bien affecté
 
         $this->dispatch("showEditModal");
     }

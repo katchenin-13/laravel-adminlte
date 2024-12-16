@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Carbon\Carbon;
+use Ramsey\Uuid\Uuid;
 use Livewire\Component;
 use App\Models\Paiement;
 use Illuminate\Support\Facades\DB;
@@ -10,9 +11,9 @@ use Illuminate\Support\Facades\DB;
 class PayementComp extends Component
 {
     public $paiement;
-    public $montant;
-    public $mois;
-    public $année;
+    public $montantT;
+    public $moisT;
+    public $annéeT;
     public $selectedStatut;
     public $editpaiementid;
     public $selectedPaiement;
@@ -73,6 +74,12 @@ class PayementComp extends Component
             ->section("content");
     }
 
+    public function cinetplay()
+    {
+
+        return view('livewire.Payement.cinetpay');
+    }
+
     // public function showProp(Client $client)
     // {
     //     $this->selectedClient = $client;
@@ -105,50 +112,79 @@ class PayementComp extends Component
         // $previousPaymentExists = Paiement::where('client_id', $this->selectedClient)
         //     ->where('mois', $previousMonth->format('Y-m'))
         //     ->exists();
-    
+
         // if (!$previousPaymentExists) {
         //     session()->flash('warning', 'Attention: Aucun paiement enregistré pour le mois précédent ('.$previousMonth->format('Y-m').').');
         //     return;
         // }
-    
-        // Validation des entrées
-        $this->validate([
-            'montant' => 'required|numeric|min:0',
-            'mois' => 'required|numeric|between:1,12',
-             'année' => 'required|digits:4',
-            'selectedClient' => 'required|exists:clients,id',
+
+
+
+         $validatedData = $this->validate([
+            "montantT" => 'required|numeric|min:0',
+            "moisT" => "required|numeric|between:1,12",
+            "annéeT" => 'required|digits:4',
+            "selectedClient" => 'required|exists:clients,id',
+        ], [
+            "montantT.required" => "veuillez entrer un montant.",
+            "montantT.numeric" => "le montant doit être numérique.",
+            "moisT.required" => "veuillez selectionner le mois.",
+            "annéeT.required" => "veuillez selectionner l'année.",
         ]);
-    
-        // Calcul du montant total des livraisons
+
+
+        // Validation des entrées
+                // Calcul du montant total des livraisons
+
         $total = DB::table('clients')
-            ->leftJoin('colis', 'clients.id', '=', 'colis.client_id')
-            ->leftJoin('categories', 'colis.categorie_id', '=', 'categories.id')
-            ->leftJoin('tarifications', 'categories.id', '=', 'tarifications.categorie_id')
-            ->leftJoin('livraisons', 'colis.id', '=', 'livraisons.colis_id')
-            ->leftJoin('statuts', 'livraisons.statut_id', '=', 'statuts.id')
-            ->where('clients.id', $this->selectedClient)
-            ->where('statuts.nom', 'livrer')
-            ->whereMonth('livraisons.created_at', $this->mois)
-            ->whereYear('livraisons.created_at', $this->année)
-            ->sum('tarifications.prix');
-    
-        // Vérification du montant
-        if ($this->montant < $total) {
-            session()->flash('error', 'Le montant doit être supérieur ou égal au montant total des livraisons ('.$total.').');
-            return;
-        }
-    
-        // Enregistrement du paiement
+        ->leftJoin('colis', 'clients.id', '=', 'colis.client_id')
+        ->leftJoin('categories', 'colis.categorie_id', '=', 'categories.id')
+        ->leftJoin('tarifications', 'categories.id', '=', 'tarifications.categorie_id')
+        ->leftJoin('livraisons', 'colis.id', '=', 'livraisons.colis_id')
+        ->leftJoin('statuts', 'livraisons.statut_id', '=', 'statuts.id')
+        ->where('clients.id', $this->selectedClient)
+        ->where('statuts.nom', 'livrer')
+        ->whereMonth('livraisons.created_at', $this->mois)
+        ->whereYear('livraisons.created_at', $this->année)
+        ->sum('tarifications.prix');
+
+    // Vérification du montant
+    if ($this->montant < $total) {
+        session()->flash('error', 'Le montant doit être supérieur ou égal au montant total des livraisons ('.$total.').');
+        return;
+    }else{
+         // Enregistrement du paiement
+        $uuid = Uuid::uuid4()->toString();
+
         Paiement::create([
-            'client_id' => $this->selectedClient,
-            'montant' => $this->montant,
-            'mois' => $this->mois,
-            'année' => $this->année,
+            "uuid" => $uuid,
+            "montant_t" => $validatedData["montantT"],
+            "mois" => $validatedData["moisT"],
+            "année" => $validatedData["annéeT"],
+            "client_id" => $validatedData["selectedClient"],
             'statut_id' => ($this->montant >= $total) ? 1 : 2,
         ]);
-    
+
+    }
+
         session()->flash('message', 'Paiement enregistré avec succès.');
-        $this->reset(['selectedClient', 'montant', 'mois', 'année']);
+
+        $this->resetTarificationForNextMonth();
+        $this->reset(['selectedClient', 'montant_t', 'mois', 'année']);
+    }
+
+    public function resetTarificationForNextMonth()
+    {
+        // Calculer le mois et l'année suivants
+        $nextMonth = Carbon::now()->addMonth();
+        $nextMonthNumber = $nextMonth->month;
+        $nextYear = $nextMonth->year;
+
+        // Réinitialiser les prix de tarification pour ce mois
+        DB::table('tarifications')
+            ->whereMonth('created_at', $nextMonthNumber)
+            ->whereYear('created_at', $nextYear)
+            ->update(['prix' => 0]); // Vous pouvez ajuster cette logique si nécessaire
     }
 
     public function closeModal()

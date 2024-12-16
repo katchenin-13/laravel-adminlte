@@ -87,7 +87,7 @@
 
 
 <div class="modal fade" id="modalProp" tabindex="-1" role="dialog" wire:ignore.self>
-    <div class="modal-dialog" style="top:50px;">
+    <div class="modal-dialog" style="top:100px;">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #15a1e2; color: white;">
                 <h5 class="modal-title">Formulaire Statut</h5>

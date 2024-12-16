@@ -41,7 +41,7 @@ class HomeController extends Controller
         // Initialiser les livraisons en fonction du rôle de l'utilisateur
         $livraisons = $this->getLivraisonsForUser($user);
 
-        return view('home', compact('userCount', 'communeCount', 'coursierCount', 'clientCount', 'livraisons'));
+        return view('home', compact('userCount', 'communeCount', 'coursierCount', 'clientCount','zoneCount', 'livraisons'));
     }
 
     /**

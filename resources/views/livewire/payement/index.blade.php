@@ -1,4 +1,4 @@
-<div>
+ <div>
 
     @include("livewire.Payement.list")
     @include("livewire.Payement.add")
